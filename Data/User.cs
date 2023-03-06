@@ -12,9 +12,10 @@
         public string Bio { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime BirthDate { get; set; }
-        public List<Tweet> Tweets { get; set; }
-        public List<Tweet> LikedTweets { get; set; }
-        public List<User> Followers { get; set; }
-        public List<User> Following { get; set; }
+        public ICollection<Tweet> Tweets { get; set; }
+        public ICollection<Tweet> Retweets { get; set; }
+        public ICollection<Tweet> LikedTweets { get; set; }
+        public ICollection<User> Followers { get; set; }
+        public ICollection<User> Following { get; set; }
     }
 }
