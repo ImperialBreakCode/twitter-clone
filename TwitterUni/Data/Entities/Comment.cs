@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 
-namespace Data
+namespace TwitterUni.Data.Entities
 {
-    public class Comments
+    public class Comment
     {
-        public int CommentsId { get; set; }
+        public int CommentId { get; set; }
         public string TextContent { get; set; }
         public DateTime PublishDate { get; set; }
         public Tweet ParentTweet { get; set; }
