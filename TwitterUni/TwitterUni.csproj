@@ -6,4 +6,11 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Data\Entites\**" />
+    <Content Remove="Data\Entites\**" />
+    <EmbeddedResource Remove="Data\Entites\**" />
+    <None Remove="Data\Entites\**" />
+  </ItemGroup>
+
 </Project>
