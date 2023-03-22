@@ -2,10 +2,12 @@
 
 namespace TwitterUni.Data.Entities
 {
-    // join table
-    public class Follows : BaseEntity
+    public class Follows : IEntityCreationInfo
     {
+        public string TheFollowerId { get; set; }
         public User TheFollower { get; set; }
+        public string IsFollowingId { get; set; }
         public User IsFollowing { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 }

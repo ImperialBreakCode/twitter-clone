@@ -262,6 +262,21 @@ namespace TwitterUni.Migrations
                     b.ToTable("TagTweet");
                 });
 
+            modelBuilder.Entity("TweetUser", b =>
+                {
+                    b.Property<string>("LikedTweetsId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UserLikesId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("LikedTweetsId", "UserLikesId");
+
+                    b.HasIndex("UserLikesId");
+
+                    b.ToTable("TweetUser");
+                });
+
             modelBuilder.Entity("TwitterUni.Data.Entities.Comment", b =>
                 {
                     b.Property<string>("Id")
@@ -292,49 +307,36 @@ namespace TwitterUni.Migrations
 
             modelBuilder.Entity("TwitterUni.Data.Entities.Follows", b =>
                 {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<string>("TheFollowerId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("IsFollowingId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("IsFollowingId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("TheFollowerId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
+                    b.HasKey("TheFollowerId", "IsFollowingId");
 
                     b.HasIndex("IsFollowingId");
-
-                    b.HasIndex("TheFollowerId");
 
                     b.ToTable("Follows");
                 });
 
             modelBuilder.Entity("TwitterUni.Data.Entities.Retweet", b =>
                 {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<string>("TweetId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("RetweetedById")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("RetweetedById")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("TweetId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
+                    b.HasKey("TweetId", "RetweetedById");
 
                     b.HasIndex("RetweetedById");
-
-                    b.HasIndex("TweetId");
 
                     b.ToTable("UserRetweets");
                 });
@@ -410,30 +412,6 @@ namespace TwitterUni.Migrations
                     b.HasIndex("TweetId");
 
                     b.ToTable("TweetActivities");
-                });
-
-            modelBuilder.Entity("TwitterUni.Data.Entities.TweetLike", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("LikeByUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("TweetId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("LikeByUserId");
-
-                    b.HasIndex("TweetId");
-
-                    b.ToTable("TweetLikes");
                 });
 
             modelBuilder.Entity("TwitterUni.Data.Entities.User", b =>
@@ -550,6 +528,21 @@ namespace TwitterUni.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("TweetUser", b =>
+                {
+                    b.HasOne("TwitterUni.Data.Entities.Tweet", null)
+                        .WithMany()
+                        .HasForeignKey("LikedTweetsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TwitterUni.Data.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserLikesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("TwitterUni.Data.Entities.Comment", b =>
                 {
                     b.HasOne("TwitterUni.Data.Entities.User", "Author")
@@ -569,11 +562,15 @@ namespace TwitterUni.Migrations
                 {
                     b.HasOne("TwitterUni.Data.Entities.User", "IsFollowing")
                         .WithMany("FollowersCollection")
-                        .HasForeignKey("IsFollowingId");
+                        .HasForeignKey("IsFollowingId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.HasOne("TwitterUni.Data.Entities.User", "TheFollower")
                         .WithMany("FollowingsCollection")
-                        .HasForeignKey("TheFollowerId");
+                        .HasForeignKey("TheFollowerId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.Navigation("IsFollowing");
 
@@ -584,7 +581,9 @@ namespace TwitterUni.Migrations
                 {
                     b.HasOne("TwitterUni.Data.Entities.User", "RetweetedBy")
                         .WithMany("Retweets")
-                        .HasForeignKey("RetweetedById");
+                        .HasForeignKey("RetweetedById")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("TwitterUni.Data.Entities.Tweet", "Tweet")
                         .WithMany("Retweets")
@@ -621,28 +620,11 @@ namespace TwitterUni.Migrations
                     b.Navigation("Tweet");
                 });
 
-            modelBuilder.Entity("TwitterUni.Data.Entities.TweetLike", b =>
-                {
-                    b.HasOne("TwitterUni.Data.Entities.User", "LikeByUser")
-                        .WithMany("LikedTweets")
-                        .HasForeignKey("LikeByUserId");
-
-                    b.HasOne("TwitterUni.Data.Entities.Tweet", "Tweet")
-                        .WithMany("Likes")
-                        .HasForeignKey("TweetId");
-
-                    b.Navigation("LikeByUser");
-
-                    b.Navigation("Tweet");
-                });
-
             modelBuilder.Entity("TwitterUni.Data.Entities.Tweet", b =>
                 {
                     b.Navigation("Activities");
 
                     b.Navigation("Comments");
-
-                    b.Navigation("Likes");
 
                     b.Navigation("Retweets");
                 });
@@ -654,8 +636,6 @@ namespace TwitterUni.Migrations
                     b.Navigation("FollowersCollection");
 
                     b.Navigation("FollowingsCollection");
-
-                    b.Navigation("LikedTweets");
 
                     b.Navigation("Retweets");
 

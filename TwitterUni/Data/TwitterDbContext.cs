@@ -20,11 +20,31 @@ public class TwitterDbContext : IdentityDbContext
 
     // many to many mapping tables
     public DbSet<Follows> Follows { get; set; }
-    public DbSet<TweetLike> TweetLikes { get; set; }
     public DbSet<Retweet> UserRetweets { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSqlServer("Server=DESKTOP-MR3OHEC\\SQLEXPRESS;Database=TwitterDb;Encrypt=False;Trusted_Connection=True;");
+    }
+
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        base.OnModelCreating(builder);
+
+        // follows mapping entity
+        builder.Entity<Follows>()
+            .HasKey(e => new { e.TheFollowerId, e.IsFollowingId });
+
+        builder.Entity<Follows>()
+            .HasOne(f => f.TheFollower)
+            .WithMany(u => u.FollowingsCollection).OnDelete(DeleteBehavior.NoAction);
+
+        builder.Entity<Follows>()
+            .HasOne(f => f.IsFollowing)
+            .WithMany(u => u.FollowersCollection).OnDelete(DeleteBehavior.NoAction);
+
+        // retweet mapping entity
+        builder.Entity<Retweet>()
+            .HasKey(e => new { e.TweetId, e.RetweetedById });
     }
 }

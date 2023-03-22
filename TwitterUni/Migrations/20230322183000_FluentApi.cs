@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TwitterUni.Migrations
 {
     /// <inheritdoc />
-    public partial class ModelInheritneceStruct : Migration
+    public partial class FluentApi : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -181,14 +181,13 @@ namespace TwitterUni.Migrations
                 name: "Follows",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    TheFollowerId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    IsFollowingId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    TheFollowerId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    IsFollowingId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Follows", x => x.Id);
+                    table.PrimaryKey("PK_Follows", x => new { x.TheFollowerId, x.IsFollowingId });
                     table.ForeignKey(
                         name: "FK_Follows_AspNetUsers_IsFollowingId",
                         column: x => x.IsFollowingId,
@@ -296,46 +295,46 @@ namespace TwitterUni.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TweetLikes",
+                name: "TweetUser",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    TweetId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    LikeByUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    LikedTweetsId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserLikesId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TweetLikes", x => x.Id);
+                    table.PrimaryKey("PK_TweetUser", x => new { x.LikedTweetsId, x.UserLikesId });
                     table.ForeignKey(
-                        name: "FK_TweetLikes_AspNetUsers_LikeByUserId",
-                        column: x => x.LikeByUserId,
+                        name: "FK_TweetUser_AspNetUsers_UserLikesId",
+                        column: x => x.UserLikesId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_TweetLikes_Tweets_TweetId",
-                        column: x => x.TweetId,
+                        name: "FK_TweetUser_Tweets_LikedTweetsId",
+                        column: x => x.LikedTweetsId,
                         principalTable: "Tweets",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "UserRetweets",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     TweetId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RetweetedById = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    RetweetedById = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserRetweets", x => x.Id);
+                    table.PrimaryKey("PK_UserRetweets", x => new { x.TweetId, x.RetweetedById });
                     table.ForeignKey(
                         name: "FK_UserRetweets_AspNetUsers_RetweetedById",
                         column: x => x.RetweetedById,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_UserRetweets_Tweets_TweetId",
                         column: x => x.TweetId,
@@ -428,11 +427,6 @@ namespace TwitterUni.Migrations
                 column: "IsFollowingId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Follows_TheFollowerId",
-                table: "Follows",
-                column: "TheFollowerId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_TagTweet_TweetsId",
                 table: "TagTweet",
                 column: "TweetsId");
@@ -448,29 +442,19 @@ namespace TwitterUni.Migrations
                 column: "TweetId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TweetLikes_LikeByUserId",
-                table: "TweetLikes",
-                column: "LikeByUserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TweetLikes_TweetId",
-                table: "TweetLikes",
-                column: "TweetId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Tweets_AuthorId",
                 table: "Tweets",
                 column: "AuthorId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_TweetUser_UserLikesId",
+                table: "TweetUser",
+                column: "UserLikesId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserRetweets_RetweetedById",
                 table: "UserRetweets",
                 column: "RetweetedById");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserRetweets_TweetId",
-                table: "UserRetweets",
-                column: "TweetId");
         }
 
         /// <inheritdoc />
@@ -504,7 +488,7 @@ namespace TwitterUni.Migrations
                 name: "TweetActivities");
 
             migrationBuilder.DropTable(
-                name: "TweetLikes");
+                name: "TweetUser");
 
             migrationBuilder.DropTable(
                 name: "UserRetweets");
