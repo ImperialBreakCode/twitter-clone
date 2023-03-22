@@ -1,8 +1,10 @@
-﻿namespace TwitterUni.Data.Entities
+﻿using TwitterUni.Data.BaseEntities;
+
+namespace TwitterUni.Data.Entities
 {
-    public class Follows
+    // join table
+    public class Follows : BaseEntity
     {
-        public int Id { get; set; }
         public User TheFollower { get; set; }
         public User IsFollowing { get; set; }
     }

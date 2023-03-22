@@ -24,13 +24,13 @@ namespace TwitterUni.Migrations
 
             modelBuilder.Entity("CommentUser", b =>
                 {
-                    b.Property<int>("LikedCommentsCommentId")
-                        .HasColumnType("int");
+                    b.Property<string>("LikedCommentsId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LikesId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("LikedCommentsCommentId", "LikesId");
+                    b.HasKey("LikedCommentsId", "LikesId");
 
                     b.HasIndex("LikesId");
 
@@ -249,56 +249,55 @@ namespace TwitterUni.Migrations
 
             modelBuilder.Entity("TagTweet", b =>
                 {
-                    b.Property<int>("TagsTagId")
-                        .HasColumnType("int");
+                    b.Property<string>("TagsId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("TweetsTweetId")
-                        .HasColumnType("int");
+                    b.Property<string>("TweetsId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("TagsTagId", "TweetsTweetId");
+                    b.HasKey("TagsId", "TweetsId");
 
-                    b.HasIndex("TweetsTweetId");
+                    b.HasIndex("TweetsId");
 
                     b.ToTable("TagTweet");
                 });
 
             modelBuilder.Entity("TwitterUni.Data.Entities.Comment", b =>
                 {
-                    b.Property<int>("CommentId")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CommentId"));
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("AuthorId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("ParentTweetTweetId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("PublishDate")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("ParentTweetId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("TextContent")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("CommentId");
+                    b.HasKey("Id");
 
                     b.HasIndex("AuthorId");
 
-                    b.HasIndex("ParentTweetTweetId");
+                    b.HasIndex("ParentTweetId");
 
                     b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("TwitterUni.Data.Entities.Follows", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(450)");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("IsFollowingId")
                         .HasColumnType("nvarchar(450)");
@@ -317,19 +316,21 @@ namespace TwitterUni.Migrations
 
             modelBuilder.Entity("TwitterUni.Data.Entities.Retweet", b =>
                 {
-                    b.Property<int>("RetweetId")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(450)");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RetweetId"));
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("RetweetedById")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("TweetId")
-                        .HasColumnType("int");
+                    b.Property<string>("TweetId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("RetweetId");
+                    b.HasKey("Id");
 
                     b.HasIndex("RetweetedById");
 
@@ -340,44 +341,43 @@ namespace TwitterUni.Migrations
 
             modelBuilder.Entity("TwitterUni.Data.Entities.Tag", b =>
                 {
-                    b.Property<int>("TagId")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(450)");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TagId"));
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("TagName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("TagId");
+                    b.HasKey("Id");
 
                     b.ToTable("Tags");
                 });
 
             modelBuilder.Entity("TwitterUni.Data.Entities.Tweet", b =>
                 {
-                    b.Property<int>("TweetId")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TweetId"));
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("AuthorId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Image")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("PublishDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("TextContent")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("TweetId");
+                    b.HasKey("Id");
 
                     b.HasIndex("AuthorId");
 
@@ -386,23 +386,24 @@ namespace TwitterUni.Migrations
 
             modelBuilder.Entity("TwitterUni.Data.Entities.TweetActivity", b =>
                 {
-                    b.Property<int>("TweetActivityId")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(450)");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TweetActivityId"));
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("DoerId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("TweetId")
-                        .HasColumnType("int");
+                    b.Property<string>("TweetId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("TweetActivityId");
+                    b.HasKey("Id");
 
                     b.HasIndex("DoerId");
 
@@ -413,17 +414,18 @@ namespace TwitterUni.Migrations
 
             modelBuilder.Entity("TwitterUni.Data.Entities.TweetLike", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(450)");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("LikeByUserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("TweetId")
-                        .HasColumnType("int");
+                    b.Property<string>("TweetId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -464,9 +466,6 @@ namespace TwitterUni.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.HasDiscriminator().HasValue("User");
                 });
 
@@ -474,7 +473,7 @@ namespace TwitterUni.Migrations
                 {
                     b.HasOne("TwitterUni.Data.Entities.Comment", null)
                         .WithMany()
-                        .HasForeignKey("LikedCommentsCommentId")
+                        .HasForeignKey("LikedCommentsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -540,13 +539,13 @@ namespace TwitterUni.Migrations
                 {
                     b.HasOne("TwitterUni.Data.Entities.Tag", null)
                         .WithMany()
-                        .HasForeignKey("TagsTagId")
+                        .HasForeignKey("TagsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("TwitterUni.Data.Entities.Tweet", null)
                         .WithMany()
-                        .HasForeignKey("TweetsTweetId")
+                        .HasForeignKey("TweetsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -559,9 +558,7 @@ namespace TwitterUni.Migrations
 
                     b.HasOne("TwitterUni.Data.Entities.Tweet", "ParentTweet")
                         .WithMany("Comments")
-                        .HasForeignKey("ParentTweetTweetId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ParentTweetId");
 
                     b.Navigation("Author");
 
@@ -617,9 +614,7 @@ namespace TwitterUni.Migrations
 
                     b.HasOne("TwitterUni.Data.Entities.Tweet", "Tweet")
                         .WithMany("Activities")
-                        .HasForeignKey("TweetId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TweetId");
 
                     b.Navigation("Doer");
 
@@ -634,9 +629,7 @@ namespace TwitterUni.Migrations
 
                     b.HasOne("TwitterUni.Data.Entities.Tweet", "Tweet")
                         .WithMany("Likes")
-                        .HasForeignKey("TweetId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TweetId");
 
                     b.Navigation("LikeByUser");
 

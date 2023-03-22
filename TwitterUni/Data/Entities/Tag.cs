@@ -1,10 +1,9 @@
-﻿
+﻿using TwitterUni.Data.BaseEntities;
 
 namespace TwitterUni.Data.Entities
 {
-    public class Tag
+    public class Tag : BaseEntity
     {
-        public int TagId { get; set; }
         public string TagName { get; set; }
         public ICollection<Tweet> Tweets { get; set; }
     }

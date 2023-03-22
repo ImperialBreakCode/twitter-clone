@@ -1,8 +1,9 @@
-﻿namespace TwitterUni.Data.Entities
+﻿using TwitterUni.Data.BaseEntities;
+
+namespace TwitterUni.Data.Entities
 {
-    public class Retweet
+    public class Retweet : BaseEntity
     {
-        public int RetweetId { get; set; }
         public Tweet Tweet { get; set; }
         public User RetweetedBy { get; set; }
     }

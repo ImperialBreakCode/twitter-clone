@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TwitterUni.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class ModelInheritneceStruct : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -26,16 +26,49 @@ namespace TwitterUni.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Tags",
+                name: "AspNetUsers",
                 columns: table => new
                 {
-                    TagId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    TagName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProfilePic = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BackgroundPhoto = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Bio = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    BirthDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Tags", x => x.TagId);
+                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Tags",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    TagName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tags", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -72,6 +105,12 @@ namespace TwitterUni.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUserClaims", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetUserClaims_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -86,6 +125,12 @@ namespace TwitterUni.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUserLogins", x => new { x.LoginProvider, x.ProviderKey });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserLogins_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -104,41 +149,12 @@ namespace TwitterUni.Migrations
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetUsers",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: true),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ProfilePic = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    BackgroundPhoto = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Bio = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    BirthDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CommentsId = table.Column<int>(type: "int", nullable: true),
-                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetUserRoles_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -165,10 +181,10 @@ namespace TwitterUni.Migrations
                 name: "Follows",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     TheFollowerId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    IsFollowingId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    IsFollowingId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -189,16 +205,15 @@ namespace TwitterUni.Migrations
                 name: "Tweets",
                 columns: table => new
                 {
-                    TweetId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     TextContent = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Image = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PublishDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    AuthorId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    AuthorId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Tweets", x => x.TweetId);
+                    table.PrimaryKey("PK_Tweets", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Tweets_AspNetUsers_AuthorId",
                         column: x => x.AuthorId,
@@ -210,50 +225,48 @@ namespace TwitterUni.Migrations
                 name: "Comments",
                 columns: table => new
                 {
-                    CommentsId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     TextContent = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PublishDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ParentTweetTweetId = table.Column<int>(type: "int", nullable: false),
-                    AuthorId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    ParentTweetId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    AuthorId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Comments", x => x.CommentsId);
+                    table.PrimaryKey("PK_Comments", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Comments_AspNetUsers_AuthorId",
                         column: x => x.AuthorId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Comments_Tweets_ParentTweetTweetId",
-                        column: x => x.ParentTweetTweetId,
+                        name: "FK_Comments_Tweets_ParentTweetId",
+                        column: x => x.ParentTweetId,
                         principalTable: "Tweets",
-                        principalColumn: "TweetId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
                 name: "TagTweet",
                 columns: table => new
                 {
-                    TagsTagId = table.Column<int>(type: "int", nullable: false),
-                    TweetsTweetId = table.Column<int>(type: "int", nullable: false)
+                    TagsId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    TweetsId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TagTweet", x => new { x.TagsTagId, x.TweetsTweetId });
+                    table.PrimaryKey("PK_TagTweet", x => new { x.TagsId, x.TweetsId });
                     table.ForeignKey(
-                        name: "FK_TagTweet_Tags_TagsTagId",
-                        column: x => x.TagsTagId,
+                        name: "FK_TagTweet_Tags_TagsId",
+                        column: x => x.TagsId,
                         principalTable: "Tags",
-                        principalColumn: "TagId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_TagTweet_Tweets_TweetsTweetId",
-                        column: x => x.TweetsTweetId,
+                        name: "FK_TagTweet_Tweets_TweetsId",
+                        column: x => x.TweetsId,
                         principalTable: "Tweets",
-                        principalColumn: "TweetId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -261,15 +274,15 @@ namespace TwitterUni.Migrations
                 name: "TweetActivities",
                 columns: table => new
                 {
-                    TweetActivityId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TweetId = table.Column<int>(type: "int", nullable: false),
-                    DoerId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    TweetId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    DoerId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TweetActivities", x => x.TweetActivityId);
+                    table.PrimaryKey("PK_TweetActivities", x => x.Id);
                     table.ForeignKey(
                         name: "FK_TweetActivities_AspNetUsers_DoerId",
                         column: x => x.DoerId,
@@ -279,18 +292,17 @@ namespace TwitterUni.Migrations
                         name: "FK_TweetActivities_Tweets_TweetId",
                         column: x => x.TweetId,
                         principalTable: "Tweets",
-                        principalColumn: "TweetId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
                 name: "TweetLikes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    TweetId = table.Column<int>(type: "int", nullable: false),
-                    LikeByUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    TweetId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    LikeByUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -304,22 +316,21 @@ namespace TwitterUni.Migrations
                         name: "FK_TweetLikes_Tweets_TweetId",
                         column: x => x.TweetId,
                         principalTable: "Tweets",
-                        principalColumn: "TweetId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
                 name: "UserRetweets",
                 columns: table => new
                 {
-                    RetweetId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    TweetId = table.Column<int>(type: "int", nullable: false),
-                    RetweetedById = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    TweetId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RetweetedById = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserRetweets", x => x.RetweetId);
+                    table.PrimaryKey("PK_UserRetweets", x => x.Id);
                     table.ForeignKey(
                         name: "FK_UserRetweets_AspNetUsers_RetweetedById",
                         column: x => x.RetweetedById,
@@ -329,7 +340,31 @@ namespace TwitterUni.Migrations
                         name: "FK_UserRetweets_Tweets_TweetId",
                         column: x => x.TweetId,
                         principalTable: "Tweets",
-                        principalColumn: "TweetId",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CommentUser",
+                columns: table => new
+                {
+                    LikedCommentsId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    LikesId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CommentUser", x => new { x.LikedCommentsId, x.LikesId });
+                    table.ForeignKey(
+                        name: "FK_CommentUser_AspNetUsers_LikesId",
+                        column: x => x.LikesId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CommentUser_Comments_LikedCommentsId",
+                        column: x => x.LikedCommentsId,
+                        principalTable: "Comments",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -366,11 +401,6 @@ namespace TwitterUni.Migrations
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_CommentsId",
-                table: "AspNetUsers",
-                column: "CommentsId");
-
-            migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
@@ -383,9 +413,14 @@ namespace TwitterUni.Migrations
                 column: "AuthorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comments_ParentTweetTweetId",
+                name: "IX_Comments_ParentTweetId",
                 table: "Comments",
-                column: "ParentTweetTweetId");
+                column: "ParentTweetId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CommentUser_LikesId",
+                table: "CommentUser",
+                column: "LikesId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Follows_IsFollowingId",
@@ -398,9 +433,9 @@ namespace TwitterUni.Migrations
                 column: "TheFollowerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TagTweet_TweetsTweetId",
+                name: "IX_TagTweet_TweetsId",
                 table: "TagTweet",
-                column: "TweetsTweetId");
+                column: "TweetsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TweetActivities_DoerId",
@@ -436,50 +471,11 @@ namespace TwitterUni.Migrations
                 name: "IX_UserRetweets_TweetId",
                 table: "UserRetweets",
                 column: "TweetId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_AspNetUserClaims_AspNetUsers_UserId",
-                table: "AspNetUserClaims",
-                column: "UserId",
-                principalTable: "AspNetUsers",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_AspNetUserLogins_AspNetUsers_UserId",
-                table: "AspNetUserLogins",
-                column: "UserId",
-                principalTable: "AspNetUsers",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_AspNetUserRoles_AspNetUsers_UserId",
-                table: "AspNetUserRoles",
-                column: "UserId",
-                principalTable: "AspNetUsers",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_AspNetUsers_Comments_CommentsId",
-                table: "AspNetUsers",
-                column: "CommentsId",
-                principalTable: "Comments",
-                principalColumn: "CommentsId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Comments_AspNetUsers_AuthorId",
-                table: "Comments");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Tweets_AspNetUsers_AuthorId",
-                table: "Tweets");
-
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -494,6 +490,9 @@ namespace TwitterUni.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "CommentUser");
 
             migrationBuilder.DropTable(
                 name: "Follows");
@@ -514,16 +513,16 @@ namespace TwitterUni.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Tags");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
                 name: "Comments");
 
             migrationBuilder.DropTable(
+                name: "Tags");
+
+            migrationBuilder.DropTable(
                 name: "Tweets");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
         }
     }
 }
