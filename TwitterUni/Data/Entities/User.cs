@@ -27,10 +27,10 @@ namespace TwitterUni.Data.Entities
         public ICollection<Comment> Comments { get; set; }
         public ICollection<Comment> LikedComments { get; set; }
 
-        [InverseProperty(nameof(Follows.IsFollowing))]
-        public ICollection<Follows> FollowersCollection { get; set; }
+        [InverseProperty(nameof(Follow.IsFollowing))]
+        public ICollection<Follow> FollowersCollection { get; set; }
 
-        [InverseProperty(nameof(Follows.TheFollower))]
-        public ICollection<Follows> FollowingsCollection { get; set; }
+        [InverseProperty(nameof(Follow.TheFollower))]
+        public ICollection<Follow> FollowingsCollection { get; set; }
     }
 }

@@ -19,7 +19,7 @@ public class TwitterDbContext : IdentityDbContext
     public DbSet<TweetActivity> TweetActivities { get; set; }
 
     // many to many mapping tables
-    public DbSet<Follows> Follows { get; set; }
+    public DbSet<Follow> Follows { get; set; }
     public DbSet<Retweet> UserRetweets { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -32,14 +32,14 @@ public class TwitterDbContext : IdentityDbContext
         base.OnModelCreating(builder);
 
         // follows mapping entity
-        builder.Entity<Follows>()
+        builder.Entity<Follow>()
             .HasKey(e => new { e.TheFollowerId, e.IsFollowingId });
 
-        builder.Entity<Follows>()
+        builder.Entity<Follow>()
             .HasOne(f => f.TheFollower)
             .WithMany(u => u.FollowingsCollection).OnDelete(DeleteBehavior.NoAction);
 
-        builder.Entity<Follows>()
+        builder.Entity<Follow>()
             .HasOne(f => f.IsFollowing)
             .WithMany(u => u.FollowersCollection).OnDelete(DeleteBehavior.NoAction);
 

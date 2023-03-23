@@ -2,7 +2,7 @@
 
 namespace TwitterUni.Data.Entities
 {
-    public class Follows : IEntityCreationInfo
+    public class Follow : IEntityCreationInfo
     {
         public string TheFollowerId { get; set; }
         public User TheFollower { get; set; }
