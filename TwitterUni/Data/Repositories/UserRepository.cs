@@ -3,7 +3,7 @@ using TwitterUni.Data.Repositories.BaseRepositories;
 
 namespace TwitterUni.Data.Repositories
 {
-    public class UserRepository : BaseRepository<User>, IUserRepository
+    public class UserRepository : Repository<User>, IUserRepository
     {
         public UserRepository(TwitterDbContext context) : base(context)
         {
@@ -16,7 +16,7 @@ namespace TwitterUni.Data.Repositories
 
             if (follower is not null && following is not null)
             {
-                Follow follow = new Follow() { CreatedAt = DateTime.Now };
+                Follow follow = new Follow() { CreatedAt = DateTime.UtcNow };
                 follower.FollowingsCollection.Add(follow);
                 following.FollowersCollection.Add(follow);
             }
@@ -32,14 +32,13 @@ namespace TwitterUni.Data.Repositories
             }
         }
 
-        public void AddUserRetweet(string userId, string tweetId)
+        public void AddUserRetweet(string userId, Tweet tweet)
         {
             var user = GetOne(userId);
-            var tweet = Context.Tweets.Find(tweetId);
 
-            if (user is not null && tweet is not null)
+            if (user is not null)
             {
-                Retweet retweet = new Retweet() { CreatedAt = DateTime.Now };
+                Retweet retweet = new Retweet() { CreatedAt = DateTime.UtcNow };
                 user.Retweets.Add(retweet);
                 tweet.Retweets.Add(retweet);
             }

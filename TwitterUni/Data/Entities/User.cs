@@ -7,6 +7,11 @@ namespace TwitterUni.Data.Entities
 {
     public class User : IdentityUser, IEntityCreationInfo, IEntityId
     {
+        public User()
+        {
+            CreatedAt = DateTime.UtcNow;
+        }
+
         [Required]
         public string FirstName { get; set; }
 

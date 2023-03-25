@@ -5,7 +5,7 @@ using TwitterUni.Data.Entities;
 
 namespace TwitterUni.Data;
 
-public class TwitterDbContext : IdentityDbContext
+public class TwitterDbContext : IdentityDbContext<User>
 {
     public TwitterDbContext(DbContextOptions<TwitterDbContext> options)
         : base(options)
@@ -30,6 +30,10 @@ public class TwitterDbContext : IdentityDbContext
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
+
+        // User
+        builder.Entity<User>()
+            .HasIndex(u => u.UserName).IsUnique();
 
         // follows mapping entity
         builder.Entity<Follow>()

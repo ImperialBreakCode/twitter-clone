@@ -1,14 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TwitterUni.Data.BaseEntities;
+using TwitterUni.Data.Repositories.BaseRepositories;
 
-namespace TwitterUni.Data.Repositories.BaseRepositories
+namespace TwitterUni.Data.Repositories
 {
-    public abstract class BaseRepository<TEntity> : IRepository<TEntity> where TEntity : class, IEntityId
+    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class, IEntityId
     {
         private readonly TwitterDbContext _context;
         private readonly DbSet<TEntity> _dbSet;
 
-        public BaseRepository(TwitterDbContext context)
+        public Repository(TwitterDbContext context)
         {
             _context = context;
             _dbSet = context.Set<TEntity>();
@@ -22,18 +23,14 @@ namespace TwitterUni.Data.Repositories.BaseRepositories
             DbSetData.Add(entity);
         }
 
-        public bool DeleteOne(string id)
+        public void DeleteOne(string id)
         {
-
             var entity = _dbSet.Find(id);
 
             if (entity is not null)
             {
                 DbSetData.Remove(entity);
-                return true;
             }
-
-            return false;
         }
 
         public IQueryable<TEntity> GetAll()
@@ -49,15 +46,6 @@ namespace TwitterUni.Data.Repositories.BaseRepositories
         public void UpdateOne(TEntity entity)
         {
             DbSetData.Update(entity);
-        }
-        public void Save()
-        {
-            Context.SaveChanges();
-        }
-
-        public async Task SaveAsync()
-        {
-            await Context.SaveChangesAsync();
         }
     }
 }

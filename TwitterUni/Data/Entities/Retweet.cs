@@ -4,6 +4,11 @@ namespace TwitterUni.Data.Entities
 {
     public class Retweet : IEntityCreationInfo
     {
+        public Retweet()
+        {
+            CreatedAt = DateTime.UtcNow;
+        }
+
         public string TweetId { get; set; }
         public Tweet Tweet { get; set; }
         public string RetweetedById { get; set; }
