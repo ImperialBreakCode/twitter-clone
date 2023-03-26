@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using TwitterUni.Data.Entities;
 using TwitterUni.Models;
 using TwitterUni.Services.Interfaces;
 
@@ -28,11 +27,14 @@ namespace TwitterUni.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Test()
+        public async Task<IActionResult> Test(string id)
         {
-            User user = new User() { UserName = "user1", FirstName = "first", LastName = "last name" };
-            await _userService.CreateUser(user);
-            return Content("User Created");
+            //User user = new User() { FirstName = "first", LastName = "last", Email="emil@twit.com", UserName="user1" };
+            //await _userService.CreateUser(user);
+            //await _userService.DeleteUser(id);
+
+            await _userService.SignInUser(id);
+            return Content("");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -9,19 +9,23 @@ namespace TwitterUni.Services
     public class UserService : IUserService
     {
         private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
         private readonly IUnitOfWork _unitOfWork;
 
-        public UserService(UserManager<User> userManager, IUnitOfWork unitOfWork)
+        public UserService(UserManager<User> userManager, SignInManager<User> signInManager,IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
             _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         public UserManager<User> UserManager { get => _userManager; }
 
+        public SignInManager<User> SignInManager { get => _signInManager; }
+
         public async Task CreateUser(User user)
         {
-            await UserManager.CreateAsync(user, "0000");
+            await UserManager.CreateAsync(user, "abV12345_");
         }
 
         public async Task DeleteUser(string id)
@@ -66,6 +70,27 @@ namespace TwitterUni.Services
         public UserData GetUserByUserName(string userName)
         {
             throw new NotImplementedException();
+        }
+
+        // testing only
+        public async Task SignInUser(string userName)
+        {
+            var user = _unitOfWork.UserRepository.GetByUsername(userName);
+
+            if (user is not null)
+            {
+                var result = await SignInManager.PasswordSignInAsync(user.UserName, "abV12345_", false, false);
+                if (result.Succeeded)
+                {
+                    Console.WriteLine("Seccess");
+                }
+            }
+        }
+
+        // testing only
+        public async Task SignOutUser()
+        {
+            await SignInManager.SignOutAsync();
         }
 
         public void UpdateUser(UserData userData)

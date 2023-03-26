@@ -12,7 +12,7 @@ using TwitterUni.Data;
 namespace TwitterUni.Migrations
 {
     [DbContext(typeof(TwitterDbContext))]
-    [Migration("20230325181816_Initial")]
+    [Migration("20230326164236_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace TwitterUni.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.3")
+                .HasAnnotation("ProductVersion", "7.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -353,14 +353,12 @@ namespace TwitterUni.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("BackgroundPhoto")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Bio")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("BirthDate")
+                    b.Property<DateTime?>("BirthDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -409,7 +407,6 @@ namespace TwitterUni.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("ProfilePic")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecurityStamp")

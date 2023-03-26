@@ -17,11 +17,11 @@ namespace TwitterUni.Data.Entities
 
         [Required]
         public string LastName { get; set; }
-        public string ProfilePic { get; set; }
-        public string BackgroundPhoto { get; set; }
-        public string Bio { get; set; }
+        public string? ProfilePic { get; set; }
+        public string? BackgroundPhoto { get; set; }
+        public string? Bio { get; set; }
         public DateTime CreatedAt { get; set; }
-        public DateTime BirthDate { get; set; }
+        public DateTime? BirthDate { get; set; }
 
         [InverseProperty(nameof(Tweet.Author))]
         public ICollection<Tweet> Tweets { get; set; }

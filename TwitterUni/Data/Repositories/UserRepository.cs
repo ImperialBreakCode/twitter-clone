@@ -53,5 +53,11 @@ namespace TwitterUni.Data.Repositories
                 Context.UserRetweets.Remove(retweet);
             }
         }
+
+        public User? GetByUsername(string username)
+        {
+            var user = Context.Users.FirstOrDefault(u => u.UserName == username);
+            return user;
+        }
     }
 }

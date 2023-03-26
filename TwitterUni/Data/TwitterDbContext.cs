@@ -22,11 +22,6 @@ public class TwitterDbContext : IdentityDbContext<User>
     public DbSet<Follow> Follows { get; set; }
     public DbSet<Retweet> UserRetweets { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder.UseSqlServer("Server=DESKTOP-MR3OHEC\\SQLEXPRESS;Database=TwitterDb;Encrypt=False;Trusted_Connection=True;");
-    }
-
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
