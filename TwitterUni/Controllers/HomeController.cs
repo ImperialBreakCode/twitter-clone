@@ -3,17 +3,16 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using TwitterUni.Data.Entities;
 using TwitterUni.Models;
-using TwitterUni.Services;
-using TwitterUni.Services.ModelData;
+using TwitterUni.Services.Interfaces;
 
 namespace TwitterUni.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly UserService _userService;
+        private readonly IUserService _userService;
 
-        public HomeController(ILogger<HomeController> logger, UserService userService)
+        public HomeController(ILogger<HomeController> logger, IUserService userService)
         {
             _logger = logger;
             _userService = userService;

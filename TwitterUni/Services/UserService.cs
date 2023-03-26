@@ -9,9 +9,9 @@ namespace TwitterUni.Services
     public class UserService : IUserService
     {
         private readonly UserManager<User> _userManager;
-        private readonly UnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public UserService(UserManager<User> userManager, UnitOfWork unitOfWork)
+        public UserService(UserManager<User> userManager, IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
             _userManager = userManager;

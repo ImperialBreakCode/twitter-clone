@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TwitterUni.Data;
+using TwitterUni.Data.Entities;
 using TwitterUni.Data.UnitOfWork;
 using TwitterUni.Services;
 using TwitterUni.Services.Interfaces;
@@ -12,8 +13,12 @@ var connectionString = builder.Configuration.GetConnectionString("TwitterDbConte
 builder.Services.AddDbContext<TwitterDbContext>(options =>
     options.UseSqlServer(connectionString));
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<TwitterDbContext>();
+builder.Services.AddDefaultIdentity<User>()
+    .AddRoles<IdentityRole>()
+    .AddClaimsPrincipalFactory<UserClaimsPrincipalFactory<User, IdentityRole>>()
+    .AddEntityFrameworkStores<TwitterDbContext>()
+    .AddDefaultTokenProviders()
+    .AddDefaultUI();
 
 builder.Services.AddControllersWithViews();
 
