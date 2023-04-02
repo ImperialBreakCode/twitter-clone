@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using TwitterUni.Data.Entities;
 using TwitterUni.Data.UnitOfWork;
 using TwitterUni.Services.Interfaces;
@@ -11,20 +12,29 @@ namespace TwitterUni.Services
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly Mapper _mapper;
 
-        public UserService(UserManager<User> userManager, SignInManager<User> signInManager,IUnitOfWork unitOfWork)
+        public UserService(
+            UserManager<User> userManager, 
+            SignInManager<User> signInManager,
+            IUnitOfWork unitOfWork,
+            Mapper mapper
+            )
         {
             _unitOfWork = unitOfWork;
             _userManager = userManager;
             _signInManager = signInManager;
+            _mapper = mapper;
         }
 
         public UserManager<User> UserManager { get => _userManager; }
 
         public SignInManager<User> SignInManager { get => _signInManager; }
 
-        public async Task CreateUser(User user)
+        public async Task CreateUser(UserData userData)
         {
+            User user = new User();
+            _mapper.Map(userData, user);
             await UserManager.CreateAsync(user, "abV12345_");
         }
 
@@ -41,12 +51,7 @@ namespace TwitterUni.Services
 
             foreach (var user in users)
             {
-                result.Add(new UserData()
-                {
-                    Id = user.Id,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName
-                });
+                result.Add(_mapper.Map<UserData>(user));
             }
 
             return result;
@@ -59,9 +64,7 @@ namespace TwitterUni.Services
 
             if (user is not null)
             {
-                userData.FirstName = user.FirstName;
-                userData.LastName = user.LastName;
-                userData.Id = user.Id;
+                _mapper.Map(user, userData);
             }
 
             return userData;
@@ -69,25 +72,31 @@ namespace TwitterUni.Services
 
         public UserData GetUserByUserName(string userName)
         {
-            throw new NotImplementedException();
+            User? user = _unitOfWork.UserRepository.GetByUsername(userName);
+            UserData userData = new UserData();
+
+            if (user is not null)
+            {
+                _mapper.Map(user, userData);
+            }
+
+            return userData;
         }
 
-        // testing only
-        public async Task SignInUser(string userName)
+        public async Task<bool> SignInUser(string userName, string password)
         {
             var user = _unitOfWork.UserRepository.GetByUsername(userName);
 
             if (user is not null)
             {
-                var result = await SignInManager.PasswordSignInAsync(user.UserName, "abV12345_", false, false);
-                if (result.Succeeded)
-                {
-                    Console.WriteLine("Seccess");
-                }
+                var result = await SignInManager.PasswordSignInAsync(user.UserName, password, false, false);
+                
+                return result.Succeeded;
             }
+
+            return false;
         }
 
-        // testing only
         public async Task SignOutUser()
         {
             await SignInManager.SignOutAsync();
@@ -99,10 +108,7 @@ namespace TwitterUni.Services
 
             if (user is not null)
             {
-                user.Id = userData.Id;
-                user.FirstName = userData.FirstName;
-                user.LastName = userData.LastName;
-
+                _mapper.Map(userData, user);
                 _unitOfWork.Commit();
             }
         }

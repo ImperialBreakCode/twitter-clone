@@ -9,13 +9,13 @@ namespace TwitterUni.Services.Interfaces
         public UserManager<User> UserManager { get; }
         public SignInManager<User> SignInManager { get; }
 
-        Task CreateUser(User user);
+        Task CreateUser(UserData user);
         UserData GetUserById(string id);
         UserData GetUserByUserName(string userName);
         IEnumerable<UserData> GetAllUsers();
         void UpdateUser(UserData user);
         Task DeleteUser(string id);
-        Task SignInUser(string userName);
+        Task<bool> SignInUser(string userName, string password);
         Task SignOutUser();
     }
 }

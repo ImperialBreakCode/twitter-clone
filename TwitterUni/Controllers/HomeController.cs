@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using TwitterUni.Models;
 using TwitterUni.Services.Interfaces;
+using TwitterUni.Services.ModelData;
 
 namespace TwitterUni.Controllers
 {
@@ -25,16 +26,6 @@ namespace TwitterUni.Controllers
         public IActionResult Privacy()
         {
             return View();
-        }
-
-        public async Task<IActionResult> Test(string id)
-        {
-            //User user = new User() { FirstName = "first", LastName = "last", Email="emil@twit.com", UserName="user1" };
-            //await _userService.CreateUser(user);
-            //await _userService.DeleteUser(id);
-
-            await _userService.SignInUser(id);
-            return Content("");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

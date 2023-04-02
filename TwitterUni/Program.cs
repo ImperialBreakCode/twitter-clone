@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TwitterUni.Data;
@@ -5,6 +6,7 @@ using TwitterUni.Data.Entities;
 using TwitterUni.Data.UnitOfWork;
 using TwitterUni.Services;
 using TwitterUni.Services.Interfaces;
+using TwitterUni.Services.Mapping;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("TwitterDbContextConnection") ?? throw new InvalidOperationException("Connection string 'TwitterDbContextConnection' not found.");
@@ -14,8 +16,6 @@ builder.Services.AddDbContext<TwitterDbContext>(options =>
     options.UseSqlServer(connectionString));
 
 builder.Services.AddDefaultIdentity<User>()
-    .AddRoles<IdentityRole>()
-    .AddClaimsPrincipalFactory<UserClaimsPrincipalFactory<User, IdentityRole>>()
     .AddEntityFrameworkStores<TwitterDbContext>()
     .AddDefaultTokenProviders()
     .AddDefaultUI();
@@ -25,6 +25,10 @@ builder.Services.AddControllersWithViews();
 // Adding my services
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddTransient<IUserService, UserService>();
+
+// Adding mapper
+var config = new MapperConfiguration(cfg => cfg.AddProfile<MappingProfile>());
+builder.Services.AddSingleton(new Mapper(config));
 
 var app = builder.Build();
 
