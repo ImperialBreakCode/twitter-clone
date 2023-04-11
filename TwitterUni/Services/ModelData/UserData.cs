@@ -14,6 +14,7 @@ namespace TwitterUni.Services.ModelData
         public string Bio { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? BirthDate { get; set; }
+        public bool IsSet { get; set; }
         public ICollection<Follow> FollowersCollection { get; set; }
         public ICollection<Follow> FollowingsCollection { get; set; }
     }

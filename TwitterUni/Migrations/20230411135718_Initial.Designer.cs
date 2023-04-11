@@ -12,7 +12,7 @@ using TwitterUni.Data;
 namespace TwitterUni.Migrations
 {
     [DbContext(typeof(TwitterDbContext))]
-    [Migration("20230326164236_Initial")]
+    [Migration("20230411135718_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -378,6 +378,9 @@ namespace TwitterUni.Migrations
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsSet")
+                        .HasColumnType("bit");
 
                     b.Property<string>("LastName")
                         .IsRequired()

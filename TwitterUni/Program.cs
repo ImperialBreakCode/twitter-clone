@@ -1,6 +1,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using TwitterUni;
 using TwitterUni.Data;
 using TwitterUni.Data.Entities;
 using TwitterUni.Data.UnitOfWork;
@@ -16,6 +17,7 @@ builder.Services.AddDbContext<TwitterDbContext>(options =>
     options.UseSqlServer(connectionString));
 
 builder.Services.AddDefaultIdentity<User>()
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<TwitterDbContext>()
     .AddDefaultTokenProviders()
     .AddDefaultUI();
@@ -27,7 +29,10 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddTransient<IUserService, UserService>();
 
 // Adding mapper
-var config = new MapperConfiguration(cfg => cfg.AddProfile<MappingProfile>());
+var config = new MapperConfiguration(cfg => {
+    cfg.AddProfile<MappingServiceDataProfile>();
+    cfg.AddProfile<MappingViewModelProfile>();
+});
 builder.Services.AddSingleton(new Mapper(config));
 
 var app = builder.Build();
@@ -48,10 +53,22 @@ app.UseAuthentication();;
 
 app.UseAuthorization();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+      name: "areas",
+      pattern: "{area}/{controller=Home}/{action=Index}/{id?}"
+    );
+
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}"
+    );
+
+});
 
 app.MapRazorPages();
+
+app.SeedRolesAndAdminUserAsync().Wait();
 
 app.Run();

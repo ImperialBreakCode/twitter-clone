@@ -23,6 +23,9 @@ namespace TwitterUni.Data.Entities
         public DateTime CreatedAt { get; set; }
         public DateTime? BirthDate { get; set; }
 
+        [Required]
+        public bool IsSet { get; set; }
+
         [InverseProperty(nameof(Tweet.Author))]
         public ICollection<Tweet> Tweets { get; set; }
         public ICollection<Retweet> Retweets { get; set; }

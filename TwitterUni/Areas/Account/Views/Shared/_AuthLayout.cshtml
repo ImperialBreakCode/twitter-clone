@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/auth_style.css" />
+    <title>@ViewData["Title"] - TwitterUni</title>
+</head>
+
+<body>
+    <span class="background-overlay"></span>
+
+    <div class="container d-flex flex-column justify-content-center h-100">
+        <div class="row">
+            <div class="col col-md-7 col-lg-5">
+
+                @RenderBody()
+
+            </div>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

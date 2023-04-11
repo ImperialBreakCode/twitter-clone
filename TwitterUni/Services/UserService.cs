@@ -27,21 +27,17 @@ namespace TwitterUni.Services
             _mapper = mapper;
         }
 
-        public UserManager<User> UserManager { get => _userManager; }
-
-        public SignInManager<User> SignInManager { get => _signInManager; }
-
         public async Task CreateUser(UserData userData)
         {
             User user = new User();
             _mapper.Map(userData, user);
-            await UserManager.CreateAsync(user, "abV12345_");
+            await _userManager.CreateAsync(user, "abV12345_");
         }
 
         public async Task DeleteUser(string id)
         {
-            User user = await UserManager.FindByIdAsync(id);
-            await UserManager.DeleteAsync(user);
+            User user = await _userManager.FindByIdAsync(id);
+            await _userManager.DeleteAsync(user);
         }
 
         public IEnumerable<UserData> GetAllUsers()
@@ -57,27 +53,27 @@ namespace TwitterUni.Services
             return result;
         }
 
-        public UserData GetUserById(string id)
+        public UserData? GetUserById(string id)
         {
             User? user = _unitOfWork.UserRepository.GetOne(id);
-            UserData userData = new UserData();
+            UserData? userData = null;
 
             if (user is not null)
             {
-                _mapper.Map(user, userData);
+                userData = _mapper.Map<UserData>(user);
             }
 
             return userData;
         }
 
-        public UserData GetUserByUserName(string userName)
+        public UserData? GetUserByUserName(string userName)
         {
             User? user = _unitOfWork.UserRepository.GetByUsername(userName);
-            UserData userData = new UserData();
+            UserData? userData = null;
 
             if (user is not null)
             {
-                _mapper.Map(user, userData);
+                userData = _mapper.Map<UserData>(user);
             }
 
             return userData;
@@ -89,7 +85,7 @@ namespace TwitterUni.Services
 
             if (user is not null)
             {
-                var result = await SignInManager.PasswordSignInAsync(user.UserName, password, false, false);
+                var result = await _signInManager.PasswordSignInAsync(user.UserName, password, false, false);
                 
                 return result.Succeeded;
             }
@@ -99,7 +95,7 @@ namespace TwitterUni.Services
 
         public async Task SignOutUser()
         {
-            await SignInManager.SignOutAsync();
+            await _signInManager.SignOutAsync();
         }
 
         public void UpdateUser(UserData userData)
@@ -109,6 +105,20 @@ namespace TwitterUni.Services
             if (user is not null)
             {
                 _mapper.Map(userData, user);
+                _unitOfWork.Commit();
+            }
+        }
+
+        public void CompleteUserSetup(UserData userData, string password)
+        {
+            User? user = _unitOfWork.UserRepository.GetOne(userData.Id);
+
+            if (user is not null)
+            {
+                _mapper.Map(userData, user);
+                user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, password);
+                user.IsSet = true;
+                
                 _unitOfWork.Commit();
             }
         }

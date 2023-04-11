@@ -1,0 +1,30 @@
+﻿@model LoginViewModel
+
+@{
+    ViewData["Title"] = "Login";
+    //Layout = "~/Areas/Account/Views/Shared/_AuthLayout.cshtml";
+}
+<h1>Login</h1>
+
+<div class="form-cont">
+    <form class="custom-form" asp-action="Login" method="post">
+
+        <div class="form-floating mb-3">
+            <input asp-for="UserName" class="form-control" placeholder="Username">
+            <label asp-for="UserName"></label>
+            <span asp-validation-for="UserName" class="text-danger"></span>
+        </div>
+
+        <div class="form-floating mb-4">
+            <input asp-for="Password" class="form-control" placeholder="Password">
+            <label asp-for="Password"></label>
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+
+        <div class="form-row-bottom">
+            <a class="btn btn-secondary" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+            <button type="submit" class="btn btn-primary">Login</button>
+        </div>
+
+    </form>
+</div>

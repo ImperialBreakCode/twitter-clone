@@ -4,9 +4,9 @@ using TwitterUni.Services.ModelData;
 
 namespace TwitterUni.Services.Mapping
 {
-    public class MappingProfile : Profile
+    public class MappingServiceDataProfile : Profile
     {
-        public MappingProfile()
+        public MappingServiceDataProfile()
         {
             // To data
             CreateMap<User, UserData>();
