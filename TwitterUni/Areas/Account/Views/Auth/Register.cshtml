@@ -1,15 +1,13 @@
 ﻿@model RegisterViewModel
 
 @{
-    ViewData["Title"] = "Account Setup";
+    ViewData["Title"] = "Register";
 }
 
-<h1>Setup your account</h1>
+<h1>Create a new account</h1>
 
 <div class="form-cont">
-    <form class="custom-form" asp-action="Setup" method="post">
-
-        <input type="hidden" asp-for="Id" value="@Model.Id"/>
+    <form class="custom-form" asp-action="Register" method="post">
 
         <div class="row mb-3">
             <div class="col">
@@ -54,9 +52,8 @@
 
         <div class="form-row-bottom">
             <a class="btn btn-secondary" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-            <button type="submit" class="btn btn-primary">Finish</button>
+            <button type="submit" class="btn btn-primary">Create</button>
         </div>
 
     </form>
 </div>
-

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using TwitterUni.Areas.Account.Models.Auth;
 using TwitterUni.Services.Interfaces;
+using TwitterUni.Services.ModelData;
 
 namespace TwitterUni.Areas.Auth.Controllers
 {
@@ -15,6 +16,41 @@ namespace TwitterUni.Areas.Auth.Controllers
         {
             _userService = userService;
             _mapper = mapper;
+        }
+
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
+        {
+
+            if (ModelState.IsValid)
+            {
+                UserData userData = _mapper.Map<UserData>(registerViewModel);
+                bool isCreated = await _userService.CreateUser(userData, registerViewModel.Password);
+
+                if (isCreated)
+                {
+                    return RedirectToAction("Index", "Home", new { area = "" });
+                }
+            }
+
+            foreach (var item in ModelState)
+            {
+                foreach (var error in item.Value.Errors)
+                {
+                    Console.WriteLine(error.ErrorMessage);
+                }
+            }
+
+            registerViewModel.Password = String.Empty;
+            registerViewModel.ConfirmPassword = String.Empty;
+            return View(registerViewModel);
         }
 
         [HttpGet]
@@ -33,7 +69,8 @@ namespace TwitterUni.Areas.Auth.Controllers
 
                 if (loggedIn)
                 {
-                    if (!_userService.GetUserByUserName(loginVM.UserName).IsSet)
+                    var user = _userService.GetUserByUserName(loginVM.UserName);
+                    if (user is not null && !user.IsSet)
                     {
                         return RedirectToAction(nameof(Setup), new {id = loginVM.UserName});
                     }
@@ -63,7 +100,7 @@ namespace TwitterUni.Areas.Auth.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Setup(RegisterViewModel registerViewModel)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && registerViewModel.Id is not null)
             {
                 var user = _userService.GetUserById(registerViewModel.Id);
 

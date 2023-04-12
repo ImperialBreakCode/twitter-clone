@@ -65,8 +65,29 @@ h1 {
   justify-content: space-between;
 }
 
+.field-validation-valid{
+    display: none;
+}
+
+.field-validation-error{
+    display: block;
+}
+
+.input-validation-error {
+    border-color: rgba(220,53,69,.9) !important;
+    margin-bottom: 50px;
+}
+
+.input-validation-error:focus {
+    box-shadow: 0 0 0 3px #ff1010ab!important;
+}
+
+.input-validation-error ~ label {
+    color: #ff6161 !important;
+}
+
 @media (max-width: 768px) {
-  .background-overlay {
-    background: #0f1f24;
-  }
+    .background-overlay {
+        background: #0f1f24;
+    }
 }

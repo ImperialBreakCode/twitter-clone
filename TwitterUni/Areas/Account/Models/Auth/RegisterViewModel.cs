@@ -4,7 +4,7 @@ namespace TwitterUni.Areas.Account.Models.Auth
 {
     public class RegisterViewModel
     {
-        public string Id { get; set; }
+        public string? Id { get; set; }
 
         [Required]
         [Display(Name = "First Name")]

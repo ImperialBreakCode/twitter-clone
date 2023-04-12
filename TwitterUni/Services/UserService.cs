@@ -27,11 +27,13 @@ namespace TwitterUni.Services
             _mapper = mapper;
         }
 
-        public async Task CreateUser(UserData userData)
+        public async Task<bool> CreateUser(UserData userData, string password)
         {
             User user = new User();
             _mapper.Map(userData, user);
-            await _userManager.CreateAsync(user, "abV12345_");
+            IdentityResult result = await _userManager.CreateAsync(user, password);
+
+            return result.Succeeded;
         }
 
         public async Task DeleteUser(string id)

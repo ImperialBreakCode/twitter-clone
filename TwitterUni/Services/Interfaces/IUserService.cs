@@ -6,7 +6,7 @@ namespace TwitterUni.Services.Interfaces
 {
     public interface IUserService
     {
-        Task CreateUser(UserData user);
+        Task<bool> CreateUser(UserData user, string password);
         UserData? GetUserById(string id);
         UserData? GetUserByUserName(string userName);
         IEnumerable<UserData> GetAllUsers();

@@ -2,8 +2,8 @@
 
 @{
     ViewData["Title"] = "Login";
-    //Layout = "~/Areas/Account/Views/Shared/_AuthLayout.cshtml";
 }
+
 <h1>Login</h1>
 
 <div class="form-cont">
@@ -12,13 +12,13 @@
         <div class="form-floating mb-3">
             <input asp-for="UserName" class="form-control" placeholder="Username">
             <label asp-for="UserName"></label>
-            <span asp-validation-for="UserName" class="text-danger"></span>
+            <span asp-validation-for="UserName" class="invalid-tooltip"></span>
         </div>
 
         <div class="form-floating mb-4">
             <input asp-for="Password" class="form-control" placeholder="Password">
             <label asp-for="Password"></label>
-            <span asp-validation-for="Password" class="text-danger"></span>
+            <span asp-validation-for="Password" class="invalid-tooltip"></span>
         </div>
 
         <div class="form-row-bottom">
