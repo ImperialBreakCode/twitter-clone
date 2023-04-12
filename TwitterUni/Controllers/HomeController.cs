@@ -20,7 +20,6 @@ namespace TwitterUni.Controllers
 
         public IActionResult Index()
         {
-            Console.WriteLine(User.Identity.IsAuthenticated.ToString());
             return View();
         }
 

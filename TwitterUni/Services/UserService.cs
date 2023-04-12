@@ -27,13 +27,13 @@ namespace TwitterUni.Services
             _mapper = mapper;
         }
 
-        public async Task<bool> CreateUser(UserData userData, string password)
+        public async Task<IdentityResult> CreateUser(UserData userData, string password)
         {
             User user = new User();
             _mapper.Map(userData, user);
             IdentityResult result = await _userManager.CreateAsync(user, password);
 
-            return result.Succeeded;
+            return result;
         }
 
         public async Task DeleteUser(string id)
@@ -81,7 +81,7 @@ namespace TwitterUni.Services
             return userData;
         }
 
-        public async Task<bool> SignInUser(string userName, string password)
+        public async Task<SignInResult?> SignInUser(string userName, string password)
         {
             var user = _unitOfWork.UserRepository.GetByUsername(userName);
 
@@ -89,10 +89,10 @@ namespace TwitterUni.Services
             {
                 var result = await _signInManager.PasswordSignInAsync(user.UserName, password, false, false);
                 
-                return result.Succeeded;
+                return result;
             }
 
-            return false;
+            return null;
         }
 
         public async Task SignOutUser()

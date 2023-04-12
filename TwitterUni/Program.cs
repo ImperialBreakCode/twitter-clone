@@ -22,6 +22,11 @@ builder.Services.AddDefaultIdentity<User>()
     .AddDefaultTokenProviders()
     .AddDefaultUI();
 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Account/Auth/Login";
+});
+
 builder.Services.AddControllersWithViews();
 
 // Adding my services

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TwitterUni.Areas.Account.Models.Auth;
 using TwitterUni.Services.Interfaces;
@@ -28,28 +29,27 @@ namespace TwitterUni.Areas.Auth.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
         {
-
             if (ModelState.IsValid)
             {
                 UserData userData = _mapper.Map<UserData>(registerViewModel);
-                bool isCreated = await _userService.CreateUser(userData, registerViewModel.Password);
+                userData.IsSet = true;
 
-                if (isCreated)
+                var result = await _userService.CreateUser(userData, registerViewModel.Password);
+
+                if (result.Succeeded)
                 {
+                    await _userService.SignInUser(registerViewModel.UserName, registerViewModel.Password);
                     return RedirectToAction("Index", "Home", new { area = "" });
                 }
-            }
-
-            foreach (var item in ModelState)
-            {
-                foreach (var error in item.Value.Errors)
+                else
                 {
-                    Console.WriteLine(error.ErrorMessage);
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
                 }
             }
 
-            registerViewModel.Password = String.Empty;
-            registerViewModel.ConfirmPassword = String.Empty;
             return View(registerViewModel);
         }
 
@@ -65,24 +65,36 @@ namespace TwitterUni.Areas.Auth.Controllers
         {
             if (ModelState.IsValid)
             {
-                bool loggedIn = await _userService.SignInUser(loginVM.UserName, loginVM.Password);
+                var result = await _userService.SignInUser(loginVM.UserName, loginVM.Password);
 
-                if (loggedIn)
+                if (result is not null && result.Succeeded)
                 {
-                    var user = _userService.GetUserByUserName(loginVM.UserName);
-                    if (user is not null && !user.IsSet)
+                    if (!_userService.GetUserByUserName(loginVM.UserName)?.IsSet ?? false)
                     {
                         return RedirectToAction(nameof(Setup), new {id = loginVM.UserName});
                     }
 
                     return RedirectToAction("Index", "Home", new { area = "" });
                 }
+                else if (result is not null && result.IsLockedOut)
+                {
+                    ModelState.AddModelError(string.Empty, "User account locked out.");
+                }
+                else if(result is null)
+                {
+                    ModelState.AddModelError(string.Empty, $"User {loginVM.UserName} does not exist.");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                }
             }
 
-            return View();
+            return View(loginVM);
         }
 
         [HttpGet]
+        [Authorize]
         public IActionResult Setup(string id)
         {
             var user = _userService.GetUserByUserName(id);
@@ -98,24 +110,40 @@ namespace TwitterUni.Areas.Auth.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public IActionResult Setup(RegisterViewModel registerViewModel)
         {
             if (ModelState.IsValid && registerViewModel.Id is not null)
             {
                 var user = _userService.GetUserById(registerViewModel.Id);
+                var doubleUserId = _userService.GetUserByUserName(registerViewModel.UserName)?.Id;
 
-                if (user is not null)
+                if (user is not null && doubleUserId is not null)
                 {
-                    _mapper.Map(registerViewModel, user);
-                    _userService.CompleteUserSetup(user, registerViewModel.Password);
+                    if (user.Id == doubleUserId)
+                    {
+                        _mapper.Map(registerViewModel, user);
+                        _userService.CompleteUserSetup(user, registerViewModel.Password);
 
-                    return RedirectToAction("Index", "Home", new {area = ""});
+                        return RedirectToAction("Index", "Home", new { area = "" });
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, $"Username {registerViewModel.UserName} is already taken.");
+                    }
                 }
             }
 
-            registerViewModel.Password = String.Empty;
-            registerViewModel.ConfirmPassword = String.Empty;
             return View(registerViewModel);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Logout()
+        {
+            await _userService.SignOutUser();
+
+            return RedirectToAction("Index", "Home", new { area = "" });
         }
     }
 }
