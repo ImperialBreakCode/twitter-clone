@@ -72,8 +72,6 @@ app.UseEndpoints(endpoints =>
 
 });
 
-app.MapRazorPages();
-
 app.SeedRolesAndAdminUserAsync().Wait();
 
 app.Run();
