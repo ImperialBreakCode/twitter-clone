@@ -1,0 +1,72 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;1,100;1,200;1,300;1,400;1,500;1,600&display=swap");
+.page-heading {
+  background-color: rgba(29, 95, 112, 0.7058823529);
+  padding: 15px 30px;
+  border-radius: 20px;
+  position: sticky;
+  top: -20px;
+  z-index: 10;
+  -webkit-backdrop-filter: blur(20px);
+          backdrop-filter: blur(20px);
+  box-shadow: -1px 9px 20px rgba(0, 0, 0, 0.1019607843);
+}
+.page-heading h1 {
+  margin-top: 20px;
+  font-size: 26px;
+}
+
+.home-nav-btn {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding-top: 20px;
+}
+.home-nav-btn a {
+  font-size: 18px;
+  padding-bottom: 5px;
+  color: #c4c4c4;
+  transition: 0.1s;
+  position: relative;
+}
+.home-nav-btn a::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: 0;
+  height: 5px;
+  border-radius: 20px;
+  background-color: #48b3ff;
+  transition: 0.2s;
+}
+.home-nav-btn a:hover {
+  color: white;
+}
+.home-nav-btn a:hover::after {
+  width: 100%;
+}
+.home-nav-btn .nv-active {
+  color: white;
+}
+.home-nav-btn .nv-active::after {
+  width: 50%;
+}
+.home-nav-btn .nv-active:hover::after {
+  width: 100%;
+}
+
+@media (max-width: 576px) {
+  .page-heading {
+    padding: 10px;
+    border-radius: 10px;
+  }
+  .page-heading h1 {
+    font-size: 18px;
+  }
+  .page-heading a {
+    font-size: 15px;
+  }
+  .page-heading a::after {
+    height: 3px;
+  }

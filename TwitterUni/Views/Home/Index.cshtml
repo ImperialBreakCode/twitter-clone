@@ -1,8 +1,45 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@inject SignInManager<User> signInManager
+
+@model HomeViewModel
+
+@section Styles{
+    <link rel="stylesheet" href="~/css/home/style.css">
+}
+
+<section class="tweets-sec">
+    <div class="page-heading">
+        <h1>Home</h1>
+        <div class="home-nav-btn">
+            <a class="nv-active" asp-controller="Home" asp-action="Index">For you</a>
+            <a href="#">Following</a>
+        </div>
+    </div>
+
+
+    <div class="tweet-list">
+
+    </div>
+
+</section>
+
+<section class="right-sec">
+
+    <div class="trending">
+        <h3>Trending</h3>
+        <a href="#">1. Tag</a>
+        <a href="#">2. Tag</a>
+        <a href="#">3. Tag</a>
+        <a href="#">4. Tag</a>
+        <a class="see-all" href="#">See all</a>
+    </div>
+
+    @if (signInManager.IsSignedIn(User) && Model.Users.Count > 1)
+    {
+        @Html.Partial("_ProfileBoxPartial", Model.Users)
+    }
+    
+</section>

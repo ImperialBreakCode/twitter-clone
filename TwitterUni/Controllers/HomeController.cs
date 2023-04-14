@@ -20,7 +20,11 @@ namespace TwitterUni.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var users = _userService.GetAllUsers();
+            HomeViewModel homeViewModel = new HomeViewModel();
+            homeViewModel.Users = (List<UserData>)users;
+
+            return View(homeViewModel);
         }
 
         public IActionResult Privacy()

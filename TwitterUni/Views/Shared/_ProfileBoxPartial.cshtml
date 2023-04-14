@@ -1,0 +1,28 @@
+﻿@using TwitterUni.Services.ModelData
+
+@model ICollection<UserData>
+
+<div class="profiles">
+    <h3>Who to follow</h3>
+
+    @foreach (var user in Model)
+    {
+        if (!User.Identity.Name.Equals(user.UserName))
+        {
+            <a href="#">
+                <img src="~/content/images/@(user.ProfilePic ?? "dafault_prf_pic.png")">
+                <span>
+                    <p>@user.FirstName @user.LastName</p>
+                    @@@user.UserName
+                </span>
+                <button>Follow</button>
+            </a>
+        }
+    }
+    
+    @if (Model.Count > 4)
+    {
+        <a class="see-all" href="#">See all</a>
+    }
+    
+</div>
