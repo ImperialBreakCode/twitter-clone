@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using TwitterUni.Constants;
 using TwitterUni.Data.Entities;
 using TwitterUni.Data.UnitOfWork;
 using TwitterUni.Services.Interfaces;
@@ -32,6 +33,11 @@ namespace TwitterUni.Services
             User user = new User();
             _mapper.Map(userData, user);
             IdentityResult result = await _userManager.CreateAsync(user, password);
+
+            if (result.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(user, RoleNames.User);
+            }
 
             return result;
         }
@@ -115,7 +121,7 @@ namespace TwitterUni.Services
         {
             User? user = _unitOfWork.UserRepository.GetOne(userData.Id);
 
-            if (user is not null)
+            if (user is not null && !user.IsSet)
             {
                 _mapper.Map(userData, user);
                 user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, password);
@@ -123,6 +129,18 @@ namespace TwitterUni.Services
                 
                 _unitOfWork.Commit();
             }
+        }
+
+        public void FollowUser(string followerId, string followingId)
+        {
+            _unitOfWork.UserRepository.AddUserFollowing(followerId, followingId);
+            _unitOfWork.Commit();
+        }
+
+        public void UnFollowUser(string followerId, string followingId)
+        {
+            _unitOfWork.UserRepository.RemoveUserFollowing(followerId, followingId);
+            _unitOfWork.Commit();
         }
     }
 }
