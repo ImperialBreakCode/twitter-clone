@@ -15,7 +15,7 @@ body {
 
 a {
     text-decoration: none;
-    color: white;
+    color: white!important;
 }
 
 nav {
@@ -394,7 +394,7 @@ main {
     }
 
 .see-all {
-    color: #85ccff;
+    color: #85ccff!important;
     padding: 20px !important;
 }
 

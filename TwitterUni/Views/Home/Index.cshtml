@@ -2,6 +2,10 @@
     ViewData["Title"] = "Home";
 }
 
+@inject SignInManager<User> signInManager
+
+@model HomeViewModel
+
 @section Styles{
     <link rel="stylesheet" href="~/css/home/style.css">
 }
@@ -10,7 +14,7 @@
     <div class="page-heading">
         <h1>Home</h1>
         <div class="home-nav-btn">
-            <a class="nv-active" href="#">For you</a>
+            <a class="nv-active" asp-controller="Home" asp-action="Index">For you</a>
             <a href="#">Following</a>
         </div>
     </div>
@@ -33,24 +37,9 @@
         <a class="see-all" href="#">See all</a>
     </div>
 
-    <div class="profiles">
-        <h3>Who to follow</h3>
-        <a href="#">
-            <img src="../images/pexels-jack.jpg">
-            <span>
-                <p>User One</p>
-                @@handle1
-            </span>
-            <button>Follow</button>
-        </a>
-        <a href="#">
-            <img src="../images/pexels-ruby-ruby.jpg">
-            <span>
-                <p>User Two</p>
-                @@hand
-            </span>
-            <button>Follow</button>
-        </a>
-        <a class="see-all" href="#">See all</a>
-    </div>
+    @if (signInManager.IsSignedIn(User) && Model.Users.Count > 1)
+    {
+        @Html.Partial("_ProfileBoxPartial", Model.Users)
+    }
+    
 </section>

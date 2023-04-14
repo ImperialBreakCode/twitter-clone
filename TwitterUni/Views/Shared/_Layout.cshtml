@@ -1,7 +1,9 @@
-﻿@using Microsoft.AspNetCore.Identity
-@using TwitterUni.Data.Entities
-
+﻿
 @inject SignInManager<User> SignInManager
+
+@{
+    bool userIsSigned = SignInManager.IsSignedIn(User);
+}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -45,23 +47,32 @@
                                     <span>Explore</span>
                                 </a>
                             </li>
-                            <li>
-                                <a href="#">
-                                    <div class="nav-icon">
-                                        <i class="fa-solid fa-user"></i>
-                                    </div>
-                                    <span>Profile</span>
-                                </a>
-                            </li>
+
+                            @if (userIsSigned)
+                            {
+                                <li>
+                                    <a href="#">
+                                        <div class="nav-icon">
+                                            <i class="fa-solid fa-user"></i>
+                                        </div>
+                                        <span>Profile</span>
+                                    </a>
+                                </li>
+                            }
+                            
                         </ul>
 
-                        <button>
-                            <i class="fa-solid fa-pen d-none"></i>
-                            <span>Tweet</span>
-                        </button>
+                        @if (userIsSigned)
+                        {
+                            <button>
+                                <i class="fa-solid fa-pen d-none"></i>
+                                <span>Tweet</span>
+                            </button>
+                        }
+                        
                     </div>
 
-                    @if (SignInManager.IsSignedIn(User))
+                    @if (userIsSigned)
                     {
                         <form asp-area="Account" asp-controller="Auth" asp-action="Logout" method="post">
                             <button type="submit" class="logout-prf-btn">
