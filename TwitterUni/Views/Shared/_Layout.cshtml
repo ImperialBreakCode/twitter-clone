@@ -1,50 +1,101 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@using TwitterUni.Data.Entities
+
+@inject SignInManager<User> SignInManager
+
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - TwitterUni</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/TwitterUni.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.css">
+    <link rel="stylesheet" href="~/css/main_style.css">
+    @await RenderSectionAsync("Styles", required: false)
+    <title>@ViewData["Title"] - TwitterUni</title>
 </head>
+
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">TwitterUni</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-                <partial name="_LoginPartial" />
-            </div>
-        </nav>
-    </header>
     <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+        <div class="row">
+            <div class="col-xl-3 col-lg-1 col-2 col-nv-override">
+                <nav>
+                    <a class="logo" asp-controller="Home" asp-action="Index">
+                        <i class="fa-brands fa-twitter"></i>
+                        <span>Twitter</span>
+                    </a>
+
+                    <div class="nav-list">
+                        <ul>
+                            <li class="nv-main-active">
+                                <a asp-controller="Home" asp-action="Index">
+                                    <div class="nav-icon">
+                                        <i class="fa-solid fa-house"></i>
+                                    </div>
+                                    <span>Home</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <div class="nav-icon">
+                                        <i class="fa-solid fa-hashtag"></i>
+                                    </div>
+                                    <span>Explore</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <div class="nav-icon">
+                                        <i class="fa-solid fa-user"></i>
+                                    </div>
+                                    <span>Profile</span>
+                                </a>
+                            </li>
+                        </ul>
+
+                        <button>
+                            <i class="fa-solid fa-pen d-none"></i>
+                            <span>Tweet</span>
+                        </button>
+                    </div>
+
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        <form asp-area="Account" asp-controller="Auth" asp-action="Logout" method="post">
+                            <button type="submit" class="logout-prf-btn">
+                                <i class="fa-solid fa-right-from-bracket"></i>
+                                <span>Log Out</span>
+                            </button>
+                        </form>
+                    }
+                    else
+                    {
+                        <div class="auth-box">
+                            <a class="auth-link" asp-area="Account" asp-controller="Auth" asp-action="Login">
+                                <i class="fa-solid fa-right-to-bracket"></i>
+                                <span>Login</span>
+                            </a>
+
+                            <a class="auth-link" asp-area="Account" asp-controller="Auth" asp-action="Register">
+                                <i class="fa-sharp fa-solid fa-user-plus"></i>
+                                <span>Register</span>
+                            </a>
+                        </div>
+                    }
+                </nav>
+            </div>
+
+            <main class="col-xl-9 col-lg-11 col-10">
+                @RenderBody()
+            </main>
+        </div>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 - TwitterUni - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+
 </html>

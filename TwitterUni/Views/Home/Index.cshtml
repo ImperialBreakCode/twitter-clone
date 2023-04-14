@@ -1,8 +1,56 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@section Styles{
+    <link rel="stylesheet" href="~/css/home/style.css">
+}
+
+<section class="tweets-sec">
+    <div class="page-heading">
+        <h1>Home</h1>
+        <div class="home-nav-btn">
+            <a class="nv-active" href="#">For you</a>
+            <a href="#">Following</a>
+        </div>
+    </div>
+
+
+    <div class="tweet-list">
+
+    </div>
+
+</section>
+
+<section class="right-sec">
+
+    <div class="trending">
+        <h3>Trending</h3>
+        <a href="#">1. Tag</a>
+        <a href="#">2. Tag</a>
+        <a href="#">3. Tag</a>
+        <a href="#">4. Tag</a>
+        <a class="see-all" href="#">See all</a>
+    </div>
+
+    <div class="profiles">
+        <h3>Who to follow</h3>
+        <a href="#">
+            <img src="../images/pexels-jack.jpg">
+            <span>
+                <p>User One</p>
+                @@handle1
+            </span>
+            <button>Follow</button>
+        </a>
+        <a href="#">
+            <img src="../images/pexels-ruby-ruby.jpg">
+            <span>
+                <p>User Two</p>
+                @@hand
+            </span>
+            <button>Follow</button>
+        </a>
+        <a class="see-all" href="#">See all</a>
+    </div>
+</section>
