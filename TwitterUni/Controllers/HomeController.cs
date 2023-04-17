@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using TwitterUni.Models;
 using TwitterUni.Services.Interfaces;
@@ -25,11 +24,6 @@ namespace TwitterUni.Controllers
             homeViewModel.Users = (List<UserData>)users;
 
             return View(homeViewModel);
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

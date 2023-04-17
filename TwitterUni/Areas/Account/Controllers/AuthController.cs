@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using TwitterUni.Areas.Account.Models.Auth;
 using TwitterUni.Services.Interfaces;
 using TwitterUni.Services.ModelData;
@@ -39,6 +40,8 @@ namespace TwitterUni.Areas.Auth.Controllers
                 if (result.Succeeded)
                 {
                     await _userService.SignInUser(registerViewModel.UserName, registerViewModel.Password);
+                    HttpContext.Session.SetString("setUser", JsonConvert.SerializeObject(true));
+
                     return RedirectToAction("Index", "Home", new { area = "" });
                 }
                 else
@@ -71,9 +74,11 @@ namespace TwitterUni.Areas.Auth.Controllers
                 {
                     if (!_userService.GetUserByUserName(loginVM.UserName)?.IsSet ?? false)
                     {
+                        HttpContext.Session.SetString("setUser", JsonConvert.SerializeObject(false));
                         return RedirectToAction(nameof(Setup), new {id = loginVM.UserName});
                     }
 
+                    HttpContext.Session.SetString("setUser", JsonConvert.SerializeObject(true));
                     return RedirectToAction("Index", "Home", new { area = "" });
                 }
                 else if (result is not null && result.IsLockedOut)
@@ -124,6 +129,7 @@ namespace TwitterUni.Areas.Auth.Controllers
                     {
                         _mapper.Map(registerViewModel, user);
                         _userService.CompleteUserSetup(user, registerViewModel.Password);
+                        HttpContext.Session.SetString("setUser", JsonConvert.SerializeObject(true));
 
                         return RedirectToAction("Index", "Home", new { area = "" });
                     }
@@ -142,6 +148,7 @@ namespace TwitterUni.Areas.Auth.Controllers
         public async Task<IActionResult> Logout()
         {
             await _userService.SignOutUser();
+            HttpContext.Session.Remove("setUser");
 
             return RedirectToAction("Index", "Home", new { area = "" });
         }
