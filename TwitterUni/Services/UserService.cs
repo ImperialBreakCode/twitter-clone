@@ -137,7 +137,7 @@ namespace TwitterUni.Services
             _unitOfWork.Commit();
         }
 
-        public void UnFollowUser(string followerId, string followingId)
+        public void UnfollowUser(string followerId, string followingId)
         {
             _unitOfWork.UserRepository.RemoveUserFollowing(followerId, followingId);
             _unitOfWork.Commit();

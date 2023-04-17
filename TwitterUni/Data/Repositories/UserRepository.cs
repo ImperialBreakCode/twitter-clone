@@ -16,9 +16,16 @@ namespace TwitterUni.Data.Repositories
 
             if (follower is not null && following is not null)
             {
-                Follow follow = new Follow() { CreatedAt = DateTime.UtcNow };
-                follower.FollowingsCollection.Add(follow);
-                following.FollowersCollection.Add(follow);
+                Follow follow = new Follow() 
+                { 
+                    CreatedAt = DateTime.UtcNow,
+                    TheFollower = follower,
+                    IsFollowing = following
+                };
+
+                Context.Add(follow);
+                //follower.FollowingsCollection.Add(follow);
+                //following.FollowersCollection.Add(follow);
             }
         }
 

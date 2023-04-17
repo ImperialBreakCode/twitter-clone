@@ -33,5 +33,21 @@ namespace TwitterUni.Controllers
 
             return NotFound();
         }
+
+        [HttpPost]
+        public JsonResult FollowUser(string username)
+        {
+            var follower = _userService.GetUserByUserName(User.Identity.Name);
+            var following = _userService.GetUserByUserName(username);
+
+            if (follower is not null && following is not null)
+            {
+                _userService.FollowUser(follower.Id, following.Id);
+
+                return new JsonResult(Ok());
+            }
+
+            return new JsonResult(NotFound());
+        }
     }
 }
