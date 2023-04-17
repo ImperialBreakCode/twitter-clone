@@ -1,10 +1,10 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using TwitterUni;
 using TwitterUni.Data;
 using TwitterUni.Data.Entities;
 using TwitterUni.Data.UnitOfWork;
+using TwitterUni.Extensions;
 using TwitterUni.Services;
 using TwitterUni.Services.Interfaces;
 using TwitterUni.Services.Mapping;
@@ -21,6 +21,8 @@ builder.Services.AddDefaultIdentity<User>()
     .AddEntityFrameworkStores<TwitterDbContext>()
     .AddDefaultTokenProviders()
     .AddDefaultUI();
+
+builder.Services.AddSession();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
@@ -54,6 +56,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseSession();
 app.UseAuthentication();
 
 app.UseAuthorization();

@@ -1,11 +1,10 @@
-﻿using Azure.Core;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json;
 
 namespace TwitterUni.Filters
 {
-    public class SetupUserFilter : ActionFilterAttribute
+    public class SetupUserFilterAttribute : ActionFilterAttribute
     {
         public override void OnActionExecuting(ActionExecutingContext context)
         {
@@ -13,7 +12,9 @@ namespace TwitterUni.Filters
             
             if (!(setUser is not null && JsonConvert.DeserializeObject<bool>(setUser)))
             {
-                context.Result = new RedirectToActionResult("Setup", "Auth", new { area = "Account" });
+                context.Result = new RedirectToActionResult("Setup", "Auth", 
+                    new { area = "Account", 
+                        Id = context.HttpContext.User.Identity.Name });
             }
         }
     }

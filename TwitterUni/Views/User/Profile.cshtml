@@ -1,0 +1,71 @@
+﻿@model UserProfileViewModel
+
+@{
+    ViewData["Title"] = $"{Model.User.FirstName} {Model.User.LastName} ({Model.User.UserName})";
+}
+
+@section Styles{
+    <link rel="stylesheet" href="~/css/user/profile.css"/>
+}
+
+<section class="tweets-sec">
+    <div class="profile-area">
+        <div class="profile-back-photo">
+                <img src="~/content/images/@(Model.User.BackgroundPhoto ?? "default_background.jpg")">
+        </div>
+        <div class="profile-info">
+            <div class="prf-1">
+                    <img src="~/content/images/@(Model.User.ProfilePic ?? "dafault_prf_pic.png")">
+
+                @if (User.Identity.Name == Model.User.UserName)
+                {
+                    <a href="#">Edit Profile</a>
+                }
+                else
+                {
+                    <button id="follow-btn" class="not-following" href="#">Follow</button>
+                }
+
+            </div>
+            <div class="prf-name">
+                <h1>@Model.User.FirstName @Model.User.LastName</h1>
+                <p>@@@Model.User.UserName</p>
+            </div>
+            <div class="prf-joined-borned">
+                <p><i class="fa-solid fa-calendar-days"></i> Joined @Model.User.CreatedAt.ToString("MMMM dd")</p>
+
+                @if (Model.User.BirthDate is not null)
+                {
+                    <p><i class="fa-solid fa-calendar-days"></i> Born @Model.User.BirthDate?.ToString("MMMM dd")</p>
+                }
+                
+            </div>
+            <div class="prf-follows">
+                <a href="#">@Model.User.FollowersCollection.Count <span>Followers</span></a>
+                <a href="#">@Model.User.FollowingsCollection.Count <span>Following</span></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="tweet-list">
+
+    </div>
+</section>
+
+<section class="right-sec">
+
+    <div class="trending">
+        <h3>Trending</h3>
+        <a href="#">1. Tag</a>
+        <a href="#">2. Tag</a>
+        <a href="#">3. Tag</a>
+        <a href="#">4. Tag</a>
+        <a class="see-all" href="#">See all</a>
+    </div>
+
+    @if (Model.OtherUsers.Count > 1)
+    {
+        @Html.Partial("_ProfileBoxPartial", Model.OtherUsers)
+    }
+
+</section>

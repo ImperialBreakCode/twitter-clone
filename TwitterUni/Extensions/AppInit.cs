@@ -2,7 +2,7 @@
 using TwitterUni.Constants;
 using TwitterUni.Data.Entities;
 
-namespace TwitterUni
+namespace TwitterUni.Extensions
 {
     public static class AppInit
     {
@@ -52,6 +52,7 @@ namespace TwitterUni
 
                 await userManager.CreateAsync(user, "Pass_word123");
                 await userManager.AddToRoleAsync(user, RoleNames.Admin);
+                await userManager.AddToRoleAsync(user, RoleNames.User);
             }
         }
     }

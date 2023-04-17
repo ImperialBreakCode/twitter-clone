@@ -9,7 +9,7 @@
     {
         if (!User.Identity.Name.Equals(user.UserName))
         {
-            <a href="#">
+            <a href="@Url.Action("Profile", "User", new { Id = user.UserName })">
                 <img src="~/content/images/@(user.ProfilePic ?? "dafault_prf_pic.png")">
                 <span>
                     <p>@user.FirstName @user.LastName</p>

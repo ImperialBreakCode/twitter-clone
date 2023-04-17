@@ -1,0 +1,134 @@
+.profile-area {
+  margin-top: 20px;
+}
+
+.profile-back-photo {
+  overflow: hidden;
+  border-radius: 20px;
+}
+.profile-back-photo img {
+  width: 100%;
+  aspect-ratio: 2.7;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+@media (max-width: 768px) {
+  .profile-back-photo {
+    border-radius: 10px 10px 0 0;
+  }
+}
+
+.profile-info {
+  margin: 0 15px;
+  background: #143f4a;
+  border-radius: 0 0 20px 20px;
+  padding: 3%;
+}
+@media (max-width: 768px) {
+  .profile-info {
+    margin: 0;
+    border-radius: 0 0 10px 10px;
+  }
+}
+.profile-info .prf-1 {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  max-height: 90px;
+}
+.profile-info .prf-1 img {
+  height: 150px;
+  border-radius: 50%;
+  transform: translate(0, -50%);
+  padding: 3px;
+  background: #143f4a;
+}
+.profile-info .prf-1 a, .profile-info .prf-1 button {
+  border: 1px solid rgba(188, 227, 237, 0.6352941176);
+  background: transparent;
+  padding: 5px 15px;
+  border-radius: 50px;
+  font-weight: 500;
+  transition: 0.3s;
+}
+.profile-info .prf-1 a:hover, .profile-info .prf-1 button:hover {
+  background: rgba(31, 97, 114, 0.6352941176);
+}
+.profile-info .prf-1 .not-following {
+  background-color: #eeeeee;
+  color: black;
+  border: 1px solid transparent;
+  font-weight: 600;
+}
+.profile-info .prf-1 .not-following:hover {
+  background: #bbbbbb;
+}
+@media (max-width: 768px) {
+  .profile-info .prf-1 {
+    max-height: 60px;
+  }
+  .profile-info .prf-1 img {
+    height: 110px;
+    padding: 2px;
+  }
+}
+@media (max-width: 576px) {
+  .profile-info .prf-1 img {
+    height: 80px;
+    padding: 2px;
+  }
+}
+
+.prf-name h1 {
+  font-size: 22px;
+  margin: 0;
+  font-weight: 600;
+}
+.prf-name p {
+  color: #acacac;
+}
+@media (max-width: 576px) {
+  .prf-name p {
+    font-size: 12px !important;
+  }
+}
+
+.prf-joined-borned {
+  display: flex;
+  flex-direction: row;
+}
+.prf-joined-borned p, .prf-joined-borned i {
+  color: #acacac;
+  font-size: 15px;
+}
+.prf-joined-borned p {
+  margin-right: 50px;
+}
+@media (max-width: 576px) {
+  .prf-joined-borned p {
+    margin-right: 10px !important;
+  }
+}
+
+.prf-follows a {
+  margin-right: 30px;
+  font-weight: 600;
+}
+.prf-follows a:hover {
+  text-decoration: underline;
+}
+.prf-follows span {
+  color: #acacac;
+  font-weight: 400;
+}
+
+@media (max-width: 576px) {
+  .prf-follows p, .prf-follows span, .prf-follows a, .prf-joined-borned p, .prf-joined-borned span, .prf-joined-borned a {
+    font-size: 12px !important;
+  }
+  #follow-btn, .prf-1 a {
+    font-size: 14px;
+    padding: 2px 10px !important;
+  }
+}
