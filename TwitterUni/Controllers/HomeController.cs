@@ -19,9 +19,9 @@ namespace TwitterUni.Controllers
 
         public IActionResult Index()
         {
-            var users = _userService.GetAllUsers();
+            var users = _userService.GetAllUsersWithFollows().Take(5).ToList();
             HomeViewModel homeViewModel = new HomeViewModel();
-            homeViewModel.Users = (List<UserData>)users;
+            homeViewModel.Users = users;
 
             return View(homeViewModel);
         }

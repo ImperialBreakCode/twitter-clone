@@ -10,6 +10,7 @@ namespace TwitterUni.Services.Interfaces
         UserData? GetUserById(string id);
         UserData? GetUserByUserName(string userName);
         IEnumerable<UserData> GetAllUsers();
+        public IEnumerable<UserData> GetAllUsersWithFollows();
         void UpdateUser(UserData user);
         Task DeleteUser(string id);
         Task<SignInResult?> SignInUser(string userName, string password);

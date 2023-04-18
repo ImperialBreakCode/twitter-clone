@@ -7,16 +7,25 @@
 
     @foreach (var user in Model)
     {
+        bool isFollowing = user.FollowersCollection
+            .Any(f => f.TheFollower.UserName == User.Identity.Name);
+
         if (!User.Identity.Name.Equals(user.UserName))
         {
-            <a href="@Url.Action("Profile", "User", new { Id = user.UserName })">
-                <img src="~/content/images/@(user.ProfilePic ?? "dafault_prf_pic.png")">
-                <span>
-                    <p>@user.FirstName @user.LastName</p>
-                    @@@user.UserName
-                </span>
-                <button>Follow</button>
-            </a>
+            <div>
+                <a href="@Url.Action("Profile", "User", new { Id = user.UserName })">
+                    <img src="~/content/images/@(user.ProfilePic ?? "dafault_prf_pic.png")">
+                    <span>
+                        <p>@user.FirstName @user.LastName</p>
+                        @@@user.UserName
+                    </span>
+                </a>
+                <button class="@(isFollowing ? "following": "")" 
+                    id="@(isFollowing ? "Unf" : "F" )ollowUser-@(user.UserName)">
+                    Follow@(isFollowing ? "ing" : "")
+                </button>
+            </div>
+            
         }
     }
     

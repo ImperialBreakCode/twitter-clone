@@ -27,7 +27,7 @@ namespace TwitterUni.Controllers
 
                 UserProfileViewModel userVM = new UserProfileViewModel();
                 userVM.User = user;
-                userVM.OtherUsers = _userService.GetAllUsers().Take(5).ToList();
+                userVM.OtherUsers = _userService.GetAllUsersWithFollows().Take(5).ToList();
 
                 return View(userVM);
             }
