@@ -15,7 +15,7 @@ namespace TwitterUni.Services.Interfaces
         Task<SignInResult?> SignInUser(string userName, string password);
         Task SignOutUser();
         void CompleteUserSetup(UserData user, string password);
-        void FollowUser(string followerUserName, string followingUserName);
-        void UnfollowUser(string followerUserName, string followingUserName);
+        void FollowUser(string followerId, string followingId);
+        bool UnfollowUser(string followerUserName, string followingUserName);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TwitterUni.Constants;
+using TwitterUni.Data.Entities;
 using TwitterUni.Filters;
 using TwitterUni.Models.User;
 using TwitterUni.Services.Interfaces;
@@ -44,6 +45,19 @@ namespace TwitterUni.Controllers
             {
                 _userService.FollowUser(follower.Id, following.Id);
 
+                return new JsonResult(Ok());
+            }
+
+            return new JsonResult(NotFound());
+        }
+
+        [HttpPost]
+        public JsonResult UnfollowUser(string username)
+        {
+            bool success = _userService.UnfollowUser(User.Identity.Name, username);
+
+            if (success)
+            {
                 return new JsonResult(Ok());
             }
 

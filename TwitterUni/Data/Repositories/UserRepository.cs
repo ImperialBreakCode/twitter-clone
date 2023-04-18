@@ -1,4 +1,5 @@
-﻿using TwitterUni.Data.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using TwitterUni.Data.Entities;
 using TwitterUni.Data.Repositories.BaseRepositories;
 
 namespace TwitterUni.Data.Repositories
@@ -29,14 +30,18 @@ namespace TwitterUni.Data.Repositories
             }
         }
 
-        public void RemoveUserFollowing(string userId, string followingUserId)
+        public bool RemoveUserFollowing(string followerUserName, string followingUserName)
         {
-            var follow = Context.Follows.FirstOrDefault(f => f.TheFollowerId == userId && f.IsFollowingId == followingUserId);
+            var follow = Context.Follows
+                .FirstOrDefault(f => f.TheFollower.UserName == followerUserName && 
+                    f.IsFollowing.UserName == followingUserName);
 
             if (follow is not null)
             {
                 Context.Follows.Remove(follow);
             }
+
+            return follow is not null;
         }
 
         public void AddUserRetweet(string userId, Tweet tweet)
@@ -63,7 +68,21 @@ namespace TwitterUni.Data.Repositories
 
         public User? GetByUsername(string username)
         {
-            var user = Context.Users.FirstOrDefault(u => u.UserName == username);
+            var user = Context.Users
+                .Include(u => u.FollowersCollection)
+                .Include(u => u.FollowingsCollection)
+                .FirstOrDefault(u => u.UserName == username);
+
+            return user;
+        }
+
+        public override User? GetOne(string id)
+        {
+            var user = Context.Users
+                .Include(u => u.FollowersCollection)
+                .Include(u => u.FollowingsCollection)
+                .FirstOrDefault(u => u.Id == id);
+
             return user;
         }
     }

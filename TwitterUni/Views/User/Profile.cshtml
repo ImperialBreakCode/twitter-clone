@@ -25,7 +25,9 @@
                 }
                 else
                 {
-                    <button id="follow-btn" class="@(isFollowing ? "" :"not-following")" href="#">Follow</button>
+                    <button id="follow-btn" class="@(isFollowing ? "" :"not-following")">
+                        @(isFollowing ? "Following" : "Follow")
+                    </button>
                 }
 
             </div>
@@ -93,6 +95,19 @@
                         data: {username: $("#username").text().slice(1) },
                         success: () => {
                             followProfileBtn.removeClass("not-following");
+                            followProfileBtn.text("Following");
+                        }
+                    });
+
+                } else {
+
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("UnfollowUser", "User")",
+                        data: { username: $("#username").text().slice(1) },
+                        success: () => {
+                            followProfileBtn.addClass("not-following");
+                            followProfileBtn.text("Follow");
                         }
                     });
 
