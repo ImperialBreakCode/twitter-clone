@@ -8,8 +8,8 @@ namespace TwitterUni.Filters
     {
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-            string? setUser = context.HttpContext.Session.GetString("setUser");
-            
+            string? setUser = context.HttpContext.Request.Cookies["SetUser"];
+
             if (!(setUser is not null && JsonConvert.DeserializeObject<bool>(setUser)))
             {
                 context.Result = new RedirectToActionResult("Setup", "Auth", 

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using TwitterUni.Constants;
 using TwitterUni.Data.Entities;
 using TwitterUni.Data.UnitOfWork;
@@ -64,6 +65,7 @@ namespace TwitterUni.Services
         public UserData? GetUserById(string id)
         {
             User? user = _unitOfWork.UserRepository.GetOne(id);
+
             UserData? userData = null;
 
             if (user is not null)
@@ -137,10 +139,12 @@ namespace TwitterUni.Services
             _unitOfWork.Commit();
         }
 
-        public void UnFollowUser(string followerId, string followingId)
+        public bool UnfollowUser(string followerUserName, string followingUserName)
         {
-            _unitOfWork.UserRepository.RemoveUserFollowing(followerId, followingId);
+            bool isFound = _unitOfWork.UserRepository.RemoveUserFollowing(followerUserName, followingUserName);
             _unitOfWork.Commit();
+
+            return isFound;
         }
     }
 }

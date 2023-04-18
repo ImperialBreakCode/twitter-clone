@@ -38,7 +38,7 @@ namespace TwitterUni.Data.Repositories
             return DbSetData;
         }
 
-        public TEntity? GetOne(string id)
+        public virtual TEntity? GetOne(string id)
         {
             return DbSetData.Find(id);
         }

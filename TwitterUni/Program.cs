@@ -22,8 +22,6 @@ builder.Services.AddDefaultIdentity<User>()
     .AddDefaultTokenProviders()
     .AddDefaultUI();
 
-builder.Services.AddSession();
-
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.LoginPath = "/Account/Auth/Login";
@@ -56,7 +54,6 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-app.UseSession();
 app.UseAuthentication();
 
 app.UseAuthorization();
