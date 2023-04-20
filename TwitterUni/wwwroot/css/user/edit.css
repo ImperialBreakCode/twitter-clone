@@ -1,0 +1,78 @@
+.edit-cont {
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #182c39;
+}
+
+.back-img-cont {
+  margin: 20px 0;
+  width: 50vw;
+  overflow: hidden;
+  border-radius: 20px;
+}
+.back-img-cont img {
+  max-width: 100%;
+  aspect-ratio: 2.7;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.prf-img-cont {
+  width: 14vw;
+  overflow: hidden;
+  border-radius: 50%;
+  border: 5px solid #0b151b;
+  position: absolute;
+  bottom: -30%;
+  left: 5%;
+}
+.prf-img-cont img {
+  width: 100%;
+}
+
+.user-images {
+  margin-bottom: 7vw;
+}
+
+.form-control {
+  background: #1d3747;
+  color: white;
+  border-color: #396885;
+}
+
+.save-btn {
+  padding: 10px 20px;
+}
+
+.modal-header, .modal-body, .modal-footer {
+  background: #12222c;
+  border: 0;
+}
+
+.modal-header button {
+  filter: invert(1);
+}
+
+.modal-content {
+  border: 1px solid rgba(167, 216, 246, 0.631372549);
+}
+.modal-content .img-modal-cont {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.modal-content .img-modal-cont img {
+  border-radius: 10px;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+@media (max-width: 576px) {
+  .back-img-cont {
+    width: 100%;
+  }
+  .prf-img-cont {
+    width: 20vw;
+    border-width: 2px;
+  }
+}

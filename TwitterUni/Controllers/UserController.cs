@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using TwitterUni.Constants;
 using TwitterUni.Data.Entities;
 using TwitterUni.Filters;
@@ -9,21 +11,24 @@ using TwitterUni.Services.Interfaces;
 namespace TwitterUni.Controllers
 {
     [Authorize(Roles = RoleNames.User)]
-    [SetupUserFilter()]
+    [SetupUserFilter]
     public class UserController : Controller
     {
         private readonly IUserService _userService;
+        private readonly Mapper _mapper;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, Mapper mapper)
         {
             _userService = userService;
+            _mapper = mapper;
         }
 
         public IActionResult Profile(string id)
         {
             var user = _userService.GetUserByUserName(id);
 
-            if (user is not null){
+            if (user is not null) 
+            {
 
                 UserProfileViewModel userVM = new UserProfileViewModel();
                 userVM.User = user;
@@ -33,6 +38,32 @@ namespace TwitterUni.Controllers
             }
 
             return NotFound();
+        }
+
+        [HttpGet]
+        public IActionResult Edit()
+        {
+            var user = _userService.GetUserByUserName(User.Identity.Name);
+
+            if (user is not null)
+            {
+                EditUserViewModel editVM = _mapper.Map<EditUserViewModel>(user);
+                return View(editVM);
+            }
+
+            return NotFound();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(EditUserViewModel editVM)
+        {
+            if (ModelState.IsValid)
+            {
+                return RedirectToAction(nameof(Profile), new { Id = User.Identity.Name });
+            }
+
+            return View(editVM);
         }
 
         [HttpPost]

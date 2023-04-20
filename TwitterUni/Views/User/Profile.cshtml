@@ -21,7 +21,7 @@
 
                 @if (User.Identity.Name == Model.User.UserName)
                 {
-                    <a href="#">Edit Profile</a>
+                    <a asp-controller="User" asp-action="Edit">Edit Profile</a>
                 }
                 else
                 {
