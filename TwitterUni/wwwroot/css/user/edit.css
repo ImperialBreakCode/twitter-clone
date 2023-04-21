@@ -7,24 +7,26 @@
 .back-img-cont {
   margin: 20px 0;
   width: 50vw;
+  aspect-ratio: 2.7;
   overflow: hidden;
   border-radius: 20px;
 }
 .back-img-cont img {
   max-width: 100%;
+  max-height: 100%;
   aspect-ratio: 2.7;
   -o-object-fit: cover;
      object-fit: cover;
 }
 
 .prf-img-cont {
-  width: 14vw;
-  overflow: hidden;
-  border-radius: 50%;
-  border: 5px solid #0b151b;
-  position: absolute;
-  bottom: -30%;
-  left: 5%;
+    width: 14vw;
+    overflow: hidden;
+    border-radius: 50%;
+    border: 5px solid #182c39;
+    position: absolute;
+    bottom: -30%;
+    left: 5%;
 }
 .prf-img-cont img {
   width: 100%;
@@ -60,6 +62,7 @@
   width: 100%;
   display: flex;
   justify-content: center;
+  border-radius: 10px;
 }
 .modal-content .img-modal-cont img {
   border-radius: 10px;
@@ -67,8 +70,16 @@
   max-height: 100%;
 }
 
+.cropper-drag-box, .cropper-container {
+    border-radius: 10px;
+}
+
+.cropper-face, .cropper-view-box {
+    border-radius: 50%;
+}
+
 @media (max-width: 576px) {
-  .back-img-cont {
+    .back-img-cont {
     width: 100%;
   }
   .prf-img-cont {

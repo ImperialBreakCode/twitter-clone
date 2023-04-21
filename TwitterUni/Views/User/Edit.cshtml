@@ -5,26 +5,27 @@
 }
 
 @section Styles{
+    <link rel="stylesheet" href="~/lib/cropperjs/cropper.css" />
     <link rel="stylesheet" href="~/css/user/edit.css"/>
 }
 
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+<div class="modal fade" id="crop-pp-modal" tabindex="-1" aria-labelledby="cropProfilePicModal"
      aria-hidden="true">
-    <div class="modal-dialog .modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Crop profile image</h1>
+                <h1 class="modal-title fs-5">Crop profile image</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                         aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="img-modal-cont">
-                    <img src="../images/pexels-jack.jpg">
+                    <img id="modal-image">
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-primary" id="crop-pp">Crop</button>
             </div>
         </div>
     </div>
@@ -43,11 +44,11 @@
             <div class="col">
                 <div class="position-relative user-images">
                     <div class="back-img-cont">
-                            <img src="~/content/images/@(Model.BackgroundPhoto ?? "default_background.jpg")">
+                            <img id="bg-pic-display" src="~/content/images/@(Model.BackgroundPhoto ?? "default_background.jpg")">
                     </div>
 
                     <div class="prf-img-cont">
-                            <img src="~/content/images/@(Model.ProfilePic ?? "dafault_prf_pic.png")">
+                            <img id="profile-pic-display" src="~/content/images/@(Model.ProfilePic ?? "dafault_prf_pic.png")">
                     </div>
                 </div>
             </div>
@@ -58,15 +59,18 @@
 
                 <form asp-controller="User" asp-action="Edit" method="post">
                     <h2 class="mb-4">Images</h2>
+
+                    <input asp-for="ProfilePicBase64" id="profile-pic-b64" />
+
                     <div class="row mb-5">
                         <div class="col">
                             <label asp-for="BackgroundPhotoInput" class="form-label"></label>
-                            <input asp-for="BackgroundPhotoInput" class="form-control">
+                            <input asp-for="BackgroundPhotoInput" accept="image/*" class="form-control">
                             <span asp-validation-for="BackgroundPhotoInput" class="text-danger"></span>
                         </div>
                         <div class="col">
                             <label for="profile-pic-input" class="form-label">Profile</label>
-                            <input id="profile-pic-input" type="file" class="form-control">
+                            <input id="profile-pic-input" type="file" accept="image/*" class="form-control">
                         </div>
                     </div>
 
@@ -74,7 +78,7 @@
                     <div class="row mb-3">
                         <div class="col">
                             <label asp-for="FirstName" class="form-label"></label>
-                                <input asp-for="FirstName" value="@Model.FirstName" class="form-control">
+                            <input asp-for="FirstName" value="@Model.FirstName" class="form-control">
                             <span asp-validation-for="FirstName" class="text-danger"></span>
                         </div>
                         <div class="col">
@@ -100,3 +104,8 @@
     </div>
 
 </div>
+
+@section Scripts{
+    <script src="~/lib/cropperjs/cropper.js"></script>
+    <script src="~/js/cropper_edit_profile.js"></script>
+}

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace TwitterUni.Models.User
 {
@@ -12,8 +13,6 @@ namespace TwitterUni.Models.User
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
-        public string? ProfilePicBase64 { get; set; }
-
         [Display(Name = "Bio")]
         public string? Bio { get; set; }
 
@@ -26,5 +25,8 @@ namespace TwitterUni.Models.User
 
         public string? BackgroundPhoto { get; set; }
         public string? ProfilePic { get; set; }
+
+        [HiddenInput]
+        public string? ProfilePicBase64 { get; set; }
     }
 }
