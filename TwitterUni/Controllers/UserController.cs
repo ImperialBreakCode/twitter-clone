@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.RegularExpressions;
-using TwitterUni.Constants;
-using TwitterUni.Filters;
+using TwitterUni.Infrastructure.Filters;
+using TwitterUni.Infrastructure.Constants;
 using TwitterUni.Models.User;
 using TwitterUni.Services.Interfaces;
 using TwitterUni.Services.ModelData;

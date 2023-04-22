@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json;
 
-namespace TwitterUni.Filters
+namespace TwitterUni.Infrastructure.Filters
 {
     public class SetupUserFilterAttribute : ActionFilterAttribute
     {
@@ -12,9 +12,12 @@ namespace TwitterUni.Filters
 
             if (!(setUser is not null && JsonConvert.DeserializeObject<bool>(setUser)))
             {
-                context.Result = new RedirectToActionResult("Setup", "Auth", 
-                    new { area = "Account", 
-                        Id = context.HttpContext.User.Identity.Name });
+                context.Result = new RedirectToActionResult("Setup", "Auth",
+                    new
+                    {
+                        area = "Account",
+                        Id = context.HttpContext.User.Identity.Name
+                    });
             }
         }
     }

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using TwitterUni.Constants;
 using TwitterUni.Data.Entities;
+using TwitterUni.Infrastructure.Constants;
 
 namespace TwitterUni.Extensions
 {

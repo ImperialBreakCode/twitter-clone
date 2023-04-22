@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using TwitterUni.Constants;
 using TwitterUni.Data.Entities;
 using TwitterUni.Data.UnitOfWork;
+using TwitterUni.Infrastructure.Constants;
 using TwitterUni.Services.Interfaces;
 using TwitterUni.Services.ModelData;
 

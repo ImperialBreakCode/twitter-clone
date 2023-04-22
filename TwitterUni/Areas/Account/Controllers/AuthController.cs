@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using TwitterUni.Areas.Account.Models.Auth;
-using TwitterUni.Extensions;
+using TwitterUni.Infrastructure.Extensions;
 using TwitterUni.Services.Interfaces;
 using TwitterUni.Services.ModelData;
 

@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
-namespace TwitterUni.Extensions
+namespace TwitterUni.Infrastructure.Extensions
 {
     public static class CookiesHelpers
     {

@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using TwitterUni.Models;
 using TwitterUni.Services.Interfaces;
-using TwitterUni.Services.ModelData;
 
 namespace TwitterUni.Controllers
 {

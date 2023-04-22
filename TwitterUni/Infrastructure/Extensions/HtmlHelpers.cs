@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace TwitterUni.Extensions
+namespace TwitterUni.Infrastructure.Extensions
 {
     public static class HtmlHelpers
     {
@@ -10,8 +10,8 @@ namespace TwitterUni.Extensions
 
             string routeAction = routeData.Values["action"].ToString();
             string routeController = routeData.Values["controller"].ToString();
-            
-            var returnActive = (controller == routeController && action == routeAction);
+
+            var returnActive = controller == routeController && action == routeAction;
 
             return returnActive ? activeClass : "";
         }

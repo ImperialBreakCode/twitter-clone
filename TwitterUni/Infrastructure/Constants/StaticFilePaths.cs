@@ -1,4 +1,4 @@
-﻿namespace TwitterUni.Constants
+﻿namespace TwitterUni.Infrastructure.Constants
 {
     public static class StaticFilePaths
     {

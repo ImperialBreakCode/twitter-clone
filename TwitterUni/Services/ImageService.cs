@@ -1,4 +1,4 @@
-﻿using TwitterUni.Constants;
+﻿using TwitterUni.Infrastructure.Constants;
 using TwitterUni.Services.Interfaces;
 
 namespace TwitterUni.Services
