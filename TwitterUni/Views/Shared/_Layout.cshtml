@@ -50,6 +50,15 @@
 
                             @if (userIsSigned)
                             {
+                                <li class="@Html.IsActive("User", "All", "nv-main-active")">
+                                    <a asp-action="All" asp-controller="User">
+                                        <div class="nav-icon">
+                                            <i class="fa-solid fa-users"></i>
+                                        </div>
+                                        <span>All Users</span>
+                                    </a>
+                                </li>
+
                                 <li class="@Html.IsActive("User", "Profile", "nv-main-active")">
                                     <a href="@Url.Action("Profile", "User", new { Id = User.Identity.Name })">
                                         <div class="nav-icon">

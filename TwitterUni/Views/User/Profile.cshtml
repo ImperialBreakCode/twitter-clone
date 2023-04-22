@@ -1,7 +1,7 @@
 ﻿@model UserProfileViewModel
 
 @{
-    ViewData["Title"] = $"{Model.User.FirstName} {Model.User.LastName} ({Model.User.UserName})";
+    ViewData["Title"] = $"{Model.User.FirstName} {Model.User.LastName} @{Model.User.UserName}";
 
     bool isFollowing = Model.User.FollowersCollection.Any(f => f.TheFollower.UserName == User.Identity.Name);
 }
@@ -48,8 +48,8 @@
                 
             </div>
             <div class="prf-follows">
-                <a href="#">@Model.User.FollowersCollection.Count <span>Followers</span></a>
-                <a href="#">@Model.User.FollowingsCollection.Count <span>Following</span></a>
+                <a href="@Url.Action("Followers", "User", new { Id = Model.User.UserName })">@Model.User.FollowersCollection.Count <span>Followers</span></a>
+                <a href="@Url.Action("Followings", "User", new { Id = Model.User.UserName })">@Model.User.FollowingsCollection.Count <span>Following</span></a>
             </div>
         </div>
     </div>
@@ -103,7 +103,7 @@
                 } else {
 
                     $.ajax({
-                        type: "POST",
+                        type: "DELETE",
                         url: "@Url.Action("UnfollowUser", "User")",
                         data: { username: $("#username").text().slice(1) },
                         success: () => {

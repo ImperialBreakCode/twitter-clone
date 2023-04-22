@@ -66,7 +66,9 @@ namespace TwitterUni.Services
         {
             var users = _unitOfWork.UserRepository.GetAll()
                 .Include(u => u.FollowersCollection)
-                .Include(u => u.FollowingsCollection);
+                .ThenInclude(f => f.TheFollower)
+                .Include(u => u.FollowingsCollection)
+                .ThenInclude(f => f.IsFollowing);
 
             List<UserData> result = new List<UserData>();
 

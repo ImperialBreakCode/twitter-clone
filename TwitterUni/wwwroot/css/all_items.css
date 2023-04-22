@@ -1,0 +1,58 @@
+.all-items-cont {
+  width: 100%;
+}
+
+.list-cont {
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0px 6px 10px 0px #0d171a;
+}
+
+.user-item, .tag-item {
+  border-bottom: 1px solid #3e5d66;
+}
+.user-item a, .tag-item a {
+  display: block;
+  background-color: #1b353d;
+  padding: 20px;
+  transition: 0.2s;
+}
+.user-item a:hover, .tag-item a:hover {
+  background-color: #244752;
+  padding: 40px 20px;
+}
+
+.user-item img {
+  width: 60px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+.user-item .user-names {
+  font-size: 20px;
+}
+.user-item .user-handle {
+  color: #acacac;
+}
+
+.tag-item .pos {
+  margin-right: 20px;
+}
+.tag-item .tag-sign {
+  color: #acacac;
+}
+.tag-item .tag-name {
+  font-size: 20px;
+}
+.tag-item .tag-tweets {
+  color: #acacac;
+  font-size: 17px;
+}
+
+.for-follows {
+  font-size: 4rem;
+  margin-bottom: 50px;
+}
+.for-follows span {
+  font-size: 2rem;
+  color: #acacac;
+}

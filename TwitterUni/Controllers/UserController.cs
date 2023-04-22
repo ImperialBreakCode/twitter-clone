@@ -25,18 +25,59 @@ namespace TwitterUni.Controllers
             _imageService = imageService;
         }
 
+        [HttpGet]
+        public IActionResult All()
+        {
+            List<UserData> users = _userService.GetAllUsers().ToList();
+            return View(users);
+        }
+
+        [HttpGet]
         public IActionResult Profile(string id)
         {
             var user = _userService.GetUserByUserName(id);
 
             if (user is not null) 
             {
-
                 UserProfileViewModel userVM = new UserProfileViewModel();
                 userVM.User = user;
                 userVM.OtherUsers = _userService.GetAllUsersWithFollows().Take(5).ToList();
 
                 return View(userVM);
+            }
+
+            return NotFound();
+        }
+
+        [HttpGet]
+        public IActionResult Followers(string id)
+        {
+            UserData? userData = _userService.GetUserByUserName(id);
+
+            if (userData is not null)
+            {
+                FollowsViewModel followsVM = new FollowsViewModel();
+                followsVM.UserName = userData.UserName;
+                followsVM.UserList = userData.FollowersCollection.Select(f => f.TheFollower).ToList();
+
+                return View(followsVM);
+            }
+
+            return NotFound();
+        }
+
+        [HttpGet]
+        public IActionResult Followings(string id)
+        {
+            UserData? userData = _userService.GetUserByUserName(id);
+
+            if (userData is not null)
+            {
+                FollowsViewModel followsVM = new FollowsViewModel();
+                followsVM.UserName = userData.UserName;
+                followsVM.UserList = userData.FollowingsCollection.Select(f => f.IsFollowing).ToList();
+
+                return View(followsVM);
             }
 
             return NotFound();
@@ -118,7 +159,7 @@ namespace TwitterUni.Controllers
             return new JsonResult(NotFound());
         }
 
-        [HttpPost]
+        [HttpDelete]
         public JsonResult UnfollowUser(string username)
         {
             bool success = _userService.UnfollowUser(User.Identity.Name, username);

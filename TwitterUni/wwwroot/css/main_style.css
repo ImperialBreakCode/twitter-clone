@@ -417,6 +417,10 @@ main {
     padding: 20px !important;
 }
 
+.see-all:hover {
+    background-color: rgba(22, 68, 80, 0.6352941176);
+}
+
 @media (max-width: 1400px) {
     .right-sec {
         width: calc(40% - 25px);

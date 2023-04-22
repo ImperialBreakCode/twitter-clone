@@ -1,0 +1,33 @@
+﻿@model FollowsViewModel
+
+@{
+    ViewData["Title"] = $"Followings (@{Model.UserName})";
+}
+
+@section Styles{
+    <link rel="stylesheet" href="~/css/all_items.css" />
+}
+
+<div class="all-items-cont">
+    <h1 class="for-follows">
+        <span>@@@Model.UserName</span><br>
+        Followings
+    </h1>
+
+    <div class="list-cont">
+
+        @foreach (var user in Model.UserList)
+        {
+            <div class="user-item">
+                <a href="@Url.Action("Profile", "User", new { Id = user.UserName })">
+                    <span class="d-flex align-items-center">
+                        <img src="~/content/images/@(user.ProfilePic ?? "dafault_prf_pic.png")">
+                        <span class="user-names">@user.FirstName @user.LastName</span>
+                        <span class="user-handle">@@@user.UserName</span>
+                    </span>
+                </a>
+            </div>
+        }
+
+    </div>
+</div>
