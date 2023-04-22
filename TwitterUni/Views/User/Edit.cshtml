@@ -57,7 +57,7 @@
         <div class="row">
             <div class="col">
 
-                <form asp-controller="User" asp-action="Edit" method="post">
+                <form asp-controller="User" asp-action="Edit" enctype="multipart/form-data" method="post">
                     <h2 class="mb-4">Images</h2>
 
                     <input asp-for="ProfilePicBase64" id="profile-pic-b64" />
@@ -89,7 +89,7 @@
                     </div>
                     <div class="mb-3">
                         <label asp-for="BirthDate" class="form-label"></label>
-                        <input asp-for="BirthDate" value="@Model.BirthDate" class="form-control">
+                            <input asp-for="BirthDate" value="@Model.BirthDate?.ToString("yyyy-MM-dd")" class="form-control">
                         <span asp-validation-for="BirthDate" class="text-danger"></span>
                     </div>
                     <div class="mb-4">

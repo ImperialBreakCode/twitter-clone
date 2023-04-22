@@ -11,7 +11,9 @@ namespace TwitterUni.Services.Mapping
         {
             // to data
             CreateMap<RegisterViewModel, UserData>();
-            CreateMap<EditUserViewModel, UserData>();
+            CreateMap<EditUserViewModel, UserData>()
+                .ForMember(dest => dest.BackgroundPhoto, opt => opt.Ignore())
+                .ForMember(dest => dest.ProfilePic, opt => opt.Ignore());
 
             // to viewModel
             CreateMap<UserData, RegisterViewModel>();
