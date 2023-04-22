@@ -62,6 +62,22 @@ namespace TwitterUni.Services
             return result;
         }
 
+        public IEnumerable<UserData> GetAllUsersWithFollows()
+        {
+            var users = _unitOfWork.UserRepository.GetAll()
+                .Include(u => u.FollowersCollection)
+                .Include(u => u.FollowingsCollection);
+
+            List<UserData> result = new List<UserData>();
+
+            foreach (var user in users)
+            {
+                result.Add(_mapper.Map<UserData>(user));
+            }
+
+            return result;
+        }
+
         public UserData? GetUserById(string id)
         {
             User? user = _unitOfWork.UserRepository.GetOne(id);

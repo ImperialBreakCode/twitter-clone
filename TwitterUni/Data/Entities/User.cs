@@ -10,8 +10,8 @@ namespace TwitterUni.Data.Entities
         public User()
         {
             CreatedAt = DateTime.UtcNow;
-            FollowersCollection = new List<Follow>();
-            FollowingsCollection = new List<Follow>();
+            FollowersCollection = new HashSet<Follow>();
+            FollowingsCollection = new HashSet<Follow>();
         }
 
         [Required]

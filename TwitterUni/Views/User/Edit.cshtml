@@ -1,0 +1,111 @@
+﻿@model EditUserViewModel
+
+@{
+    ViewData["Title"] = "Edit your profile";
+}
+
+@section Styles{
+    <link rel="stylesheet" href="~/lib/cropperjs/cropper.css" />
+    <link rel="stylesheet" href="~/css/user/edit.css"/>
+}
+
+<div class="modal fade" id="crop-pp-modal" tabindex="-1" aria-labelledby="cropProfilePicModal"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">Crop profile image</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="img-modal-cont">
+                    <img id="modal-image">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="crop-pp">Crop</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="edit-cont mb-5">
+    <div class="container">
+
+        <div class="row">
+            <div class="col">
+                <h1>Edit your profile</h1>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <div class="position-relative user-images">
+                    <div class="back-img-cont">
+                            <img id="bg-pic-display" src="~/content/images/@(Model.BackgroundPhoto ?? "default_background.jpg")">
+                    </div>
+
+                    <div class="prf-img-cont">
+                            <img id="profile-pic-display" src="~/content/images/@(Model.ProfilePic ?? "dafault_prf_pic.png")">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+
+                <form asp-controller="User" asp-action="Edit" enctype="multipart/form-data" method="post">
+                    <h2 class="mb-4">Images</h2>
+
+                    <input asp-for="ProfilePicBase64" id="profile-pic-b64" />
+
+                    <div class="row mb-5">
+                        <div class="col">
+                            <label asp-for="BackgroundPhotoInput" class="form-label"></label>
+                            <input asp-for="BackgroundPhotoInput" accept="image/*" class="form-control">
+                            <span asp-validation-for="BackgroundPhotoInput" class="text-danger"></span>
+                        </div>
+                        <div class="col">
+                            <label for="profile-pic-input" class="form-label">Profile</label>
+                            <input id="profile-pic-input" type="file" accept="image/*" class="form-control">
+                        </div>
+                    </div>
+
+                    <h2 class="mb-4">Profile Info</h2>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label asp-for="FirstName" class="form-label"></label>
+                            <input asp-for="FirstName" value="@Model.FirstName" class="form-control">
+                            <span asp-validation-for="FirstName" class="text-danger"></span>
+                        </div>
+                        <div class="col">
+                            <label asp-for="LastName" class="form-label"></label>
+                            <input asp-for="LastName" value="@Model.LastName" class="form-control">
+                            <span asp-validation-for="LastName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="BirthDate" class="form-label"></label>
+                            <input asp-for="BirthDate" value="@Model.BirthDate?.ToString("yyyy-MM-dd")" class="form-control">
+                        <span asp-validation-for="BirthDate" class="text-danger"></span>
+                    </div>
+                    <div class="mb-4">
+                        <label asp-for="Bio" class="form-label"></label>
+                        <textarea asp-for="Bio" value="@Model.Bio" class="form-control" rows="3"></textarea>
+                        <span asp-validation-for="Bio" class="text-danger"></span>
+                    </div>
+                    <input class="btn btn-primary mb-3 rounded-pill save-btn" type="submit" value="Save">
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts{
+    <script src="~/lib/cropperjs/cropper.js"></script>
+    <script src="~/js/cropper_edit_profile.js"></script>
+}
