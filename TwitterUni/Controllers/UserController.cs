@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SixLabors.ImageSharp.Processing;
 using System.Text.RegularExpressions;
 using TwitterUni.Constants;
 using TwitterUni.Filters;
