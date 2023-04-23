@@ -1,4 +1,4 @@
-﻿using TwitterUni.Data.Repositories.BaseRepositories;
+﻿using TwitterUni.Data.Repositories.Interfaces;
 
 namespace TwitterUni.Data.UnitOfWork
 {
@@ -6,6 +6,7 @@ namespace TwitterUni.Data.UnitOfWork
     {
         IUserRepository UserRepository { get; }
         ITweetRepository TweetRepository { get; }
+        ITagRepository TagRepository { get; }
 
         void Commit();
         Task CommitAsync();

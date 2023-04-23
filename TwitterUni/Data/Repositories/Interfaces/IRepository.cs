@@ -1,4 +1,4 @@
-﻿namespace TwitterUni.Data.Repositories.BaseRepositories
+﻿namespace TwitterUni.Data.Repositories.Interfaces
 {
     public interface IRepository<TEntity> where TEntity : class
     {

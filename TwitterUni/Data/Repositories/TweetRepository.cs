@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TwitterUni.Data.Entities;
-using TwitterUni.Data.Repositories.BaseRepositories;
+using TwitterUni.Data.Repositories.Interfaces;
 
 namespace TwitterUni.Data.Repositories
 {

@@ -12,5 +12,7 @@ namespace TwitterUni.Services.Interfaces
         public ICollection<TweetData> GetTweetsByUser(string userName);
         public bool LikeTweet(string userName, string tweetId);
         public bool UnlikeTweet(string userName, string tweetId);
+        public bool CreateRetweet(string userName, string tweetId);
+        public bool DeleteRetweet(string userName, string tweetId);
     }
 }

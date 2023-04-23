@@ -119,5 +119,29 @@ namespace TwitterUni.Services
                 _unitOfWork.Commit();
             }
         }
+
+        public bool DeleteRetweet(string userName, string tweetId)
+        {
+            User? user = _unitOfWork.UserRepository.GetByUsername(userName);
+
+            if (user is not null)
+            {
+                return _unitOfWork.TweetRepository.AddRetweet(tweetId, user);
+            }
+
+            return false;
+        }
+
+        public bool CreateRetweet(string userName, string tweetId)
+        {
+            User? user = _unitOfWork.UserRepository.GetByUsername(userName);
+
+            if (user is not null)
+            {
+                return _unitOfWork.TweetRepository.RemoveRetweet(tweetId, user.Id);
+            }
+
+            return false;
+        }
     }
 }

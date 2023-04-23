@@ -30,6 +30,10 @@ public class TwitterDbContext : IdentityDbContext<User>
         builder.Entity<User>()
             .HasIndex(u => u.UserName).IsUnique();
 
+        // Tag
+        builder.Entity<Tag>()
+            .HasIndex(t => t.TagName).IsUnique();
+
         // follows mapping entity
         builder.Entity<Follow>()
             .HasKey(e => new { e.TheFollowerId, e.IsFollowingId });

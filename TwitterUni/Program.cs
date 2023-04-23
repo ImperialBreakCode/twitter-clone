@@ -33,6 +33,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IImageService, ImageService>();
+builder.Services.AddTransient<ITweetService, TweetService>();
+builder.Services.AddTransient<ITagService, TagService>();
 
 // Adding mapper
 var config = new MapperConfiguration(cfg => {
