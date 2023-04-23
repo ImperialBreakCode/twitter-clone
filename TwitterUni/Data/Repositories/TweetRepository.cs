@@ -9,19 +9,26 @@ namespace TwitterUni.Data.Repositories
         {
         }
 
-        public void AddRetweet(string tweetId, User user)
+        public bool AddRetweet(string tweetId, User user)
         {
             var tweet = GetOne(tweetId);
 
             if (tweet is not null)
             {
-                Retweet retweet = new Retweet() { CreatedAt = DateTime.UtcNow };
-                tweet.Retweets.Add(retweet);
-                user.Retweets.Add(retweet);
+                Retweet retweet = new Retweet()
+                {
+                    CreatedAt = DateTime.UtcNow,
+                    RetweetedBy = user,
+                    Tweet = tweet
+                };
+
+                Context.UserRetweets.Add(retweet);
             }
+
+            return tweet is not null;
         }
 
-        public void RemoveRetweet(string tweetId, string userId)
+        public bool RemoveRetweet(string tweetId, string userId)
         {
             var retweet = Context.UserRetweets.FirstOrDefault(r => r.TweetId == tweetId && r.RetweetedById == userId);
 
@@ -29,6 +36,8 @@ namespace TwitterUni.Data.Repositories
             {
                 Context.UserRetweets.Remove(retweet);
             }
+
+            return retweet is not null;
         }
     }
 }

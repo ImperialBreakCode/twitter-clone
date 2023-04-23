@@ -151,10 +151,12 @@ namespace TwitterUni.Services
             }
         }
 
-        public void FollowUser(string followerId, string followingId)
+        public bool FollowUser(string followerId, string followingId)
         {
-            _unitOfWork.UserRepository.AddUserFollowing(followerId, followingId);
+            bool isSuccess = _unitOfWork.UserRepository.AddUserFollowing(followerId, followingId);
             _unitOfWork.Commit();
+
+            return isSuccess;
         }
 
         public bool UnfollowUser(string followerUserName, string followingUserName)

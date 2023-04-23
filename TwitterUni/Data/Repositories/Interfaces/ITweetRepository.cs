@@ -4,7 +4,7 @@ namespace TwitterUni.Data.Repositories.BaseRepositories
 {
     public interface ITweetRepository : IRepository<Tweet>
     {
-        void AddRetweet(string tweetId, User user);
-        void RemoveRetweet(string tweetId, string userId);
+        bool AddRetweet(string tweetId, User user);
+        bool RemoveRetweet(string tweetId, string userId);
     }
 }
