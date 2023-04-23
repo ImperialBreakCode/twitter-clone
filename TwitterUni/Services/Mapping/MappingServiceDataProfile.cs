@@ -11,6 +11,7 @@ namespace TwitterUni.Services.Mapping
             // To data
             CreateMap<User, UserData>();
             CreateMap<Follow, FollowData>();
+            CreateMap<Tweet, TweetData>();
 
             // To entity
             CreateMap<UserData, User>()
@@ -18,6 +19,11 @@ namespace TwitterUni.Services.Mapping
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.FollowersCollection, opt => opt.Ignore())
                 .ForMember(dest => dest.FollowingsCollection, opt => opt.Ignore());
+
+            CreateMap<TweetData, Tweet>()
+                .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.Author, opt => opt.Ignore());
         }
     }
 }

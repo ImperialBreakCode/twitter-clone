@@ -1,4 +1,5 @@
-﻿using TwitterUni.Data.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using TwitterUni.Data.Entities;
 using TwitterUni.Data.Repositories.BaseRepositories;
 
 namespace TwitterUni.Data.Repositories
@@ -7,6 +8,11 @@ namespace TwitterUni.Data.Repositories
     {
         public TweetRepository(TwitterDbContext context) : base(context)
         {
+        }
+
+        public override Tweet? GetOne(string id)
+        {
+            return Context.Tweets.Include(t => t.Author).FirstOrDefault(t => t.Id == id);
         }
 
         public bool AddRetweet(string tweetId, User user)
