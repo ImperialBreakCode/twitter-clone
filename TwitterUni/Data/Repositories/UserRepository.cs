@@ -82,6 +82,7 @@ namespace TwitterUni.Data.Repositories
                 .ThenInclude(f => f.TheFollower)
                 .Include(u => u.FollowingsCollection)
                 .ThenInclude(f => f.IsFollowing)
+                .Include(f => f.Tweets)
                 .FirstOrDefault(u => u.UserName == username);
 
             return user;
@@ -94,6 +95,7 @@ namespace TwitterUni.Data.Repositories
                 .ThenInclude(f => f.TheFollower)
                 .Include(u => u.FollowingsCollection)
                 .ThenInclude(f => f.IsFollowing)
+                .Include(f => f.Tweets)
                 .FirstOrDefault(u => u.Id == id);
 
             return user;

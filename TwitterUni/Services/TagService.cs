@@ -17,22 +17,28 @@ namespace TwitterUni.Services
             _mapper = mapper;
         }
 
-        public void AddTweetToTag(string tweetId, string tagName)
+        public void AddTagsToTweet(string tweetId, ICollection<string> tagNames)
         {
             Tweet? tweet = _unitOfWork.TweetRepository.GetOne(tweetId);
-            Tag? tag = _unitOfWork.TagRepository.GetTagByName(tagName);
 
-            if (tweet is not null)
+            foreach (string tagName in tagNames)
             {
-                if (tag == null)
-                {
-                    tag = new Tag() { TagName = tagName };
-                    _unitOfWork.TagRepository.CreateOne(tag);
-                }
+                Tag? tag = _unitOfWork.TagRepository.GetTagByName(tagName);
 
-                tag.Tweets.Add(tweet);
-                _unitOfWork.Commit();
+                if (tweet is not null)
+                {
+                    if (tag == null)
+                    {
+                        tag = new Tag() { TagName = tagName };
+                        _unitOfWork.TagRepository.CreateOne(tag);
+                    }
+
+                    tag.Tweets.Add(tweet);
+                }
             }
+
+            _unitOfWork.Commit();
+
         }
 
         public void CreateTag(TagData tagData)

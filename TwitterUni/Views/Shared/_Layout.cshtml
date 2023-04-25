@@ -71,9 +71,9 @@
                             
                         </ul>
 
-                        @if (userIsSigned && (string?)ViewContext.RouteData.Values["action"] != "AddTweet")
+                        @if (userIsSigned && Html.IsActive("Tweet", "Create", "active") != "active")
                         {
-                            <a class="tweet-btn" href="#">
+                            <a class="tweet-btn" asp-action="Create" asp-controller="Tweet">
                                 <i class="fa-solid fa-pen d-none"></i>
                                 <span>Tweet</span>
                             </a>

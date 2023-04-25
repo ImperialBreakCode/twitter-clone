@@ -18,7 +18,7 @@ namespace TwitterUni.Services
             _mapper = mapper;
         }
 
-        public void CreateTweet(TweetData tweetData, string authorUserName)
+        public TweetData? CreateTweet(TweetData tweetData, string authorUserName)
         {
             Tweet tweet = new Tweet();
             _mapper.Map(tweetData, tweet);
@@ -30,7 +30,11 @@ namespace TwitterUni.Services
                 //_unitOfWork.TweetRepository.CreateOne(tweet);
                 user.Tweets.Add(tweet);
                 _unitOfWork.Commit();
+
+                return _mapper.Map<TweetData>(tweet);
             }
+
+            return null;
         }
 
         public void DeleteTweet(string tweetId)

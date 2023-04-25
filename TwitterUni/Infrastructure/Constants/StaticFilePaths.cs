@@ -7,5 +7,6 @@
         public const string BgImSubfolder = "backgroundImages";
         public const string ProfileImages = ImagesPath + $"\\{ProfileImSubfolder}";
         public const string BackgroundImages = ImagesPath + $"\\{BgImSubfolder}";
+        public const string TweetImagesPath = ImagesPath + "\\tweets";
     }
 }

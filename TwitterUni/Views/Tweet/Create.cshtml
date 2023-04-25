@@ -1,0 +1,60 @@
+﻿@model CreateTweetViewModel
+
+@{
+    ViewData["Title"] = "Tweet...";
+}
+
+@section Styles{
+    <link rel="stylesheet" href="~/css/tweet/add_tweet.css" />
+}
+
+<div class="add-tweet-cont">
+    <h1>Tweet</h1>
+    <div class="form-cont">
+
+        <form asp-action="Create" asp-controller="Tweet" method="post" enctype="multipart/form-data">
+            
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="mb-3">
+                <textarea asp-for="TextContent" class="form-control" rows="5" placeholder="What's happening?"></textarea>
+                <span asp-validation-for="TextContent" class="text-danger"></span>
+            </div>
+            <div class="mb-4">
+                <label asp-for="Image" class="form-label"></label>
+                <input asp-for="Image" class="form-control" accept="image/*">
+                <span asp-validation-for="Image" class="text-danger"></span>
+            </div>
+            <div id="img-show" class="img-cont d-none">
+                <img src="...">
+            </div>
+            <input type="submit" class="btn btn-primary mb-5" value="Tweet">
+        </form>
+
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+
+        $(document).ready(() => {
+
+            $("#Image").change(e => {
+
+                if (e.target.files[0]) {
+
+                    let url = URL.createObjectURL(e.target.files[0]);
+
+                    $("#img-show").removeClass("d-none");
+                    $("#img-show img").attr("src", url);
+
+                } else {
+                    $("#img-show").addClass("d-none");
+                }
+
+            });
+
+        });
+        
+    </script>
+}

@@ -12,6 +12,13 @@ namespace TwitterUni.Services
             _environment = environment;
         }
 
+        public void SaveTweetImage(Image image, string fileName, string userName)
+        {
+            string path = Path.Combine(_environment.WebRootPath, StaticFilePaths.TweetImagesPath, userName);
+            Directory.CreateDirectory(path);
+            SaveImage(image, path, fileName);
+        }
+
         public void SaveBackgroundImage(Image image, string fileName)
         {
             string bgPath = Path.Combine(_environment.WebRootPath, StaticFilePaths.BackgroundImages);

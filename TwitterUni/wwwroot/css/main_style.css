@@ -229,7 +229,6 @@ main {
         .tweet-list .tweet .right-content .tweet-more {
             background: transparent;
             border: none;
-            margin-right: 20px;
             width: 30px;
             height: 30px;
             border-radius: 50%;
@@ -243,6 +242,8 @@ main {
         .tweet-list .tweet .right-content .user-identity {
             display: flex;
             flex-direction: row;
+            align-items: center;
+            margin-bottom: 10px;
         }
 
             .tweet-list .tweet .right-content .user-identity a {

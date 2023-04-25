@@ -4,7 +4,7 @@ namespace TwitterUni.Services.Interfaces
 {
     public interface ITweetService
     {
-        public void CreateTweet(TweetData tweet, string authorUserName);
+        public TweetData? CreateTweet(TweetData tweet, string authorUserName);
         public void UpdateTweet(TweetData tweet);
         public void DeleteTweet(string tweetId);
         public TweetData? GetTweet(string tweetId);
