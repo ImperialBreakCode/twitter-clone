@@ -557,13 +557,13 @@ namespace TwitterUni.Migrations
                     b.HasOne("TwitterUni.Data.Entities.User", "IsFollowing")
                         .WithMany("FollowersCollection")
                         .HasForeignKey("IsFollowingId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("TwitterUni.Data.Entities.User", "TheFollower")
                         .WithMany("FollowingsCollection")
                         .HasForeignKey("TheFollowerId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("IsFollowing");

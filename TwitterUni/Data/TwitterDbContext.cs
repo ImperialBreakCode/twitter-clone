@@ -40,11 +40,11 @@ public class TwitterDbContext : IdentityDbContext<User>
 
         builder.Entity<Follow>()
             .HasOne(f => f.TheFollower)
-            .WithMany(u => u.FollowingsCollection).OnDelete(DeleteBehavior.NoAction);
+            .WithMany(u => u.FollowingsCollection).OnDelete(DeleteBehavior.Cascade);
 
         builder.Entity<Follow>()
             .HasOne(f => f.IsFollowing)
-            .WithMany(u => u.FollowersCollection).OnDelete(DeleteBehavior.NoAction);
+            .WithMany(u => u.FollowersCollection).OnDelete(DeleteBehavior.Cascade);
 
         // retweet mapping entity
         builder.Entity<Retweet>()

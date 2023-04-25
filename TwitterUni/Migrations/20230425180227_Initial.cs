@@ -192,12 +192,14 @@ namespace TwitterUni.Migrations
                         name: "FK_Follows_AspNetUsers_IsFollowingId",
                         column: x => x.IsFollowingId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Follows_AspNetUsers_TheFollowerId",
                         column: x => x.TheFollowerId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(

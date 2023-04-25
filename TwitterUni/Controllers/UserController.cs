@@ -116,7 +116,7 @@ namespace TwitterUni.Controllers
 
             if (ModelState.IsValid && userData is not null)
             {
-                string userImageName = $"{userData.Id}.jpg";
+                string userImageName = $"{DateTime.UtcNow.ToFileTimeUtc()}.jpg";
 
                 if (editVM.ProfilePicBase64 is not null)
                 {

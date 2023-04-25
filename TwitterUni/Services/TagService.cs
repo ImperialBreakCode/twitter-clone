@@ -23,13 +23,14 @@ namespace TwitterUni.Services
 
             foreach (string tagName in tagNames)
             {
-                Tag? tag = _unitOfWork.TagRepository.GetTagByName(tagName);
+                string tagNameSliced = tagName.Remove(0, 1);
+                Tag? tag = _unitOfWork.TagRepository.GetTagByName(tagNameSliced);
 
                 if (tweet is not null)
                 {
                     if (tag == null)
                     {
-                        tag = new Tag() { TagName = tagName };
+                        tag = new Tag() { TagName = tagNameSliced };
                         _unitOfWork.TagRepository.CreateOne(tag);
                     }
 
@@ -38,7 +39,6 @@ namespace TwitterUni.Services
             }
 
             _unitOfWork.Commit();
-
         }
 
         public void CreateTag(TagData tagData)

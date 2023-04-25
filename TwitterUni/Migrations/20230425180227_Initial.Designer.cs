@@ -12,7 +12,7 @@ using TwitterUni.Data;
 namespace TwitterUni.Migrations
 {
     [DbContext(typeof(TwitterDbContext))]
-    [Migration("20230425140527_Initial")]
+    [Migration("20230425180227_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -560,13 +560,13 @@ namespace TwitterUni.Migrations
                     b.HasOne("TwitterUni.Data.Entities.User", "IsFollowing")
                         .WithMany("FollowersCollection")
                         .HasForeignKey("IsFollowingId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("TwitterUni.Data.Entities.User", "TheFollower")
                         .WithMany("FollowingsCollection")
                         .HasForeignKey("TheFollowerId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("IsFollowing");

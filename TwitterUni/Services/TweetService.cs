@@ -27,7 +27,6 @@ namespace TwitterUni.Services
 
             if (user is not null)
             {
-                //_unitOfWork.TweetRepository.CreateOne(tweet);
                 user.Tweets.Add(tweet);
                 _unitOfWork.Commit();
 
@@ -94,7 +93,6 @@ namespace TwitterUni.Services
             if (user is not null && tweet is not null)
             {
                 user.LikedTweets.Add(tweet);
-                //tweet.Author = user;
                 _unitOfWork.Commit();
             }
 
