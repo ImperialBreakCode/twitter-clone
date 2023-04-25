@@ -279,9 +279,12 @@ namespace TwitterUni.Migrations
 
                     b.Property<string>("TagName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TagName")
+                        .IsUnique();
 
                     b.ToTable("Tags");
                 });
@@ -350,6 +353,7 @@ namespace TwitterUni.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("BackgroundPhoto")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Bio")
@@ -407,6 +411,7 @@ namespace TwitterUni.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("ProfilePic")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecurityStamp")

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Build.Framework;
 using TwitterUni.Data.Entities;
 using TwitterUni.Services.ModelData;
 
@@ -12,7 +13,8 @@ namespace TwitterUni.Services.Mapping
             CreateMap<User, UserData>();
             CreateMap<Follow, FollowData>();
             CreateMap<Tweet, TweetData>();
-            CreateMap<Tag, TagData>();
+            CreateMap<Tag, TagData>()
+                .ForMember(dest => dest.TweetCount, opt => opt.MapFrom(src => src.Tweets.Count));
 
             // To entity
             CreateMap<UserData, User>()

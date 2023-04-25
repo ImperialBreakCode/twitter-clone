@@ -1,0 +1,28 @@
+﻿@model List<TagData>
+
+@{
+    int tagIndex = 0;
+}
+
+<div class="trending">
+    <h3>Trending</h3>
+    
+    
+    @foreach (var tag in Model)
+    {
+        tagIndex++;
+
+        <a href="#">@tagIndex. @tag.TagName</a>
+
+        @if (tagIndex == 4)
+        {
+            break;
+        }
+    }
+
+    @if (Model.Count > 4)
+    {
+        <a class="see-all" href="#">See all</a>
+    }
+    
+</div>

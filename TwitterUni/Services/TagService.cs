@@ -27,6 +27,7 @@ namespace TwitterUni.Services
                 if (tag == null)
                 {
                     tag = new Tag() { TagName = tagName };
+                    _unitOfWork.TagRepository.CreateOne(tag);
                 }
 
                 tag.Tweets.Add(tweet);
@@ -50,7 +51,7 @@ namespace TwitterUni.Services
         public ICollection<TagData> GetAllTags()
         {
             List<TagData> tagDatas = new List<TagData>();
-            IQueryable<Tag> tags = _unitOfWork.TagRepository.GetAll();
+            IQueryable<Tag> tags = _unitOfWork.TagRepository.GetAll().OrderBy(t => t.Tweets.Count);
 
             foreach (var tag in tags)
             {

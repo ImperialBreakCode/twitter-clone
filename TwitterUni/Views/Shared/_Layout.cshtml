@@ -71,12 +71,12 @@
                             
                         </ul>
 
-                        @if (userIsSigned)
+                        @if (userIsSigned && (string?)ViewContext.RouteData.Values["action"] != "AddTweet")
                         {
-                            <button>
+                            <a class="tweet-btn" href="#">
                                 <i class="fa-solid fa-pen d-none"></i>
                                 <span>Tweet</span>
-                            </button>
+                            </a>
                         }
                         
                     </div>

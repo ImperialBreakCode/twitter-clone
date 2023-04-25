@@ -12,7 +12,7 @@ using TwitterUni.Data;
 namespace TwitterUni.Migrations
 {
     [DbContext(typeof(TwitterDbContext))]
-    [Migration("20230411135718_Initial")]
+    [Migration("20230425140527_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -282,9 +282,12 @@ namespace TwitterUni.Migrations
 
                     b.Property<string>("TagName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TagName")
+                        .IsUnique();
 
                     b.ToTable("Tags");
                 });
@@ -353,6 +356,7 @@ namespace TwitterUni.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("BackgroundPhoto")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Bio")
@@ -410,6 +414,7 @@ namespace TwitterUni.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("ProfilePic")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecurityStamp")

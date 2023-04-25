@@ -10,6 +10,12 @@ namespace TwitterUni.Data.Entities
         public User()
         {
             CreatedAt = DateTime.UtcNow;
+            
+            Tweets = new HashSet<Tweet>();
+            Retweets = new HashSet<Retweet>();
+            LikedTweets = new HashSet<Tweet>();
+            Comments = new HashSet<Comment>();
+            LikedComments = new HashSet<Comment>();
             FollowersCollection = new HashSet<Follow>();
             FollowingsCollection = new HashSet<Follow>();
         }
@@ -19,7 +25,11 @@ namespace TwitterUni.Data.Entities
 
         [Required]
         public string LastName { get; set; }
+
+        [Required]
         public string? ProfilePic { get; set; }
+
+        [Required]
         public string? BackgroundPhoto { get; set; }
         public string? Bio { get; set; }
         public DateTime CreatedAt { get; set; }

@@ -17,12 +17,21 @@ namespace TwitterUni.Controllers
         private readonly IUserService _userService;
         private readonly Mapper _mapper;
         private readonly IImageService _imageService;
+        private readonly ITagService _tagService;
+        private readonly ITweetService _tweetService;
 
-        public UserController(IUserService userService, Mapper mapper, IImageService imageService)
+        public UserController(
+            IUserService userService, 
+            Mapper mapper, 
+            IImageService imageService,
+            ITagService tagService,
+            ITweetService tweetService)
         {
             _userService = userService;
             _mapper = mapper;
             _imageService = imageService;
+            _tagService = tagService;
+            _tweetService = tweetService;
         }
 
         [HttpGet]
@@ -42,6 +51,8 @@ namespace TwitterUni.Controllers
                 UserProfileViewModel userVM = new UserProfileViewModel();
                 userVM.User = user;
                 userVM.OtherUsers = _userService.GetAllUsersWithFollows().Take(5).ToList();
+                userVM.Tags = _tagService.GetAllTags().Take(5).ToList();
+                userVM.UserTweets = _tweetService.GetTweetsByUser(id).OrderBy(t => t.CreatedAt).ToList();
 
                 return View(userVM);
             }

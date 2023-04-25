@@ -37,7 +37,8 @@ builder.Services.AddTransient<ITweetService, TweetService>();
 builder.Services.AddTransient<ITagService, TagService>();
 
 // Adding mapper
-var config = new MapperConfiguration(cfg => {
+var config = new MapperConfiguration(cfg => 
+{
     cfg.AddProfile<MappingServiceDataProfile>();
     cfg.AddProfile<MappingViewModelProfile>();
 });

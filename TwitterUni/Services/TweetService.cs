@@ -41,7 +41,9 @@ namespace TwitterUni.Services
 
         public ICollection<TweetData> GetAllTweets()
         {
-            IQueryable<Tweet> tweets = _unitOfWork.TweetRepository.GetAll().Include(t => t.Author);
+            IQueryable<Tweet> tweets = _unitOfWork.TweetRepository.GetAll()
+                .OrderBy(t => t.CreatedAt)
+                .Include(t => t.Author);
             List<TweetData> tweetDatas = new List<TweetData>();
 
             foreach (var tweet in tweets)

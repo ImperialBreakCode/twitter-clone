@@ -5,6 +5,15 @@ namespace TwitterUni.Data.Entities
 {
     public class Tweet : BaseEntity
     {
+        public Tweet()
+        {
+            UserLikes = new HashSet<User>();
+            Retweets = new HashSet<Retweet>();
+            Comments = new HashSet<Comment>();
+            Tags = new HashSet<Tag>();
+            Activities = new HashSet<TweetActivity>();
+        }
+
         [Required]
         public string TextContent { get; set; }
         public string Image { get; set; }

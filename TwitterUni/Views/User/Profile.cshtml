@@ -13,11 +13,11 @@
 <section class="tweets-sec">
     <div class="profile-area">
         <div class="profile-back-photo">
-                <img src="~/content/images/@(Model.User.BackgroundPhoto ?? "default_background.jpg")">
+                <img src="~/content/images/@Model.User.BackgroundPhoto">
         </div>
         <div class="profile-info">
             <div class="prf-1">
-                    <img src="~/content/images/@(Model.User.ProfilePic ?? "dafault_prf_pic.png")">
+                    <img src="~/content/images/@Model.User.ProfilePic">
 
                 @if (User.Identity.Name == Model.User.UserName)
                 {
@@ -55,20 +55,21 @@
     </div>
 
     <div class="tweet-list">
+        
+        @foreach (var tweet in Model.UserTweets)
+        {
+            @Html.Partial("_TweetPartial", tweet);
+        }
 
     </div>
 </section>
 
 <section class="right-sec">
 
-    <div class="trending">
-        <h3>Trending</h3>
-        <a href="#">1. Tag</a>
-        <a href="#">2. Tag</a>
-        <a href="#">3. Tag</a>
-        <a href="#">4. Tag</a>
-        <a class="see-all" href="#">See all</a>
-    </div>
+    @if (Model.Tags.Count != 0)
+    {
+        @Html.Partial("_TrendingPartial", Model.Tags)
+    }
 
     @if (Model.OtherUsers.Count > 1)
     {

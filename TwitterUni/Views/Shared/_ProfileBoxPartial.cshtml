@@ -1,6 +1,4 @@
-﻿@using TwitterUni.Services.ModelData
-
-@model ICollection<UserData>
+﻿@model ICollection<UserData>
 
 <div class="profiles">
     <h3>Who to follow</h3>
@@ -14,7 +12,7 @@
         {
             <div>
                 <a href="@Url.Action("Profile", "User", new { Id = user.UserName })">
-                    <img src="~/content/images/@(user.ProfilePic ?? "dafault_prf_pic.png")">
+                    <img src="~/content/images/@(user.ProfilePic ?? "default_prf_pic.png")">
                     <span>
                         <p>@user.FirstName @user.LastName</p>
                         @@@user.UserName

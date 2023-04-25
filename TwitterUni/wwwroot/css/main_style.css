@@ -77,7 +77,9 @@ nav .nav-list {
         width: 50px;
     }
 
-    nav .nav-list button {
+    nav .nav-list .tweet-btn {
+        display: inline-block;
+        text-align: center;
         background: #2e87c6;
         font-size: 20px;
         padding: 10px 0;
@@ -87,7 +89,7 @@ nav .nav-list {
         transition: 0.2s;
     }
 
-        nav .nav-list button:hover {
+        nav .nav-list .tweet-btn:hover {
             background: #3597dc;
         }
 
@@ -151,7 +153,7 @@ nav .auth-box {
         display: none;
     }
 
-    nav button {
+    nav .tweet-btn {
         padding: 10px 4px !important;
         width: 100%;
     }
@@ -223,6 +225,20 @@ main {
         padding-left: 5px;
         width: 100%;
     }
+
+        .tweet-list .tweet .right-content .tweet-more {
+            background: transparent;
+            border: none;
+            margin-right: 20px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            transition: 0.2s;
+        }
+
+            .tweet-list .tweet .right-content .tweet-more:hover {
+                background: rgba(45, 199, 255, 0.462745098);
+            }
 
         .tweet-list .tweet .right-content .user-identity {
             display: flex;

@@ -22,20 +22,21 @@
 
     <div class="tweet-list">
 
+        @foreach (var tweet in Model.Tweets)
+        {
+            @Html.Partial("_TweetPartial", tweet);
+        }
+
     </div>
 
 </section>
 
 <section class="right-sec">
 
-    <div class="trending">
-        <h3>Trending</h3>
-        <a href="#">1. Tag</a>
-        <a href="#">2. Tag</a>
-        <a href="#">3. Tag</a>
-        <a href="#">4. Tag</a>
-        <a class="see-all" href="#">See all</a>
-    </div>
+    @if (Model.Tags.Count != 0)
+    {
+        @Html.Partial("_TrendingPartial", Model.Tags)
+    }
 
     @if (signInManager.IsSignedIn(User) && Model.Users.Count > 1)
     {

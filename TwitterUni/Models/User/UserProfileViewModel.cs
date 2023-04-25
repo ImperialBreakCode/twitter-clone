@@ -6,5 +6,7 @@ namespace TwitterUni.Models.User
     {
         public UserData User { get; set; }
         public ICollection<UserData> OtherUsers { get; set; }
+        public ICollection<TagData> Tags { get; set; }
+        public ICollection<TweetData> UserTweets { get; set; }
     }
 }

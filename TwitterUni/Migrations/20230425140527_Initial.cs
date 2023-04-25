@@ -32,8 +32,8 @@ namespace TwitterUni.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ProfilePic = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    BackgroundPhoto = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProfilePic = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    BackgroundPhoto = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Bio = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     BirthDate = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -63,7 +63,7 @@ namespace TwitterUni.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    TagName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TagName = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -432,6 +432,12 @@ namespace TwitterUni.Migrations
                 name: "IX_Follows_IsFollowingId",
                 table: "Follows",
                 column: "IsFollowingId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tags_TagName",
+                table: "Tags",
+                column: "TagName",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_TagTweet_TweetsId",

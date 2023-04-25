@@ -1,0 +1,100 @@
+﻿@model TweetData
+
+<article class="tweet">
+
+    <div class="main-tweet">
+        <div class="left-profile">
+            <a href="@Url.Action("Profile", "User", new {Id = Model.Author.UserName })">
+                <img class="prf-pic" src="~/content/images/@Model.Author.ProfilePic">
+            </a>
+
+            @if (false)
+            {
+                <div class="rep-line"></div>
+            }
+        </div>
+
+        <div class="right-content">
+            <div class="user-identity">
+                <a href="@Url.Action("Profile", "User", new {Id = Model.Author.UserName })">
+                    @Model.Author.FirstName @Model.Author.LastName
+                </a>
+                <p>@@@Model.Author.UserName</p>
+                <span>·</span>
+                <p id="tweet-time">@Model.CreatedAt</p>
+
+                @if (Model.Author.UserName == User.Identity?.Name)
+                {
+                    <div class="ms-auto">
+                        <button class="tweet-more" data-bs-toggle="dropdown">
+                            <i class="fa-solid fa-ellipsis"></i>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        </ul>
+                    </div>
+                }
+            </div>
+
+            <div class="text-content">
+                @Model.TextContent
+
+                @if (Model.Image is not null)
+                {
+                    <div class="image-content">
+                        <img src="~/content/images/tweets/@Model.Image">
+                    </div>
+                }
+            </div>
+
+            <div class="reactions">
+                <button id="comments" class="stat">
+                    <i class="fa-regular fa-comment"></i>1000
+                </button>
+
+                <button id="retweets" class="stat">
+                    <i class="fa-solid fa-retweet"></i>1000
+                </button>
+
+                <button id="likes" class="stat">
+                    <i class="fa-regular fa-heart"></i>1000
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="reply">
+        <div class="left-profile">
+            <div class="rep-line rep-line-top"></div>
+            <a href="#">
+                <img class="prf-pic" src="../images/pexels-ruby-ruby.jpg" alt="prfp">
+            </a>
+        </div>
+
+        <div class="right-content">
+            <div class="user-identity">
+                <a href="#">User Two</a>
+                <p>@@hand</p>
+                <span>·</span>
+                <p>2h</p>
+            </div>
+            <div class="text-content">Text Text Text Text</div>
+            <div class="reactions">
+                <button id="comments" class="stat">
+                    <i class="fa-regular fa-comment"></i>200
+                </button>
+
+                <button id="retweets" class="stat">
+                    <i class="fa-solid fa-retweet"></i>1500
+                </button>
+
+                <button id="likes" class="stat">
+                    <i class="fa-regular fa-heart"></i>2000
+                </button>
+            </div>
+        </div>
+    </div>
+</article>
+

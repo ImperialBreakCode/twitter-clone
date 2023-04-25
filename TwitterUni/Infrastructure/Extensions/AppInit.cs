@@ -48,6 +48,8 @@ namespace TwitterUni.Extensions
                     LastName = "Seed",
                     UserName = "admin",
                     IsSet = false,
+                    ProfilePic = "default_prf_pic.png",
+                    BackgroundPhoto = "default_background.jpg"
                 };
 
                 await userManager.CreateAsync(user, "Pass_word123");

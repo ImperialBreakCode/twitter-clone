@@ -35,6 +35,8 @@ namespace TwitterUni.Areas.Auth.Controllers
             {
                 UserData userData = _mapper.Map<UserData>(registerViewModel);
                 userData.IsSet = true;
+                userData.ProfilePic = "default_prf_pic.png";
+                userData.BackgroundPhoto = "default_background.jpg";
 
                 var result = await _userService.CreateUser(userData, registerViewModel.Password);
 

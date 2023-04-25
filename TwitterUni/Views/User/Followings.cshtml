@@ -21,7 +21,7 @@
             <div class="user-item">
                 <a href="@Url.Action("Profile", "User", new { Id = user.UserName })">
                     <span class="d-flex align-items-center">
-                        <img src="~/content/images/@(user.ProfilePic ?? "dafault_prf_pic.png")">
+                        <img src="~/content/images/@user.ProfilePic">
                         <span class="user-names">@user.FirstName @user.LastName</span>
                         <span class="user-handle">@@@user.UserName</span>
                     </span>
