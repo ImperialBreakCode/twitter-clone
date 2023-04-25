@@ -13,5 +13,6 @@ namespace TwitterUni.Services.Interfaces
         void DeleteTag(string id);
         void AddTagsToTweet(string tweetId, ICollection<string> tagNames);
         void RemoveTweetFromTag(string tweetId, string tagName);
+        ICollection<TagData> GetTweetTags(string tweetId);
     }
 }

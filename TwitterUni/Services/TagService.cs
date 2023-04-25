@@ -109,6 +109,22 @@ namespace TwitterUni.Services
             return tweetDatas;
         }
 
+        public ICollection<TagData> GetTweetTags(string tweetId)
+        {
+            Tweet? tweet = _unitOfWork.TweetRepository.GetOne(tweetId);
+            List<TagData> tagDatas = new List<TagData>();
+
+            if (tweet is not null)
+            {
+                foreach (var tag in tweet.Tags)
+                {
+                    tagDatas.Add(_mapper.Map<TagData>(tag));
+                }
+            }
+
+            return tagDatas;
+        }
+
         public void RemoveTweetFromTag(string tweetId, string tagName)
         {
             Tag? tag = _unitOfWork.TagRepository.GetTagByName(tagName);

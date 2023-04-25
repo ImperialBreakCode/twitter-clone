@@ -1,0 +1,89 @@
+﻿@model TweetViewModel
+
+@{
+    ViewData["Title"] = "Tweet";
+    int tagIndex = 0;
+}
+
+
+<section class="tweets-sec">
+    <div class="page-heading">
+        <a href="#"><i class="fa-solid fa-arrow-left"></i><span>Back</span></a>
+        <h1>Tweet</h1>
+    </div>
+
+
+    <div class="tweet-list">
+
+        <article id="current-tweet" class="tweet">
+            <div class="tweet-header">
+                <a href="@Url.Action("Profile", "User", new {Id = Model.Tweet.Author.UserName })">
+                    <img src="~/content/images/@Model.Tweet.Author.ProfilePic">
+                    <div>
+                        <p class="user-name">@Model.Tweet.Author.FirstName @Model.Tweet.Author.LastName</p>
+                        <p>@@@Model.Tweet.Author.UserName</p>
+                    </div>
+                </a>
+                <div class="ms-auto">
+                    <button class="more-btn" data-bs-toggle="dropdown">
+                        <i class="fa-solid fa-ellipsis"></i>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><button class="dropdown-item">Another action</button></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="cr-tweet-content">
+                <p>@Model.Tweet.TextContent</p>
+
+                @if (Model.Tweet.Image is not null)
+                {
+                    <div class="img-cont">
+                        <img src="~/content/images/tweets/@Model.Tweet.Image">
+                    </div>
+                }
+            </div>
+            <p class="time-posted">@Model.Tweet.CreatedAt.ToString("hh:mm tt") · @Model.Tweet.CreatedAt.ToString("MMM, d yyyy")</p>
+            <div class="stats">
+                <span class="stat-count">10k <span>likes</span></span>
+                <span class="stat-count">10k <span>likes</span></span>
+            </div>
+            <div class="reactions">
+                <button id="comments" class="stat">
+                    <i class="fa-regular fa-comment"></i>1000
+                </button>
+
+                <button id="retweets" class="stat">
+                    <i class="fa-solid fa-retweet"></i>1000
+                </button>
+
+                <button id="likes" class="stat">
+                    <i class="fa-regular fa-heart"></i>1000
+                </button>
+            </div>
+        </article>
+
+        <div class="reply-input-box">
+            <input placeholder="Your reply..." type="text">
+            <button>Reply</button>
+        </div>
+
+    </div>
+
+</section>
+
+<section class="right-sec">
+
+    <div class="trending">
+        <h3>Tags</h3>
+
+        @foreach (var tag in Model.Tags)
+        {
+            tagIndex++;
+
+            <a href="#">@tagIndex. @tag.TagName</a>
+        }
+    </div>
+</section>

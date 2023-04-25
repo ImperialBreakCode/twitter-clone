@@ -12,7 +12,10 @@ namespace TwitterUni.Data.Repositories
 
         public override Tweet? GetOne(string id)
         {
-            return Context.Tweets.Include(t => t.Author).FirstOrDefault(t => t.Id == id);
+            return Context.Tweets
+                .Include(t => t.Author)
+                .Include(t => t.Tags)
+                .FirstOrDefault(t => t.Id == id);
         }
 
         public bool AddRetweet(string tweetId, User user)

@@ -121,11 +121,10 @@ namespace TwitterUni.Controllers
                 if (editVM.ProfilePicBase64 is not null)
                 {
                     Match matches = Regex.Match(editVM.ProfilePicBase64, @"data:(?<type>.+?);base64,(?<data>.+)");
-
+                    
                     if (matches.Groups.Count == 3)
                     {
                         byte[] imgBuffer = Convert.FromBase64String(matches.Groups["data"].Value);
-
                         using (Image image = Image.Load(new MemoryStream(imgBuffer)))
                         {
                             _imageService.SaveProfileImage(image, userImageName);
@@ -147,7 +146,6 @@ namespace TwitterUni.Controllers
 
                 _mapper.Map(editVM, userData);
                 _userService.UpdateUser(userData);
-
                 return RedirectToAction(nameof(Profile), new { Id = User.Identity.Name });
             }
 

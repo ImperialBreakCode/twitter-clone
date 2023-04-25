@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NuGet.Packaging.Signing;
 using System.Text.RegularExpressions;
 using TwitterUni.Infrastructure.Constants;
 using TwitterUni.Infrastructure.Filters;
@@ -26,9 +25,20 @@ namespace TwitterUni.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index(string id)
+        public IActionResult One(string id)
         {
-            return View();
+            TweetData? tweetData = _tweetService.GetTweet(id);
+
+            if (tweetData is not null)
+            {
+                TweetViewModel tweetVM = new TweetViewModel();
+                tweetVM.Tweet = tweetData;
+                tweetVM.Tags = _tagService.GetTweetTags(id);
+
+                return View();
+            }
+
+            return NotFound();
         }
 
         [HttpGet]
