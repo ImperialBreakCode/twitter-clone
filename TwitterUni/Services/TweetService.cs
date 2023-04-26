@@ -147,5 +147,21 @@ namespace TwitterUni.Services
 
             return false;
         }
+
+        public ICollection<UserData> GetLikes(string tweetId)
+        {
+            List<UserData> likes = new List<UserData>();
+            Tweet? tweet = _unitOfWork.TweetRepository.GetOne(tweetId);
+
+            if (tweet is not null)
+            {
+                foreach (var user in tweet.UserLikes)
+                {
+                    likes.Add(_mapper.Map<UserData>(user));
+                }
+            }
+
+            return likes;
+        }
     }
 }

@@ -12,7 +12,8 @@ namespace TwitterUni.Services.Mapping
             // To data
             CreateMap<User, UserData>();
             CreateMap<Follow, FollowData>();
-            CreateMap<Tweet, TweetData>();
+            CreateMap<Tweet, TweetData>()
+                .ForMember(dest => dest.LikesCount, opt => opt.MapFrom(src => src.UserLikes.Count));
             CreateMap<Tag, TagData>()
                 .ForMember(dest => dest.TweetCount, opt => opt.MapFrom(src => src.Tweets.Count));
 

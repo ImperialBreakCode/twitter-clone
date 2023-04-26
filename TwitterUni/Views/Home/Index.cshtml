@@ -1,10 +1,11 @@
-﻿@{
-    ViewData["Title"] = "Home";
-}
-
-@inject SignInManager<User> signInManager
+﻿@inject SignInManager<User> signInManager
 
 @model HomeViewModel
+
+@{
+    ViewData["Title"] = "Home";
+    bool isSignedIn = signInManager.IsSignedIn(User);
+}
 
 @section Styles{
     <link rel="stylesheet" href="~/css/home/style.css">
@@ -13,11 +14,16 @@
 <section class="tweets-sec">
 
     <div class="page-heading">
-        <h1>Home</h1>
-        <div class="home-nav-btn">
-            <a class="nv-active" asp-controller="Home" asp-action="Index">For you</a>
-            <a href="#">Following</a>
-        </div>
+        <h1 class="@(isSignedIn ? "" : "mb-3")">Home</h1>
+
+        @if (isSignedIn)
+        {
+            <div class="home-nav-btn">
+                <a asp-controller="Home" asp-action="Index" class="@Html.IsActive("Home", "Index", "nv-active")">For you</a>
+                <a asp-action="Following" asp-controller="Home" class="@Html.IsActive("Home", "Following", "nv-active")">Following</a>
+            </div>
+        }
+        
     </div>
 
     <div class="tweet-list">
@@ -38,7 +44,7 @@
         @Html.Partial("_TrendingPartial", Model.Tags)
     }
 
-    @if (signInManager.IsSignedIn(User) && Model.Users.Count > 1)
+    @if (isSignedIn && Model.Users.Count > 1)
     {
         @Html.Partial("_ProfileBoxPartial", Model.Users)
     }

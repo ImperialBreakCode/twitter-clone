@@ -11,7 +11,7 @@
 
 <section class="tweets-sec">
     <div class="page-heading">
-        <a id="back-link" href="#">
+            <a id="back-link" href="#">
             <i class="fa-solid fa-arrow-left"></i>
             <span>Back</span>
         </a>
@@ -22,12 +22,15 @@
 
         <article id="current-tweet" class="tweet">
             <div class="tweet-header">
-                <a href="@Url.Action("Profile", "User", new {Id = Model.Tweet.Author.UserName })">
+                <a class="@(Model.Tweet.Author.UserName != User.Identity.Name ? "w-100" : "")" 
+                    href="@Url.Action("Profile", "User", new {Id = Model.Tweet.Author.UserName })">
+
                     <img src="~/content/images/@Model.Tweet.Author.ProfilePic">
                     <div>
                         <p class="user-name">@Model.Tweet.Author.FirstName @Model.Tweet.Author.LastName</p>
                         <p>@@@Model.Tweet.Author.UserName</p>
                     </div>
+
                 </a>
 
                 @if (Model.Tweet.Author.UserName == User.Identity.Name)
@@ -57,8 +60,8 @@
             </div>
             <p class="time-posted">@Model.Tweet.CreatedAt.ToString("hh:mm tt") · @Model.Tweet.CreatedAt.ToString("MMM, d yyyy")</p>
             <div class="stats">
-                <span class="stat-count">10k <span>likes</span></span>
-                <span class="stat-count">10k <span>likes</span></span>
+                <span class="stat-count">@Model.Tweet.LikesCount <span>likes</span></span>
+                <span class="stat-count">10k <span>retweets</span></span>
             </div>
             <div class="reactions">
                 <button id="comments" class="stat">
@@ -70,12 +73,12 @@
                 </button>
 
                 <button id="likes" class="stat">
-                    <i class="fa-regular fa-heart"></i>1000
+                    <i class="fa-regular fa-heart"></i>@Model.Tweet.LikesCount
                 </button>
             </div>
         </article>
 
-        <div class="reply-input-box">
+        <div class="reply-input-box mb-4">
             <input placeholder="Your reply..." type="text">
             <button>Reply</button>
         </div>
