@@ -7,6 +7,6 @@
         public string TextContent { get; set; }
         public string Image { get; set; }
         public UserData Author { get; set; }
-        public int LikesCount { get; set; }
+        public ICollection<UserData> UserLikes { get; set; }
     }
 }

@@ -43,4 +43,9 @@
 
 @section Scripts{
     <script src="~/js/tweet_list.js"></script>
+
+    @if (signInManager.IsSignedIn(User))
+    {
+        <script src="~/js/tweet_actions.js"></script>
+    }
 }

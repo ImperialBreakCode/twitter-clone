@@ -53,4 +53,9 @@
 
 @section Scripts{
     <script src="~/js/tweet_list.js"></script>
+
+    @if (isSignedIn)
+    {
+        <script src="~/js/tweet_actions.js"></script>
+    } 
 }

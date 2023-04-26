@@ -46,7 +46,8 @@ namespace TwitterUni.Services
         {
             IQueryable<Tweet> tweets = _unitOfWork.TweetRepository.GetAll()
                 .OrderBy(t => t.CreatedAt)
-                .Include(t => t.Author);
+                .Include(t => t.Author)
+                .Include(t => t.UserLikes);
             List<TweetData> tweetDatas = new List<TweetData>();
 
             foreach (var tweet in tweets)
@@ -146,22 +147,6 @@ namespace TwitterUni.Services
             }
 
             return false;
-        }
-
-        public ICollection<UserData> GetLikes(string tweetId)
-        {
-            List<UserData> likes = new List<UserData>();
-            Tweet? tweet = _unitOfWork.TweetRepository.GetOne(tweetId);
-
-            if (tweet is not null)
-            {
-                foreach (var user in tweet.UserLikes)
-                {
-                    likes.Add(_mapper.Map<UserData>(user));
-                }
-            }
-
-            return likes;
         }
     }
 }

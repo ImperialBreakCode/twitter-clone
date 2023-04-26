@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Tweet";
     int tagIndex = 0;
+    bool liked = Model.Tweet.UserLikes.Any(u => u.UserName == User.Identity.Name);
 }
 
 @section Styles{
@@ -20,7 +21,7 @@
 
     <div class="tweet-list">
 
-        <article id="current-tweet" class="tweet">
+        <article id="current-tweet" tweet-id="@Model.Tweet.Id" class="tweet">
             <div class="tweet-header">
                 <a class="@(Model.Tweet.Author.UserName != User.Identity.Name ? "w-100" : "")" 
                     href="@Url.Action("Profile", "User", new {Id = Model.Tweet.Author.UserName })">
@@ -60,20 +61,20 @@
             </div>
             <p class="time-posted">@Model.Tweet.CreatedAt.ToString("hh:mm tt") · @Model.Tweet.CreatedAt.ToString("MMM, d yyyy")</p>
             <div class="stats">
-                <span class="stat-count">@Model.Tweet.LikesCount <span>likes</span></span>
+                <span class="stat-count">@Model.Tweet.UserLikes.Count <span>likes</span></span>
                 <span class="stat-count">10k <span>retweets</span></span>
             </div>
             <div class="reactions">
-                <button id="comments" class="stat">
+                <button id="comments" class="stat comments-stat">
                     <i class="fa-regular fa-comment"></i>1000
                 </button>
 
-                <button id="retweets" class="stat">
+                <button id="retweets" class="stat retweets-stat">
                     <i class="fa-solid fa-retweet"></i>1000
                 </button>
 
-                <button id="likes" class="stat">
-                    <i class="fa-regular fa-heart"></i>@Model.Tweet.LikesCount
+                <button id="likes" class="stat likes-stat @(liked ? "liked" : "")">
+                    <i class="fa-@(liked ? "solid" : "regular") fa-heart"></i>@Model.Tweet.UserLikes.Count
                 </button>
             </div>
         </article>
@@ -104,8 +105,44 @@
 @section Scripts{
     <script>
         $(document).ready(() => {
+
             let backPath = window.location.pathname.split('/').slice(-1)[0];
             $('#back-link').attr('href', backPath.replaceAll('-', '/'));
+
+            $("#likes").click(e => {
+
+                let btn = $('#likes');
+                let tweetId = $("#current-tweet").attr('tweet-id');
+
+                if (btn.hasClass("liked")){
+
+                    $.ajax({
+                        type: "DELETE",
+                        url: "@Url.Action("UnlikeTweet", "Tweet")",
+                        data: { tweetId: tweetId },
+                        success: () => {
+                            btn.removeClass("liked");
+                            btn[0].childNodes[2].textContent--;
+                            $("#likes i").removeClass("fa-solid");
+                            $("#likes i").addClass("fa-regular");
+                        }
+                    });
+
+                } else {
+
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("LikeTweet", "Tweet")",
+                        data: { tweetId: tweetId },
+                        success: () => {
+                            btn.addClass("liked");
+                            btn[0].childNodes[2].textContent++;
+                            $("#likes i").addClass("fa-solid");
+                            $("#likes i").removeClass("fa-regular");
+                        }
+                    });
+                }
+            });
         });
     </script>
 }

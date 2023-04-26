@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.Build.Framework;
 using TwitterUni.Data.Entities;
 using TwitterUni.Services.ModelData;
 
@@ -12,8 +11,7 @@ namespace TwitterUni.Services.Mapping
             // To data
             CreateMap<User, UserData>();
             CreateMap<Follow, FollowData>();
-            CreateMap<Tweet, TweetData>()
-                .ForMember(dest => dest.LikesCount, opt => opt.MapFrom(src => src.UserLikes.Count));
+            CreateMap<Tweet, TweetData>();
             CreateMap<Tag, TagData>()
                 .ForMember(dest => dest.TweetCount, opt => opt.MapFrom(src => src.Tweets.Count));
 
@@ -27,7 +25,8 @@ namespace TwitterUni.Services.Mapping
             CreateMap<TweetData, Tweet>()
                 .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
-                .ForMember(dest => dest.Author, opt => opt.Ignore());
+                .ForMember(dest => dest.Author, opt => opt.Ignore())
+                .ForMember(dest => dest.UserLikes, opt => opt.Ignore());
 
             CreateMap<TagData, Tag>()
                 .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())

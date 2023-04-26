@@ -15,6 +15,7 @@ namespace TwitterUni.Data.Repositories
             return Context.Tags
                 .Include(t => t.Tweets)
                 .ThenInclude(twt => twt.Author)
+                .Include(t => t.Tweets).ThenInclude(twt => twt.UserLikes)
                 .FirstOrDefault(t => t.TagName == name);
         }
     }

@@ -289,33 +289,33 @@ main {
         justify-content: space-between;
     }
 
-    .tweet-list .tweet #likes:hover {
+    .tweet-list .tweet .likes-stat:hover {
         color: #fa445c;
     }
 
-        .tweet-list .tweet #likes:hover i {
+        .tweet-list .tweet .likes-stat:hover i {
             color: #fa445c;
             background-color: rgba(250, 68, 92, 0.2);
         }
 
-    .tweet-list .tweet #comments:hover {
+    .tweet-list .tweet .comments-stat:hover {
         color: #2dc7ff;
     }
 
-        .tweet-list .tweet #comments:hover i {
+        .tweet-list .tweet .comments-stat:hover i {
             color: #2dc7ff;
             background-color: rgba(45, 199, 255, 0.2);
         }
 
-    .tweet-list .tweet #retweets i {
+    .tweet-list .tweet .retweets-stat i {
         padding: 10px 9px;
     }
 
-    .tweet-list .tweet #retweets:hover {
+    .tweet-list .tweet .retweets-stat:hover {
         color: #44fa5c;
     }
 
-        .tweet-list .tweet #retweets:hover i {
+        .tweet-list .tweet .retweets-stat:hover i {
             color: #44fa5c;
             background-color: rgba(68, 250, 92, 0.2);
         }
@@ -477,6 +477,10 @@ main {
 .dropdown-menu .dropdown-item:hover {
     background: rgba(108, 149, 164, 0.2901960784);
     text-decoration: none!important;
+}
+
+.liked, .liked i {
+    color: #fa445c!important;
 }
 
 @media (max-width: 576px) {

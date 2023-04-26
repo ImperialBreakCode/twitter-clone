@@ -2,6 +2,11 @@
 
 @inject SignInManager<User> signInManager
 
+@{
+    bool signedIn = signInManager.IsSignedIn(User);
+    bool liked = Model.UserLikes.Any(u => u.UserName == User.Identity?.Name);
+}
+
 <article class="tweet">
 
     <div id="tweet,@Model.Id" class="main-tweet">
@@ -54,16 +59,17 @@
             @if (signInManager.IsSignedIn(User))
             {
                 <div class="reactions">
-                    <button id="comments" class="stat">
+                    <button class="stat comments-stat">
                         <i class="fa-regular fa-comment"></i>1000
                     </button>
 
-                    <button id="retweets" class="stat">
+                    <button class="stat retweets-stat">
                         <i class="fa-solid fa-retweet"></i>1000
                     </button>
 
-                    <button id="likes" class="stat">
-                        <i class="fa-regular fa-heart"></i>@Model.LikesCount
+                    <button class="stat likes-stat @(liked ? "liked" : "")">
+                        <i class="fa-@(liked ? "solid" : "regular") fa-heart"></i>
+                        @Model.UserLikes.Count
                     </button>
                 </div>
             }

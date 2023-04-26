@@ -96,5 +96,31 @@ namespace TwitterUni.Controllers
 
             return View(createVM);
         }
+
+        [HttpPost]
+        public JsonResult LikeTweet(string tweetId)
+        {
+            bool isSuccess = _tweetService.LikeTweet(User.Identity.Name, tweetId);
+
+            if (isSuccess)
+            {
+                return new JsonResult(Ok());
+            }
+
+            return new JsonResult(NotFound());
+        }
+
+        [HttpDelete]
+        public JsonResult UnlikeTweet(string tweetId)
+        {
+            bool isSuccess = _tweetService.UnlikeTweet(User.Identity.Name, tweetId);
+
+            if (isSuccess)
+            {
+                return new JsonResult(Ok());
+            }
+
+            return new JsonResult(NotFound());
+        }
     }
 }
