@@ -5,10 +5,16 @@
     int tagIndex = 0;
 }
 
+@section Styles{
+    <link rel="stylesheet" href="~/css/tweet/tweet_styles.css" />
+}
 
 <section class="tweets-sec">
     <div class="page-heading">
-        <a href="#"><i class="fa-solid fa-arrow-left"></i><span>Back</span></a>
+        <a id="back-link" href="#">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span>Back</span>
+        </a>
         <h1>Tweet</h1>
     </div>
 
@@ -23,16 +29,21 @@
                         <p>@@@Model.Tweet.Author.UserName</p>
                     </div>
                 </a>
-                <div class="ms-auto">
-                    <button class="more-btn" data-bs-toggle="dropdown">
-                        <i class="fa-solid fa-ellipsis"></i>
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><button class="dropdown-item">Another action</button></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                    </ul>
-                </div>
+
+                @if (Model.Tweet.Author.UserName == User.Identity.Name)
+                {
+                    <div class="ms-auto">
+                        <button class="more-btn" data-bs-toggle="dropdown">
+                            <i class="fa-solid fa-ellipsis"></i>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><button class="dropdown-item">Another action</button></li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        </ul>
+                    </div>
+                }
+                
             </div>
             <div class="cr-tweet-content">
                 <p>@Model.Tweet.TextContent</p>
@@ -86,3 +97,12 @@
         }
     </div>
 </section>
+
+@section Scripts{
+    <script>
+        $(document).ready(() => {
+            let backPath = window.location.pathname.split('/').slice(-1)[0];
+            $('#back-link').attr('href', backPath.replaceAll('-', '/'));
+        });
+    </script>
+}

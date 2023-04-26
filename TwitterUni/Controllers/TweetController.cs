@@ -25,7 +25,8 @@ namespace TwitterUni.Controllers
         }
 
         [HttpGet]
-        public IActionResult One(string id)
+        [Route("[controller]/[action]/{id}/{fromPage}")]
+        public IActionResult One(string id, string fromPage)
         {
             TweetData? tweetData = _tweetService.GetTweet(id);
 
@@ -35,7 +36,7 @@ namespace TwitterUni.Controllers
                 tweetVM.Tweet = tweetData;
                 tweetVM.Tags = _tagService.GetTweetTags(id);
 
-                return View();
+                return View(tweetVM);
             }
 
             return NotFound();
