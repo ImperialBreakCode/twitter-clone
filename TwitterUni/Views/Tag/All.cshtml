@@ -1,0 +1,34 @@
+﻿@model ICollection<TagData>
+
+@{
+    ViewData["Title"] = "All Tags";
+    int tagIndex = 0;
+}
+
+@section Styles{
+    <link rel="stylesheet" href="~/css/all_items.css" />
+}
+
+    <div class="all-items-cont">
+        <h1 class="mb-5">All Tags</h1>
+
+        <div class="list-cont">
+
+        @foreach (var tag in Model)
+        {
+            tagIndex++;
+
+            <div class="tag-item">
+                <a href="@Url.Action("One", "Tag", new { Id = tag.TagName })">
+                    <span class="d-flex align-items-center">
+                        <span class="pos">@tagIndex.</span>
+                        <span class="tag-sign">#</span>
+                        <span class="tag-name">@tag.TagName</span>
+                        <span class="tag-tweets ms-auto">@tag.TweetCount tweets</span>
+                    </span>
+                </a>
+            </div>
+        }
+
+    </div>
+</div>

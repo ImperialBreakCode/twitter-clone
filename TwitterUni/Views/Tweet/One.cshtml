@@ -93,7 +93,7 @@
         {
             tagIndex++;
 
-            <a href="#">@tagIndex. @tag.TagName</a>
+            <a href="@Url.Action("One", "Tag", new {Id = tag.TagName})">@tagIndex. @tag.TagName</a>
         }
     </div>
 </section>

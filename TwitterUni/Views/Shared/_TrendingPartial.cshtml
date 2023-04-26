@@ -12,7 +12,7 @@
     {
         tagIndex++;
 
-        <a href="#">@tagIndex. @tag.TagName</a>
+        <a href="@Url.Action("One", "Tag", new {Id = tag.TagName})">@tagIndex. @tag.TagName</a>
 
         @if (tagIndex == 4)
         {
@@ -22,7 +22,7 @@
 
     @if (Model.Count > 4)
     {
-        <a class="see-all" href="#">See all</a>
+        <a class="see-all" asp-action="All" asp-controller="Tag">See all</a>
     }
     
 </div>

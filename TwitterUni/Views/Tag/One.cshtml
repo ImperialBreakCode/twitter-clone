@@ -1,0 +1,46 @@
+﻿@model TagViewModel
+
+@{
+    ViewData["Title"] = $"#{Model.Tag.TagName}";
+}
+
+@inject SignInManager<User> signInManager
+
+@section Styles{
+    <link rel="stylesheet" href="~/css/home/style.css">
+}
+
+    <section class="tweets-sec">
+
+        <div class="page-heading">
+            <h1 class="mb-3"># @Model.Tag.TagName</h1>
+        </div>
+
+        <div class="tweet-list">
+
+        @foreach (var tweet in Model.Tweets)
+        {
+            @Html.Partial("_TweetPartial", tweet);
+        }
+
+    </div>
+
+</section>
+
+<section class="right-sec">
+
+    @if (Model.Tags.Count != 0)
+    {
+        @Html.Partial("_TrendingPartial", Model.Tags)
+    }
+
+    @if (signInManager.IsSignedIn(User) && Model.Users.Count > 1)
+    {
+        @Html.Partial("_ProfileBoxPartial", Model.Users)
+    }
+
+</section>
+
+@section Scripts{
+    <script src="~/js/tweet_list.js"></script>
+}
