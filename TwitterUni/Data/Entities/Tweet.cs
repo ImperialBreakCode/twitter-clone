@@ -14,9 +14,8 @@ namespace TwitterUni.Data.Entities
             Activities = new HashSet<TweetActivity>();
         }
 
-        [Required]
-        public string TextContent { get; set; }
-        public string Image { get; set; }
+        public string? TextContent { get; set; }
+        public string? Image { get; set; }
         public User Author { get; set; }
         public ICollection<User> UserLikes { get; set; }
         public ICollection<Retweet> Retweets { get; set; }

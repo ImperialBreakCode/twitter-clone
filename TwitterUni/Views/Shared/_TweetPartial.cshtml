@@ -1,5 +1,7 @@
 ﻿@model TweetData
 
+@inject SignInManager<User> signInManager
+
 <article class="tweet">
 
     <div id="tweet,@Model.Id" class="main-tweet">
@@ -49,19 +51,22 @@
                 }
             </div>
 
-            <div class="reactions">
-                <button id="comments" class="stat">
-                    <i class="fa-regular fa-comment"></i>1000
-                </button>
+            @if (signInManager.IsSignedIn(User))
+            {
+                <div class="reactions">
+                    <button id="comments" class="stat">
+                        <i class="fa-regular fa-comment"></i>1000
+                    </button>
 
-                <button id="retweets" class="stat">
-                    <i class="fa-solid fa-retweet"></i>1000
-                </button>
+                    <button id="retweets" class="stat">
+                        <i class="fa-solid fa-retweet"></i>1000
+                    </button>
 
-                <button id="likes" class="stat">
-                    <i class="fa-regular fa-heart"></i>1000
-                </button>
-            </div>
+                    <button id="likes" class="stat">
+                        <i class="fa-regular fa-heart"></i>1000
+                    </button>
+                </div>
+            }
         </div>
     </div>
 </article>

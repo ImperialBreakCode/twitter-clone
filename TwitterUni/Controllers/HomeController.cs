@@ -29,7 +29,7 @@ namespace TwitterUni.Controllers
         {
             List<UserData> users = _userService.GetAllUsersWithFollows().Take(5).ToList();
             List<TagData> tags = _tagService.GetAllTags().Take(5).ToList();
-            List<TweetData> tweets = _tweetService.GetAllTweets().ToList();
+            List<TweetData> tweets = _tweetService.GetAllTweets().OrderByDescending(t => t.CreatedAt).ToList();
             
             HomeViewModel homeViewModel = new HomeViewModel();
             homeViewModel.Users = users;

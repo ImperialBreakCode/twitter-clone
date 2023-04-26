@@ -59,7 +59,7 @@
                                     </a>
                                 </li>
 
-                                <li class="@Html.IsActive("User", "Profile", "nv-main-active")">
+                                <li class="@Html.IsActive("User", "Profile", "nv-main-active", User.Identity.Name)">
                                     <a href="@Url.Action("Profile", "User", new { Id = User.Identity.Name })">
                                         <div class="nav-icon">
                                             <i class="fa-solid fa-user"></i>

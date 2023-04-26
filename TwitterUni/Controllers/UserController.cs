@@ -52,7 +52,7 @@ namespace TwitterUni.Controllers
                 userVM.User = user;
                 userVM.OtherUsers = _userService.GetAllUsersWithFollows().Take(5).ToList();
                 userVM.Tags = _tagService.GetAllTags().Take(5).ToList();
-                userVM.UserTweets = _tweetService.GetTweetsByUser(id).OrderBy(t => t.CreatedAt).ToList();
+                userVM.UserTweets = _tweetService.GetTweetsByUser(id).OrderByDescending(t => t.CreatedAt).ToList();
 
                 return View(userVM);
             }
@@ -116,7 +116,8 @@ namespace TwitterUni.Controllers
 
             if (ModelState.IsValid && userData is not null)
             {
-                string userImageName = $"{DateTime.UtcNow.ToFileTimeUtc()}.jpg";
+                Random r = new Random();
+                string userImageName = $"{r.Next(0, 1000)}_{DateTime.UtcNow.ToFileTimeUtc()}.jpg";
 
                 if (editVM.ProfilePicBase64 is not null)
                 {

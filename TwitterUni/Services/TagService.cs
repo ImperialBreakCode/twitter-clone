@@ -57,7 +57,7 @@ namespace TwitterUni.Services
         public ICollection<TagData> GetAllTags()
         {
             List<TagData> tagDatas = new List<TagData>();
-            IQueryable<Tag> tags = _unitOfWork.TagRepository.GetAll().OrderBy(t => t.Tweets.Count);
+            IQueryable<Tag> tags = _unitOfWork.TagRepository.GetAll().OrderByDescending(t => t.Tweets.Count);
 
             foreach (var tag in tags)
             {

@@ -54,7 +54,7 @@ namespace TwitterUni.Controllers
 
             if (ModelState.IsValid)
             {
-                if (createVM.TextContent == null && createVM.Image is null)
+                if (createVM.TextContent == null && createVM.Image == null)
                 {
                     ModelState.AddModelError(String.Empty, "Both inputs cannot be empty");
                     return View(createVM);
@@ -86,12 +86,14 @@ namespace TwitterUni.Controllers
 
                     if (tagNames is not null)
                     {
-                        _tagService.AddTagsToTweet(tweetId, tagNames.Select(x => x.Value).ToList());
+                        _tagService.AddTagsToTweet(tweetId, tagNames.Select(x => x.Value).Distinct().ToList());
                     }
+
+                    return RedirectToAction("Profile", "User", new { Id = User.Identity.Name });
                 }
             }
 
-            return RedirectToAction("Profile", "User", new { Id = User.Identity.Name });
+            return View(createVM);
         }
     }
 }

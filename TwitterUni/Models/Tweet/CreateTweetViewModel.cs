@@ -4,9 +4,10 @@ namespace TwitterUni.Models.Tweet
 {
     public class CreateTweetViewModel
     {
-        public string TextContent { get; set; }
+        [Display(Name = "Text")]
+        public string? TextContent { get; set; }
 
         [Display(Name = "Add Image")]
-        public IFormFile Image { get; set; }
+        public IFormFile? Image { get; set; }
     }
 }
