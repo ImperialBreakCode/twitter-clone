@@ -5,6 +5,7 @@
 @{
     bool signedIn = signInManager.IsSignedIn(User);
     bool liked = Model.UserLikes.Any(u => u.UserName == User.Identity?.Name);
+    bool retweeted = Model.Retweets.Any(r => r.RetweetedBy.UserName == User.Identity?.Name);
 }
 
 <article class="tweet">
@@ -29,6 +30,11 @@
                 <p>@@@Model.Author.UserName</p>
                 <span>·</span>
                 <p id="tweet-time">@Model.CreatedAt.ToString("d")</p>
+
+                @if (Model.IsRetweet)
+                {
+                    <span class="badge bg-info rounded-pill badge-custom">Retweet</span>
+                }
 
                 @if (Model.Author.UserName == User.Identity?.Name)
                 {
@@ -63,9 +69,13 @@
                         <i class="fa-regular fa-comment"></i>1000
                     </button>
 
-                    <button class="stat retweets-stat">
-                        <i class="fa-solid fa-retweet"></i>1000
-                    </button>
+                    @if (Model.Author.UserName != User.Identity.Name)
+                    {
+                        <button class="stat retweets-stat @(retweeted ? "retweeted" : "")">
+                            <i class="fa-solid fa-retweet"></i>
+                            @Model.Retweets.Count
+                        </button>
+                    }
 
                     <button class="stat likes-stat @(liked ? "liked" : "")">
                         <i class="fa-@(liked ? "solid" : "regular") fa-heart"></i>

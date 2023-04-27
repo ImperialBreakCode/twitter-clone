@@ -16,6 +16,7 @@ namespace TwitterUni.Data.Repositories
                 .Include(t => t.Author)
                 .Include(t => t.Tags)
                 .Include(t => t.UserLikes)
+                .Include(t => t.Retweets).ThenInclude(r => r.RetweetedBy)
                 .FirstOrDefault(t => t.Id == id);
         }
 

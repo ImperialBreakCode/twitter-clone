@@ -2,8 +2,10 @@
 
 @{
     ViewData["Title"] = "Tweet";
+
     int tagIndex = 0;
     bool liked = Model.Tweet.UserLikes.Any(u => u.UserName == User.Identity.Name);
+    bool retweeted = Model.Tweet.Retweets.Any(r => r.RetweetedBy.UserName == User.Identity.Name);
 }
 
 @section Styles{
@@ -62,19 +64,24 @@
             <p class="time-posted">@Model.Tweet.CreatedAt.ToString("hh:mm tt") · @Model.Tweet.CreatedAt.ToString("MMM, d yyyy")</p>
             <div class="stats">
                 <span class="stat-count">@Model.Tweet.UserLikes.Count <span>likes</span></span>
-                <span class="stat-count">10k <span>retweets</span></span>
+                <span class="stat-count">@Model.Tweet.Retweets.Count <span>retweets</span></span>
             </div>
             <div class="reactions">
                 <button id="comments" class="stat comments-stat">
                     <i class="fa-regular fa-comment"></i>1000
                 </button>
 
-                <button id="retweets" class="stat retweets-stat">
-                    <i class="fa-solid fa-retweet"></i>1000
-                </button>
+                @if (Model.Tweet.Author.UserName != User.Identity.Name)
+                {
+                    <button id="retweets" class="stat retweets-stat @(retweeted ? "retweeted" : "")">
+                        <i class="fa-solid fa-retweet"></i>
+                        @Model.Tweet.Retweets.Count
+                    </button>
+                }
 
                 <button id="likes" class="stat likes-stat @(liked ? "liked" : "")">
-                    <i class="fa-@(liked ? "solid" : "regular") fa-heart"></i>@Model.Tweet.UserLikes.Count
+                    <i class="fa-@(liked ? "solid" : "regular") fa-heart"></i>
+                    @Model.Tweet.UserLikes.Count
                 </button>
             </div>
         </article>
@@ -139,6 +146,37 @@
                             btn[0].childNodes[2].textContent++;
                             $("#likes i").addClass("fa-solid");
                             $("#likes i").removeClass("fa-regular");
+                        }
+                    });
+                }
+            });
+
+            $("#retweets").click(e => {
+
+                let btn = $('#retweets');
+                let tweetId = $("#current-tweet").attr('tweet-id');
+
+                if (btn.hasClass("retweeted")) {
+
+                    $.ajax({
+                        type: "DELETE",
+                        url: "@Url.Action("DeleteRetweet", "Tweet")",
+                        data: { tweetId: tweetId },
+                        success: () => {
+                            btn.removeClass("retweeted");
+                            btn[0].childNodes[2].textContent--;
+                        }
+                    });
+
+                } else {
+
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("CreateRetweet", "Tweet")",
+                        data: { tweetId: tweetId },
+                        success: () => {
+                            btn.addClass("retweeted");
+                            btn[0].childNodes[2].textContent++;
                         }
                     });
                 }

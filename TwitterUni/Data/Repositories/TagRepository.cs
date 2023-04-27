@@ -13,9 +13,9 @@ namespace TwitterUni.Data.Repositories
         public Tag? GetTagByName(string name)
         {
             return Context.Tags
-                .Include(t => t.Tweets)
-                .ThenInclude(twt => twt.Author)
+                .Include(t => t.Tweets).ThenInclude(twt => twt.Author)
                 .Include(t => t.Tweets).ThenInclude(twt => twt.UserLikes)
+                .Include(t => t.Tweets).ThenInclude(twt => twt.Retweets).ThenInclude(r => r.RetweetedBy)
                 .FirstOrDefault(t => t.TagName == name);
         }
     }

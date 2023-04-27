@@ -483,6 +483,10 @@ main {
     color: #fa445c!important;
 }
 
+.retweeted, .retweeted i {
+    color: #44fa5c !important;
+}
+
 @media (max-width: 576px) {
     .main-tweet {
         padding: 8px 0 !important;

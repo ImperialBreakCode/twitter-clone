@@ -45,9 +45,11 @@ namespace TwitterUni.Services
         public ICollection<TweetData> GetAllTweets()
         {
             IQueryable<Tweet> tweets = _unitOfWork.TweetRepository.GetAll()
-                .OrderBy(t => t.CreatedAt)
                 .Include(t => t.Author)
-                .Include(t => t.UserLikes);
+                .Include(t => t.UserLikes)
+                .Include(t => t.Retweets).ThenInclude(r => r.RetweetedBy)
+                .OrderBy(t => t.CreatedAt);
+
             List<TweetData> tweetDatas = new List<TweetData>();
 
             foreach (var tweet in tweets)
@@ -84,6 +86,29 @@ namespace TwitterUni.Services
             }
 
             return tweetsData;
+        }
+
+        public ICollection<RetweetData> GetRetweetsByUser(string userName)
+        {
+            List<RetweetData> retweetDatas = new List<RetweetData>();
+
+            var user = _unitOfWork.UserRepository.GetAll()
+                .Include(u => u.Retweets).ThenInclude(r => r.Tweet.Author)
+                .Include(u => u.Retweets).ThenInclude(r => r.Tweet.UserLikes)
+                .Include(u => u.Retweets).ThenInclude(r => r.Tweet.Retweets).ThenInclude(r => r.RetweetedBy)
+                .FirstOrDefault(u => u.UserName == userName);
+
+            if (user is not null)
+            {
+                var retweets = user.Retweets;
+
+                foreach (Retweet retweet in retweets)
+                {
+                    retweetDatas.Add(_mapper.Map<RetweetData>(retweet));
+                }
+            }
+
+            return retweetDatas;
         }
 
         public bool LikeTweet(string userName, string tweetId)
@@ -125,28 +150,40 @@ namespace TwitterUni.Services
             }
         }
 
-        public bool DeleteRetweet(string userName, string tweetId)
-        {
-            User? user = _unitOfWork.UserRepository.GetByUsername(userName);
-
-            if (user is not null)
-            {
-                return _unitOfWork.TweetRepository.AddRetweet(tweetId, user);
-            }
-
-            return false;
-        }
-
         public bool CreateRetweet(string userName, string tweetId)
         {
+            bool result = false;
             User? user = _unitOfWork.UserRepository.GetByUsername(userName);
 
             if (user is not null)
             {
-                return _unitOfWork.TweetRepository.RemoveRetweet(tweetId, user.Id);
+                result = _unitOfWork.TweetRepository.AddRetweet(tweetId, user);
             }
 
-            return false;
+            if (result)
+            {
+                _unitOfWork.Commit();
+            }
+
+            return result;
+        }
+
+        public bool DeleteRetweet(string userName, string tweetId)
+        {
+            bool result = false;
+            User? user = _unitOfWork.UserRepository.GetByUsername(userName);
+
+            if (user is not null)
+            {
+                result = _unitOfWork.TweetRepository.RemoveRetweet(tweetId, user.Id);
+            }
+
+            if (result)
+            {
+                _unitOfWork.Commit();
+            }
+
+            return result;
         }
     }
 }

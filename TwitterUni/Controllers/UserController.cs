@@ -48,11 +48,30 @@ namespace TwitterUni.Controllers
 
             if (user is not null) 
             {
+                List<TweetData> tweets = _tweetService.GetTweetsByUser(id)
+                    .Select(t =>
+                    {
+                        t.ProfileOrderingDate = t.CreatedAt;
+                        return t;
+
+                    }).ToList();
+
+                List<TweetData> retweets = _tweetService.GetRetweetsByUser(id)
+                    .Select(r =>
+                    {
+                        r.Tweet.ProfileOrderingDate = r.CreatedAt;
+                        r.Tweet.IsRetweet = true;
+                        return r.Tweet;
+
+                    }).ToList();
+
+                tweets.AddRange(retweets);
+
                 UserProfileViewModel userVM = new UserProfileViewModel();
                 userVM.User = user;
                 userVM.OtherUsers = _userService.GetAllUsersWithFollows().Take(5).ToList();
                 userVM.Tags = _tagService.GetAllTags().Take(5).ToList();
-                userVM.UserTweets = _tweetService.GetTweetsByUser(id).OrderByDescending(t => t.CreatedAt).ToList();
+                userVM.UserTweets = tweets.OrderByDescending(t => t.ProfileOrderingDate).ToList();
 
                 return View(userVM);
             }

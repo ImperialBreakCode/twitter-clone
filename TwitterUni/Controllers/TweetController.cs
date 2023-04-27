@@ -122,5 +122,31 @@ namespace TwitterUni.Controllers
 
             return new JsonResult(NotFound());
         }
+
+        [HttpPost]
+        public JsonResult CreateRetweet(string tweetId)
+        {
+            bool isSuccess = _tweetService.CreateRetweet(User.Identity.Name, tweetId);
+
+            if (isSuccess)
+            {
+                return new JsonResult(Ok());
+            }
+
+            return new JsonResult(NotFound());
+        }
+
+        [HttpDelete]
+        public JsonResult DeleteRetweet(string tweetId)
+        {
+            bool isSuccess = _tweetService.DeleteRetweet(User.Identity.Name, tweetId);
+
+            if (isSuccess)
+            {
+                return new JsonResult(Ok());
+            }
+
+            return new JsonResult(NotFound());
+        }
     }
 }
