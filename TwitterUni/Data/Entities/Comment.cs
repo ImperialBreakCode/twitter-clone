@@ -5,6 +5,11 @@ namespace TwitterUni.Data.Entities
 {
     public class Comment : BaseEntity
     {
+        public Comment()
+        {
+            Likes = new HashSet<User>();
+        }
+
         [Required]
         public string TextContent { get; set; }
         public Tweet ParentTweet { get; set; }

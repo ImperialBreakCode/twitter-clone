@@ -1,4 +1,5 @@
-﻿using TwitterUni.Data.Repositories;
+﻿using TwitterUni.Data.Entities;
+using TwitterUni.Data.Repositories;
 using TwitterUni.Data.Repositories.Interfaces;
 
 namespace TwitterUni.Data.UnitOfWork
@@ -9,6 +10,7 @@ namespace TwitterUni.Data.UnitOfWork
         private IUserRepository _userRepository;
         private ITweetRepository _tweetRepository;
         private ITagRepository _tagRepository;
+        private IRepository<Comment> _commentRepository;
 
         public UnitOfWork(TwitterDbContext context)
         {
@@ -36,6 +38,11 @@ namespace TwitterUni.Data.UnitOfWork
         public ITagRepository TagRepository
         {
             get => _tagRepository = _tagRepository ?? new TagRepository(_context);
+        }
+
+        public IRepository<Comment> CommentRepository
+        {
+            get => _commentRepository = _commentRepository ?? new Repository<Comment>(_context);
         }
 
         public void Commit()
