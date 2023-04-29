@@ -81,6 +81,7 @@ namespace TwitterUni.Data.Repositories
                 .Include(u => u.FollowersCollection).ThenInclude(f => f.TheFollower)
                 .Include(u => u.FollowingsCollection).ThenInclude(f => f.IsFollowing)
                 .Include(u => u.Tweets).ThenInclude(t => t.UserLikes)
+                .Include(u => u.Tweets).ThenInclude(t => t.Comments)
                 .Include(u => u.Tweets).ThenInclude(t => t.Retweets).ThenInclude(r => r.RetweetedBy)
                 .FirstOrDefault(u => u.UserName == username);
 
@@ -93,6 +94,7 @@ namespace TwitterUni.Data.Repositories
                 .Include(u => u.FollowersCollection).ThenInclude(f => f.TheFollower)
                 .Include(u => u.FollowingsCollection).ThenInclude(f => f.IsFollowing)
                 .Include(f => f.Tweets).ThenInclude(t => t.UserLikes)
+                .Include(u => u.Tweets).ThenInclude(t => t.Comments)
                 .Include(u => u.Tweets).ThenInclude(t => t.Retweets).ThenInclude(r => r.RetweetedBy)
                 .FirstOrDefault(u => u.Id == id);
 

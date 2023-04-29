@@ -75,6 +75,36 @@ namespace TwitterUni.Services
             return commentDatas;
         }
 
+        public bool LikeComment(string commentId, string username)
+        {
+            Comment? comment = _unitOfWork.CommentRepository.GetOne(commentId);
+            User? user = _unitOfWork.UserRepository.GetByUsername(username);
+
+            if (user is not null && comment is not null)
+            {
+                comment.Likes.Add(user);
+                _unitOfWork.Commit();
+            }
+
+            return user is not null && comment is not null;
+        }
+
+        public bool UnlikeComment(string commentId, string username)
+        {
+            Comment? comment = _unitOfWork.CommentRepository.GetAll()
+                .Where(c => c.Id == commentId)
+                .Include(c => c.Likes).First();
+            User? user = _unitOfWork.UserRepository.GetByUsername(username);
+
+            if (user is not null && comment is not null)
+            {
+                comment.Likes.Remove(user);
+                _unitOfWork.Commit();
+            }
+
+            return user is not null && comment is not null;
+        }
+
         public void UpdateComment(CommentData commentData)
         {
             Comment? comment = _unitOfWork.CommentRepository.GetOne(commentData.Id);

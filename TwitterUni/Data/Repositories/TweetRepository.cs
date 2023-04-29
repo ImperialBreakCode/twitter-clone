@@ -13,6 +13,7 @@ namespace TwitterUni.Data.Repositories
         public override Tweet? GetOne(string id)
         {
             return Context.Tweets
+                .Include(c => c.Comments)
                 .Include(t => t.Author)
                 .Include(t => t.Tags)
                 .Include(t => t.UserLikes)

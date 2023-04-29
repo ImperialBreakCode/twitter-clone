@@ -45,6 +45,7 @@ namespace TwitterUni.Services
         public ICollection<TweetData> GetAllTweets()
         {
             IQueryable<Tweet> tweets = _unitOfWork.TweetRepository.GetAll()
+                .Include(t => t.Comments)
                 .Include(t => t.Author)
                 .Include(t => t.UserLikes)
                 .Include(t => t.Retweets).ThenInclude(r => r.RetweetedBy)
@@ -93,6 +94,7 @@ namespace TwitterUni.Services
             List<RetweetData> retweetDatas = new List<RetweetData>();
 
             var user = _unitOfWork.UserRepository.GetAll()
+                .Include(u => u.Retweets).ThenInclude(r => r.Tweet.Comments)
                 .Include(u => u.Retweets).ThenInclude(r => r.Tweet.Author)
                 .Include(u => u.Retweets).ThenInclude(r => r.Tweet.UserLikes)
                 .Include(u => u.Retweets).ThenInclude(r => r.Tweet.Retweets).ThenInclude(r => r.RetweetedBy)

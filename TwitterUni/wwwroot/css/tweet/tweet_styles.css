@@ -59,10 +59,11 @@
 
 .tweet-list .tweet-reply {
   margin: 20px;
+  margin-top: 0;
   background: transparent;
 }
 .tweet-list .tweet-reply .main-tweet {
-  padding: 20px 0;
+  padding: 15px 0;
   cursor: default;
 }
 .tweet-list .tweet-reply .main-tweet:hover {
@@ -191,7 +192,7 @@
   background: #3597dc;
 }
 
-.more-reply-btn {
+.delete-reply-btn {
     background: transparent;
     border: none;
     width: 30px;
@@ -200,7 +201,7 @@
     transition: 0.2s;
 }
 
-    .more-reply-btn:hover {
+    .delete-reply-btn:hover {
         background: rgba(179, 38, 38, 0.5215686275);
     }
 

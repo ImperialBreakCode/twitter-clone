@@ -61,7 +61,8 @@
             {
                 <div class="reactions">
                     <button class="stat comments-stat">
-                        <i class="fa-regular fa-comment"></i>1000
+                        <i class="fa-regular fa-comment"></i>
+                        @Model.CommentsCount
                     </button>
 
                     @if (Model.Author.UserName != User.Identity.Name)

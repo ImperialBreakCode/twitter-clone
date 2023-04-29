@@ -47,5 +47,33 @@ namespace TwitterUni.Controllers
         {
             return new JsonResult(Ok());
         }
+
+        [HttpPost]
+        public JsonResult LikeComment(string commentId)
+        {
+            bool success = _commentService.LikeComment(commentId, User.Identity.Name);
+
+            if (success)
+            {
+                return new JsonResult(Ok());
+            }
+
+            Response.StatusCode = 401;
+            return new JsonResult(NotFound("Comment not found"));
+        }
+
+        [HttpDelete]
+        public JsonResult UnikeComment(string commentId)
+        {
+            bool success = _commentService.UnlikeComment(commentId, User.Identity.Name);
+
+            if (success)
+            {
+                return new JsonResult(Ok());
+            }
+
+            Response.StatusCode = 401;
+            return new JsonResult(NotFound("Comment not found"));
+        }
     }
 }

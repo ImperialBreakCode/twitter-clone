@@ -28,4 +28,44 @@
 
     });
 
+    $(".comment-like").click(e => {
+
+        let id = e.target.closest("article").id;
+        let btn = $(e.target.closest("button"));
+
+        if (btn.hasClass("liked")) {
+
+            $.ajax({
+                type: "DELETE",
+                url: "/Comment/UnikeComment",
+                data: { commentId: id },
+                success: () => {
+                    btn.removeClass("liked");
+                    btn[0].childNodes[2].textContent--;
+                    btn.children("i").removeClass("fa-solid");
+                    btn.children("i").addClass("fa-regular");
+                }
+            });
+
+        } else {
+
+            $.ajax({
+                type: "POST",
+                url: "/Comment/LikeComment",
+                data: { commentId: id },
+                success: () => {
+                    btn.addClass("liked");
+                    btn[0].childNodes[2].textContent++;
+                    btn.children("i").addClass("fa-solid");
+                    btn.children("i").removeClass("fa-regular");
+                }
+            });
+
+        }
+    });
+
+    $("#comments").click(() => {
+        $("#reply-input").focus();
+    });
+
 });

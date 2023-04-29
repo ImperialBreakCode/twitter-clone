@@ -68,7 +68,8 @@
             </div>
             <div class="reactions">
                 <button id="comments" class="stat comments-stat">
-                    <i class="fa-regular fa-comment"></i>1000
+                    <i class="fa-regular fa-comment"></i>
+                    @Model.Comments.Count
                 </button>
 
                 @if (Model.Tweet.Author.UserName != User.Identity.Name)
@@ -108,7 +109,7 @@
                             @@@Model.CurrentUser.UserName
                         </p>
 
-                        <button class="more-reply-btn ms-auto">
+                        <button class="delete-reply-btn ms-auto">
                             <i class="fa-solid fa-trash-can"></i>
                         </button>
 
@@ -116,7 +117,7 @@
                     <div class="text-content"></div>
 
                     <div class="reactions">
-                        <button class="stat likes-stat">
+                        <button class="stat likes-stat comment-like">
                             <i class="fa-regular fa-heart"></i>0
                         </button>
                     </div>
@@ -127,6 +128,9 @@
 
         @foreach (var comment in Model.Comments)
         {
+
+            bool likedComment = comment.Likes.Any(l => l.UserName == User.Identity.Name);
+
             <article id="@comment.Id" class="tweet tweet-reply">
                 <div class="main-tweet">
                     <div class="left-profile">
@@ -146,7 +150,7 @@
 
                             @if (comment.Author.UserName == User.Identity.Name)
                             {
-                                <button class="more-reply-btn ms-auto">
+                                <button class="delete-reply-btn ms-auto">
                                     <i class="fa-solid fa-trash-can"></i>
                                 </button>
                             }
@@ -157,8 +161,8 @@
                         </div>
 
                         <div class="reactions">
-                            <button class="stat likes-stat">
-                                <i class="fa-regular fa-heart"></i>1000
+                            <button class="stat likes-stat comment-like @(likedComment ? "liked" : "")">
+                                <i class="fa-@(likedComment ? "solid" : "regular") fa-heart"></i>@comment.Likes.Count
                             </button>
                         </div>
 
