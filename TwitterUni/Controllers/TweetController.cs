@@ -98,7 +98,7 @@ namespace TwitterUni.Controllers
 
                     if (tagNames is not null)
                     {
-                        _tagService.AddTagsToTweet(tweetId, tagNames.Select(x => x.Value).Distinct().ToList());
+                        _tagService.AddTagsToTweet(tweetId, tagNames.Select(x => x.Value.Remove(0, 1)).Distinct().ToList());
                     }
 
                     return RedirectToAction("Profile", "User", new { Id = User.Identity.Name });

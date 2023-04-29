@@ -28,9 +28,7 @@ namespace TwitterUni.Services
                 Comment comment = new Comment();
                 _mapper.Map(commentData, comment);
 
-                user.Comments.Add(comment);
                 tweet.Comments.Add(comment);
-
                 _unitOfWork.Commit();
 
                 return _mapper.Map<CommentData>(comment);
@@ -48,7 +46,7 @@ namespace TwitterUni.Services
         public CommentData? GetComment(string commentId)
         {
             Comment? comment = _unitOfWork.CommentRepository.GetAll()
-                .Where(c => c.Id == commentId).Include(c => c.Author).First();
+                .Where(c => c.Id == commentId).Include(c => c.Author).FirstOrDefault();
 
             if (comment != null)
             {

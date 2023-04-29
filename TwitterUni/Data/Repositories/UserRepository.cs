@@ -77,12 +77,7 @@ namespace TwitterUni.Data.Repositories
 
         public User? GetByUsername(string username)
         {
-            var user = Context.Users
-                .Include(u => u.FollowersCollection).ThenInclude(f => f.TheFollower)
-                .Include(u => u.FollowingsCollection).ThenInclude(f => f.IsFollowing)
-                .Include(u => u.Tweets).ThenInclude(t => t.UserLikes)
-                .Include(u => u.Tweets).ThenInclude(t => t.Comments)
-                .Include(u => u.Tweets).ThenInclude(t => t.Retweets).ThenInclude(r => r.RetweetedBy)
+            var user = GetAllWithIncluded()
                 .FirstOrDefault(u => u.UserName == username);
 
             return user;
@@ -90,15 +85,20 @@ namespace TwitterUni.Data.Repositories
 
         public override User? GetOne(string id)
         {
-            var user = Context.Users
+            var user = GetAllWithIncluded()
+                .FirstOrDefault(u => u.Id == id);
+
+            return user;
+        }
+
+        private IQueryable<User> GetAllWithIncluded()
+        {
+            return Context.Users
                 .Include(u => u.FollowersCollection).ThenInclude(f => f.TheFollower)
                 .Include(u => u.FollowingsCollection).ThenInclude(f => f.IsFollowing)
                 .Include(f => f.Tweets).ThenInclude(t => t.UserLikes)
                 .Include(u => u.Tweets).ThenInclude(t => t.Comments)
-                .Include(u => u.Tweets).ThenInclude(t => t.Retweets).ThenInclude(r => r.RetweetedBy)
-                .FirstOrDefault(u => u.Id == id);
-
-            return user;
+                .Include(u => u.Tweets).ThenInclude(t => t.Retweets).ThenInclude(r => r.RetweetedBy);
         }
     }
 }
