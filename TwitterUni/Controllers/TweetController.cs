@@ -16,12 +16,20 @@ namespace TwitterUni.Controllers
         private readonly ITweetService _tweetService;
         private readonly ITagService _tagService;
         private readonly IImageService _imageService;
-
-        public TweetController(ITagService tagService, ITweetService tweetService, IImageService imageService)
+        private readonly ICommentService _commentService;
+        private readonly IUserService _userService;
+        public TweetController(
+            ITagService tagService, 
+            ITweetService tweetService, 
+            IImageService imageService, 
+            ICommentService commentService, 
+            IUserService userService)
         {
             _tagService = tagService;
             _tweetService = tweetService;
             _imageService = imageService;
+            _commentService = commentService;
+            _userService = userService;
         }
 
         [HttpGet]
@@ -35,6 +43,8 @@ namespace TwitterUni.Controllers
                 TweetViewModel tweetVM = new TweetViewModel();
                 tweetVM.Tweet = tweetData;
                 tweetVM.Tags = _tagService.GetTweetTags(id);
+                tweetVM.Comments = _commentService.GetTweetComments(id);
+                tweetVM.CurrentUser = _userService.GetUserByUserName(User.Identity.Name);
 
                 return View(tweetVM);
             }

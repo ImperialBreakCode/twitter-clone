@@ -191,6 +191,19 @@
   background: #3597dc;
 }
 
+.more-reply-btn {
+    background: transparent;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    transition: 0.2s;
+}
+
+    .more-reply-btn:hover {
+        background: rgba(179, 38, 38, 0.5215686275);
+    }
+
 @media (max-width: 991px) {
   .tweets-sec {
     width: 100%;

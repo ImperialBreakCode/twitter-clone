@@ -86,11 +86,88 @@
             </div>
         </article>
 
-        <div class="reply-input-box mb-4">
-            <input placeholder="Your reply..." type="text">
-            <button>Reply</button>
+        <div id="reply-box" class="reply-input-box mb-4">
+            <input id="reply-input" placeholder="Your reply..." type="text">
+            <button id="reply-btn">Reply</button>
         </div>
 
+        <article id="reply-sample" class="tweet tweet-reply d-none">
+            <div class="main-tweet">
+                <div class="left-profile">
+                    <a href="@Url.Action("Profile", "User", new { Id = User.Identity.Name })">
+                        <img class="prf-pic" src="~/content/images/@Model.CurrentUser.ProfilePic">
+                    </a>
+                </div>
+
+                <div class="right-content">
+                    <div class="user-identity">
+                        <a href="@Url.Action("Profile", "User", new { Id = User.Identity.Name })">
+                            @Model.CurrentUser.FirstName @Model.CurrentUser.LastName
+                        </a>
+                        <p>
+                            @@@Model.CurrentUser.UserName
+                        </p>
+
+                        <button class="more-reply-btn ms-auto">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+
+                    </div>
+                    <div class="text-content"></div>
+
+                    <div class="reactions">
+                        <button class="stat likes-stat">
+                            <i class="fa-regular fa-heart"></i>0
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </article>
+
+        @foreach (var comment in Model.Comments)
+        {
+            <article id="@comment.Id" class="tweet tweet-reply">
+                <div class="main-tweet">
+                    <div class="left-profile">
+                        <a href="@Url.Action("Profile", "User", new { Id = comment.Author.UserName })">
+                            <img class="prf-pic" src="~/content/images/@comment.Author.ProfilePic">
+                        </a>
+                    </div>
+
+                    <div class="right-content">
+                        <div class="user-identity">
+                            <a href="@Url.Action("Profile", "User", new { Id = comment.Author.UserName })">
+                                @comment.Author.FirstName @comment.Author.LastName
+                            </a>
+                            <p>@@@comment.Author.UserName</p>
+                            <span>·</span>
+                            <p>@comment.CreatedAt.ToString("dd.MM.yy")</p>
+
+                            @if (comment.Author.UserName == User.Identity.Name)
+                            {
+                                <button class="more-reply-btn ms-auto">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            }
+
+                        </div>
+                        <div class="text-content">
+                            @comment.TextContent
+                        </div>
+
+                        <div class="reactions">
+                            <button class="stat likes-stat">
+                                <i class="fa-regular fa-heart"></i>1000
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </article>
+        }
+
+        
     </div>
 
 </section>
@@ -110,77 +187,6 @@
 </section>
 
 @section Scripts{
-    <script>
-        $(document).ready(() => {
-
-            let backPath = window.location.pathname.split('/').slice(-1)[0];
-            $('#back-link').attr('href', backPath.replaceAll('-', '/'));
-
-            $("#likes").click(e => {
-
-                let btn = $('#likes');
-                let tweetId = $("#current-tweet").attr('tweet-id');
-
-                if (btn.hasClass("liked")){
-
-                    $.ajax({
-                        type: "DELETE",
-                        url: "@Url.Action("UnlikeTweet", "Tweet")",
-                        data: { tweetId: tweetId },
-                        success: () => {
-                            btn.removeClass("liked");
-                            btn[0].childNodes[2].textContent--;
-                            $("#likes i").removeClass("fa-solid");
-                            $("#likes i").addClass("fa-regular");
-                        }
-                    });
-
-                } else {
-
-                    $.ajax({
-                        type: "POST",
-                        url: "@Url.Action("LikeTweet", "Tweet")",
-                        data: { tweetId: tweetId },
-                        success: () => {
-                            btn.addClass("liked");
-                            btn[0].childNodes[2].textContent++;
-                            $("#likes i").addClass("fa-solid");
-                            $("#likes i").removeClass("fa-regular");
-                        }
-                    });
-                }
-            });
-
-            $("#retweets").click(e => {
-
-                let btn = $('#retweets');
-                let tweetId = $("#current-tweet").attr('tweet-id');
-
-                if (btn.hasClass("retweeted")) {
-
-                    $.ajax({
-                        type: "DELETE",
-                        url: "@Url.Action("DeleteRetweet", "Tweet")",
-                        data: { tweetId: tweetId },
-                        success: () => {
-                            btn.removeClass("retweeted");
-                            btn[0].childNodes[2].textContent--;
-                        }
-                    });
-
-                } else {
-
-                    $.ajax({
-                        type: "POST",
-                        url: "@Url.Action("CreateRetweet", "Tweet")",
-                        data: { tweetId: tweetId },
-                        success: () => {
-                            btn.addClass("retweeted");
-                            btn[0].childNodes[2].textContent++;
-                        }
-                    });
-                }
-            });
-        });
-    </script>
+    <script src="~/js/tweet_page/tweet_management.js"></script>
+    <script src="~/js/tweet_page/comments.js"></script>
 }
