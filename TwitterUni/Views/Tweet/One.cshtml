@@ -12,6 +12,16 @@
     <link rel="stylesheet" href="~/css/tweet/tweet_styles.css" />
 }
 
+@if (true)
+{
+    
+}
+
+@if (Model.Tweet.Author.UserName == User.Identity.Name)
+{
+    <partial name="_DeleteModal"/>
+}
+
 <section class="tweets-sec">
     <div class="page-heading">
             <a id="back-link" href="#">
@@ -43,9 +53,7 @@
                             <i class="fa-solid fa-ellipsis"></i>
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><button class="dropdown-item">Another action</button></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            <li><button data-bs-toggle="modal" data-bs-target="#delete-modal" class="dropdown-item">Delete</button></li>
                         </ul>
                     </div>
                 }

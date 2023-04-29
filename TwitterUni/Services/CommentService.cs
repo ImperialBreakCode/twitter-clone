@@ -47,15 +47,15 @@ namespace TwitterUni.Services
 
         public CommentData? GetComment(string commentId)
         {
-            Comment? comment = _unitOfWork.CommentRepository.GetOne(commentId);
-            CommentData? commentData = null;
+            Comment? comment = _unitOfWork.CommentRepository.GetAll()
+                .Where(c => c.Id == commentId).Include(c => c.Author).First();
 
             if (comment != null)
             {
-                _mapper.Map(comment, commentData);
+                return _mapper.Map<CommentData>(comment);
             }
 
-            return commentData;
+            return null;
         }
 
         public ICollection<CommentData> GetTweetComments(string tweetId)

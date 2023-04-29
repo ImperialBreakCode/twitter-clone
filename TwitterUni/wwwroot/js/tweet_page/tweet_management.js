@@ -68,4 +68,18 @@
             });
         }
     });
+
+    $("#delete-modal-btn").click(() => {
+
+        let id = $("#current-tweet").attr("tweet-id");
+
+        $.ajax({
+            type: "DELETE",
+            url: "/Tweet/DeleteTweet",
+            data: { tweetId: id },
+            success: () => {
+                window.location.href = "/";
+            }
+        });
+    })
 });

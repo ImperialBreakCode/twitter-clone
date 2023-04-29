@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 using System.Text.RegularExpressions;
 using TwitterUni.Infrastructure.Constants;
 using TwitterUni.Infrastructure.Filters;
@@ -157,6 +158,26 @@ namespace TwitterUni.Controllers
             }
 
             return new JsonResult(NotFound());
+        }
+
+        [HttpDelete]
+        public JsonResult DeleteTweet(string tweetId)
+        {
+            var tweet = _tweetService.GetTweet(tweetId);
+
+            if (tweet is not null)
+            {
+                return new JsonResult(NotFound());
+            }
+
+            if (tweet.Author.UserName == User.Identity.Name)
+            {
+                Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                return new JsonResult("Cannot delete tweet.");
+            }
+
+            _tweetService.DeleteTweet(tweetId);
+            return new JsonResult(Ok());
         }
     }
 }

@@ -38,8 +38,19 @@ namespace TwitterUni.Services
 
         public void DeleteTweet(string tweetId)
         {
-            _unitOfWork.TweetRepository.DeleteOne(tweetId);
-            _unitOfWork.Commit();
+            Tweet? tweet = _unitOfWork.TweetRepository.GetOne(tweetId);
+
+            if (tweet != null)
+            {
+                foreach (Comment comment in tweet.Comments)
+                {
+                    _unitOfWork.CommentRepository.DeleteOne(comment.Id);
+                }
+
+                _unitOfWork.TweetRepository.DeleteAllRetweets(tweetId);
+                _unitOfWork.TweetRepository.DeleteOne(tweetId);
+                _unitOfWork.Commit();
+            }
         }
 
         public ICollection<TweetData> GetAllTweets()

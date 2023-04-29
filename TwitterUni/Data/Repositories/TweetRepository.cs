@@ -51,5 +51,11 @@ namespace TwitterUni.Data.Repositories
 
             return retweet is not null;
         }
+
+        public void DeleteAllRetweets(string tweetId)
+        {
+            IQueryable<Retweet> retweets = Context.UserRetweets.Where(r => r.TweetId == tweetId);
+            Context.UserRetweets.RemoveRange(retweets);
+        }
     }
 }

@@ -487,6 +487,18 @@ main {
     color: #44fa5c !important;
 }
 
+#delete-modal .modal-content{
+    background: rgba(20, 63, 74)!important;
+}
+
+#delete-modal .btn-close {
+    filter: invert(1);
+}
+
+#delete-modal .modal-header, #delete-modal .modal-footer {
+    border: 0;
+}
+
 @media (max-width: 576px) {
     .main-tweet {
         padding: 8px 0 !important;

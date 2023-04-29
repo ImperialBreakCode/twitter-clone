@@ -43,9 +43,23 @@ namespace TwitterUni.Controllers
         }
 
         [HttpDelete]
-        public JsonResult DeleteComment()
+        public JsonResult DeleteComment(string commentId)
         {
-            return new JsonResult(Ok());
+            var comment = _commentService.GetComment(commentId);
+
+            if (comment is not null)
+            {
+                return new JsonResult(NotFound("Could not delete comment."));
+            }
+
+            if (comment.Author.UserName == User.Identity.Name)
+            {
+                _commentService.DeleteComment(commentId);
+                return new JsonResult(Ok());
+            }
+
+            Response.StatusCode = (int)HttpStatusCode.Forbidden;
+            return new JsonResult("Could not delete comment.");
         }
 
         [HttpPost]

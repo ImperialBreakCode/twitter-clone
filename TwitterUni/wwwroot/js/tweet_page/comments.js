@@ -68,4 +68,18 @@
         $("#reply-input").focus();
     });
 
+    $(".delete-reply-btn").click(e => {
+
+        let id = e.target.closest("article").id;
+
+        $.ajax({
+            type: "DELETE",
+            url: "/Comment/DeleteComment",
+            data: { commentId: id },
+            success: () => {
+                e.target.closest("article").remove();
+            }
+        });
+
+    });
 });
