@@ -65,4 +65,24 @@
             });
         }
     });
+
+    $(".open-delete").click(e => {
+
+        let id = e.target.closest(".main-tweet").id.split(',')[1];
+        $("#delete-modal").attr("tweet-id", id);
+    });
+
+    $("#delete-modal-btn").click(() => {
+
+        let id = $("#delete-modal").attr("tweet-id");
+
+        $.ajax({
+            type: "DELETE",
+            url: "/Tweet/DeleteTweet",
+            data: { tweetId: id },
+            success: () => {
+                document.getElementById(`tweet,${id}`).closest("article").remove();
+            }
+        });
+    });
 });

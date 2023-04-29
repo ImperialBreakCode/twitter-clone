@@ -10,13 +10,15 @@
     <link rel="stylesheet" href="~/css/home/style.css">
 }
 
-    <section class="tweets-sec">
+<partial name="_DeleteModal" />
 
-        <div class="page-heading">
-            <h1 class="mb-3"># @Model.Tag.TagName</h1>
-        </div>
+<section class="tweets-sec">
 
-        <div class="tweet-list">
+    <div class="page-heading">
+        <h1 class="mb-3"># @Model.Tag.TagName</h1>
+    </div>
+
+    <div class="tweet-list">
 
         @foreach (var tweet in Model.Tweets)
         {

@@ -165,18 +165,26 @@ namespace TwitterUni.Controllers
         {
             var tweet = _tweetService.GetTweet(tweetId);
 
-            if (tweet is not null)
+            if (tweet == null)
             {
+                Response.StatusCode = 404;
                 return new JsonResult(NotFound());
             }
 
-            if (tweet.Author.UserName == User.Identity.Name)
+            if (tweet.Author.UserName != User.Identity.Name)
             {
                 Response.StatusCode = (int)HttpStatusCode.Forbidden;
                 return new JsonResult("Cannot delete tweet.");
             }
-
+            
             _tweetService.DeleteTweet(tweetId);
+            _tagService.DeleteEmptyTags();
+
+            if (tweet.Image is not null)
+            {
+                _imageService.DeleteTweetImage(tweet.Image);
+            }
+
             return new JsonResult(Ok());
         }
     }

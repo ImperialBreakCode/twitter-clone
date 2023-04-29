@@ -6,5 +6,6 @@
         public void SaveProfileImage(Image image, string fileName);
         public void SaveBackgroundImage(Image image, string fileName);
         public void SaveTweetImage(Image image, string fileName, string userName);
+        public void DeleteTweetImage(string tweetImagePath);
     }
 }

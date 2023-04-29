@@ -49,6 +49,21 @@ namespace TwitterUni.Services
             _unitOfWork.Commit();
         }
 
+        public void DeleteEmptyTags()
+        {
+            List<string> emptyTagsIds = _unitOfWork.TagRepository.GetAll()
+                .Include(t => t.Tweets)
+                .Where(t => t.Tweets.Count == 0).Select(t => t.Id)
+                .ToList();
+
+            foreach (string tagId in emptyTagsIds)
+            {
+                _unitOfWork.TagRepository.DeleteOne(tagId);
+            }
+
+            _unitOfWork.Commit();
+        }
+
         public void DeleteTag(string id)
         {
             _unitOfWork.TagRepository.DeleteOne(id);

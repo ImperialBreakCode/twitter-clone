@@ -48,5 +48,11 @@ namespace TwitterUni.Services
 
             image.SaveAsJpeg(path + $"\\{fileName}");
         }
+
+        public void DeleteTweetImage(string filePath)
+        {
+            string path = Path.Combine(_environment.WebRootPath, StaticFilePaths.TweetImagesPath, filePath);
+            File.Delete(path);
+        }
     }
 }
