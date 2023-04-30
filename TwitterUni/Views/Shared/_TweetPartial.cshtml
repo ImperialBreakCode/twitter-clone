@@ -63,13 +63,10 @@
                         @Model.CommentsCount
                     </button>
 
-                    @if (Model.Author.UserName != User.Identity.Name)
-                    {
-                        <button class="stat retweets-stat @(retweeted ? "retweeted" : "")">
-                            <i class="fa-solid fa-retweet"></i>
-                            @Model.Retweets.Count
-                        </button>
-                    }
+                    <button class="stat retweets-stat @(retweeted ? "retweeted" : "")">
+                        <i class="fa-solid fa-retweet"></i>
+                        @Model.Retweets.Count
+                    </button>
 
                     <button class="stat likes-stat @(liked ? "liked" : "")">
                         <i class="fa-@(liked ? "solid" : "regular") fa-heart"></i>

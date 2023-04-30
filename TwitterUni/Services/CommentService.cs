@@ -29,6 +29,7 @@ namespace TwitterUni.Services
                 _mapper.Map(commentData, comment);
 
                 tweet.Comments.Add(comment);
+                user.Comments.Add(comment);
                 _unitOfWork.Commit();
 
                 return _mapper.Map<CommentData>(comment);

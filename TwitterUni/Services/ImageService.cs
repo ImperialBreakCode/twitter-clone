@@ -54,5 +54,11 @@ namespace TwitterUni.Services
             string path = Path.Combine(_environment.WebRootPath, StaticFilePaths.TweetImagesPath, filePath);
             File.Delete(path);
         }
+
+        public void DeleteUserImage(string filePath)
+        {
+            string path = Path.Combine(_environment.WebRootPath, StaticFilePaths.ImagesPath, filePath);
+            File.Delete(path);
+        }
     }
 }

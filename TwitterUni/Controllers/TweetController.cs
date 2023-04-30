@@ -118,7 +118,8 @@ namespace TwitterUni.Controllers
                 return new JsonResult(Ok());
             }
 
-            return new JsonResult(NotFound());
+            Response.StatusCode = 404;
+            return new JsonResult(NotFound("tweet not found"));
         }
 
         [HttpDelete]
@@ -131,7 +132,8 @@ namespace TwitterUni.Controllers
                 return new JsonResult(Ok());
             }
 
-            return new JsonResult(NotFound());
+            Response.StatusCode = 404;
+            return new JsonResult(NotFound("tweet not found"));
         }
 
         [HttpPost]
@@ -144,7 +146,8 @@ namespace TwitterUni.Controllers
                 return new JsonResult(Ok());
             }
 
-            return new JsonResult(NotFound());
+            Response.StatusCode = 404;
+            return new JsonResult(NotFound("tweet is not found"));
         }
 
         [HttpDelete]
@@ -157,7 +160,8 @@ namespace TwitterUni.Controllers
                 return new JsonResult(Ok());
             }
 
-            return new JsonResult(NotFound());
+            Response.StatusCode = 404;
+            return new JsonResult(NotFound("tweet not found"));
         }
 
         [HttpDelete]
@@ -168,7 +172,7 @@ namespace TwitterUni.Controllers
             if (tweet == null)
             {
                 Response.StatusCode = 404;
-                return new JsonResult(NotFound());
+                return new JsonResult(NotFound("tweet not found"));
             }
 
             if (tweet.Author.UserName != User.Identity.Name)

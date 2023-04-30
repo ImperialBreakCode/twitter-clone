@@ -22,12 +22,12 @@ namespace TwitterUni.Services
         {
             Tweet? tweet = _unitOfWork.TweetRepository.GetOne(tweetId);
 
-            foreach (string tagName in tagNames)
+            if (tweet is not null)
             {
-                Tag? tag = _unitOfWork.TagRepository.GetTagByName(tagName);
-
-                if (tweet is not null)
+                foreach (string tagName in tagNames)
                 {
+                    Tag? tag = _unitOfWork.TagRepository.GetTagByName(tagName);
+
                     if (tag == null)
                     {
                         tag = new Tag() { TagName = tagName };
@@ -36,9 +36,9 @@ namespace TwitterUni.Services
 
                     tag.Tweets.Add(tweet);
                 }
-            }
 
-            _unitOfWork.Commit();
+                _unitOfWork.Commit();
+            }
         }
 
         public void CreateTag(TagData tagData)

@@ -150,6 +150,11 @@ namespace TwitterUni.Controllers
                             _imageService.SaveProfileImage(image, userImageName);
                         }
 
+                        if (userData.ProfilePic is not null)
+                        {
+                            _imageService.DeleteUserImage(userData.ProfilePic);
+                        }
+
                         userData.ProfilePic = $"{StaticFilePaths.ProfileImSubfolder}/{userImageName}";
                     }
                 }
@@ -159,6 +164,11 @@ namespace TwitterUni.Controllers
                     using (Image image = Image.Load(editVM.BackgroundPhotoInput.OpenReadStream()))
                     {
                         _imageService.SaveBackgroundImage(image, userImageName);
+                    }
+
+                    if (userData.BackgroundPhoto is not null)
+                    {
+                        _imageService.DeleteUserImage(userData.BackgroundPhoto);
                     }
 
                     userData.BackgroundPhoto = $"{StaticFilePaths.BgImSubfolder}/{userImageName}";
@@ -185,7 +195,8 @@ namespace TwitterUni.Controllers
                 return new JsonResult(Ok());
             }
 
-            return new JsonResult(NotFound());
+            Response.StatusCode = 404;
+            return new JsonResult(NotFound("user not found"));
         }
 
         [HttpDelete]
@@ -198,7 +209,8 @@ namespace TwitterUni.Controllers
                 return new JsonResult(Ok());
             }
 
-            return new JsonResult(NotFound());
+            Response.StatusCode = 404;
+            return new JsonResult(NotFound("user not found"));
         }
     }
 }

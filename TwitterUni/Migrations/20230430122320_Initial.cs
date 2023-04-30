@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TwitterUni.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -270,31 +270,6 @@ namespace TwitterUni.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TweetActivities",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TweetId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    DoerId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TweetActivities", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_TweetActivities_AspNetUsers_DoerId",
-                        column: x => x.DoerId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_TweetActivities_Tweets_TweetId",
-                        column: x => x.TweetId,
-                        principalTable: "Tweets",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "TweetUser",
                 columns: table => new
                 {
@@ -445,16 +420,6 @@ namespace TwitterUni.Migrations
                 column: "TweetsId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TweetActivities_DoerId",
-                table: "TweetActivities",
-                column: "DoerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TweetActivities_TweetId",
-                table: "TweetActivities",
-                column: "TweetId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Tweets_AuthorId",
                 table: "Tweets",
                 column: "AuthorId");
@@ -496,9 +461,6 @@ namespace TwitterUni.Migrations
 
             migrationBuilder.DropTable(
                 name: "TagTweet");
-
-            migrationBuilder.DropTable(
-                name: "TweetActivities");
 
             migrationBuilder.DropTable(
                 name: "TweetUser");

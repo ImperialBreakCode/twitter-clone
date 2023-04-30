@@ -11,7 +11,6 @@ namespace TwitterUni.Data.Entities
             Retweets = new HashSet<Retweet>();
             Comments = new HashSet<Comment>();
             Tags = new HashSet<Tag>();
-            Activities = new HashSet<TweetActivity>();
         }
 
         public string? TextContent { get; set; }
@@ -21,6 +20,5 @@ namespace TwitterUni.Data.Entities
         public ICollection<Retweet> Retweets { get; set; }
         public ICollection<Comment> Comments { get; set; }
         public ICollection<Tag> Tags { get; set; }
-        public ICollection<TweetActivity> Activities { get; set; }
     }
 }

@@ -12,8 +12,8 @@ using TwitterUni.Data;
 namespace TwitterUni.Migrations
 {
     [DbContext(typeof(TwitterDbContext))]
-    [Migration("20230426081446_Init")]
-    partial class Init
+    [Migration("20230430122320_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -317,34 +317,6 @@ namespace TwitterUni.Migrations
                     b.ToTable("Tweets");
                 });
 
-            modelBuilder.Entity("TwitterUni.Data.Entities.TweetActivity", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("DoerId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("TweetId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DoerId");
-
-                    b.HasIndex("TweetId");
-
-                    b.ToTable("TweetActivities");
-                });
-
             modelBuilder.Entity("TwitterUni.Data.Entities.User", b =>
                 {
                     b.Property<string>("Id")
@@ -600,25 +572,8 @@ namespace TwitterUni.Migrations
                     b.Navigation("Author");
                 });
 
-            modelBuilder.Entity("TwitterUni.Data.Entities.TweetActivity", b =>
-                {
-                    b.HasOne("TwitterUni.Data.Entities.User", "Doer")
-                        .WithMany()
-                        .HasForeignKey("DoerId");
-
-                    b.HasOne("TwitterUni.Data.Entities.Tweet", "Tweet")
-                        .WithMany("Activities")
-                        .HasForeignKey("TweetId");
-
-                    b.Navigation("Doer");
-
-                    b.Navigation("Tweet");
-                });
-
             modelBuilder.Entity("TwitterUni.Data.Entities.Tweet", b =>
                 {
-                    b.Navigation("Activities");
-
                     b.Navigation("Comments");
 
                     b.Navigation("Retweets");

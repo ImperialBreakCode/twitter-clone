@@ -16,7 +16,6 @@ public class TwitterDbContext : IdentityDbContext<User>
     public DbSet<Tweet> Tweets { get; set; }
     public DbSet<Comment> Comments { get; set; }
     public DbSet<Tag> Tags { get; set; }
-    public DbSet<TweetActivity> TweetActivities { get; set; }
 
     // many to many mapping tables
     public DbSet<Follow> Follows { get; set; }
