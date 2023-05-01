@@ -52,19 +52,42 @@ namespace TwitterUni.Services
         public void DeleteTweetImage(string filePath)
         {
             string path = Path.Combine(_environment.WebRootPath, StaticFilePaths.TweetImagesPath, filePath);
-            File.Delete(path);
+
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
         }
 
         public void DeleteUserImage(string filePath)
         {
             string path = Path.Combine(_environment.WebRootPath, StaticFilePaths.ImagesPath, filePath);
-            File.Delete(path);
+
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            } 
         }
 
         public void DeleteAllUserTweetImages(string userName)
         {
             string path = Path.Combine(_environment.WebRootPath, StaticFilePaths.TweetImagesPath, userName);
-            Directory.Delete(path, true);
+
+            if (Directory.Exists(path))
+            {
+                Directory.Delete(path, true);
+            }         
+        }
+
+        public void UpdateTweetImagePath(string userName, string oldUserName)
+        {
+            string oldPath = Path.Combine(_environment.WebRootPath, StaticFilePaths.TweetImagesPath, oldUserName);
+            string newPath = Path.Combine(_environment.WebRootPath, StaticFilePaths.TweetImagesPath, userName);
+
+            if (Directory.Exists(oldPath))
+            {
+                Directory.Move(oldPath, newPath);
+            }
         }
     }
 }

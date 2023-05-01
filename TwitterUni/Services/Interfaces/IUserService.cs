@@ -11,13 +11,14 @@ namespace TwitterUni.Services.Interfaces
         UserData? GetUserByUserName(string userName);
         IEnumerable<UserData> GetAllUsers();
         public IEnumerable<UserData> GetAllUsersWithFollows();
-        void UpdateUser(UserData user);
+        Task UpdateUser(UserData user, bool refreshSignIn = false);
         Task<IdentityResult> DeleteUser(string id);
         Task<SignInResult?> SignInUser(string userName, string password);
         Task SignOutUser();
-        void CompleteUserSetup(UserData user, string password);
+        Task CompleteUserSetup(UserData user, string password);
         bool FollowUser(string followerId, string followingId);
         bool UnfollowUser(string followerUserName, string followingUserName);
         Task<bool> CheckPassword(string userName, string password);
+        Task<IdentityResult> ChangePassword(string userName, string password, string newPassword);
     }
 }

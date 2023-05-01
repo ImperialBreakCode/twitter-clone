@@ -118,28 +118,37 @@ namespace TwitterUni.Services
             await _signInManager.SignOutAsync();
         }
 
-        public void UpdateUser(UserData userData)
+        public async Task UpdateUser(UserData userData, bool refreshSignIn = false)
         {
             User? user = _unitOfWork.UserRepository.GetOne(userData.Id);
 
             if (user is not null)
             {
+                await _userManager.SetUserNameAsync(user, userData.UserName);
                 _mapper.Map(userData, user);
-                _unitOfWork.Commit();
+                await _userManager.UpdateAsync(user);
+
+                if (refreshSignIn)
+                {
+                    await _signInManager.RefreshSignInAsync(user);
+                }
             }
         }
 
-        public void CompleteUserSetup(UserData userData, string password)
+        public async Task CompleteUserSetup(UserData userData, string password)
         {
             User? user = _unitOfWork.UserRepository.GetOne(userData.Id);
 
             if (user is not null && !user.IsSet)
             {
-                _mapper.Map(userData, user);
+                await _userManager.SetUserNameAsync(user, userData.UserName);
+               
+                _mapper.Map(userData, user); 
                 user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, password);
                 user.IsSet = true;
-                
-                _unitOfWork.Commit();
+                await _userManager.UpdateAsync(user);
+
+                await _signInManager.RefreshSignInAsync(user);
             }
         }
 
@@ -169,6 +178,12 @@ namespace TwitterUni.Services
             }
 
             return false;
+        }
+
+        public async Task<IdentityResult> ChangePassword(string userName, string password, string newPassword)
+        {
+            User? user = _unitOfWork.UserRepository.GetByUsername(userName);
+            return await _userManager.ChangePasswordAsync(user, password, newPassword);
         }
 
         public async Task<IdentityResult> DeleteUser(string id)

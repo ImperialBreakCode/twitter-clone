@@ -6,6 +6,7 @@
         void SaveProfileImage(Image image, string fileName);
         void SaveBackgroundImage(Image image, string fileName);
         void SaveTweetImage(Image image, string fileName, string userName);
+        void UpdateTweetImagePath(string userName, string oldUserName);
         void DeleteTweetImage(string tweetImagePath);
         void DeleteAllUserTweetImages(string userName);
         void DeleteUserImage(string filePath);

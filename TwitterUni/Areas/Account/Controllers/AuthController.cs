@@ -79,7 +79,7 @@ namespace TwitterUni.Areas.Auth.Controllers
                     if (!_userService.GetUserByUserName(loginVM.UserName)?.IsSet ?? false)
                     {
                         Response.Cookies.AddAuthHelperCookie(isSetUserCookieName, false);
-                        return RedirectToAction(nameof(Setup), new {id = loginVM.UserName});
+                        return RedirectToAction(nameof(Setup));
                     }
 
                     Response.Cookies.AddAuthHelperCookie(isSetUserCookieName, true);
@@ -104,9 +104,9 @@ namespace TwitterUni.Areas.Auth.Controllers
 
         [HttpGet]
         [Authorize]
-        public IActionResult Setup(string id)
+        public IActionResult Setup()
         {
-            var user = _userService.GetUserByUserName(id);
+            var user = _userService.GetUserByUserName(User.Identity.Name);
 
             if (user is not null && !user.IsSet)
             {
@@ -120,33 +120,33 @@ namespace TwitterUni.Areas.Auth.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public IActionResult Setup(RegisterViewModel registerViewModel)
+        public async Task<IActionResult> Setup(RegisterViewModel registerViewModel)
         {
-            if (ModelState.IsValid && registerViewModel.Id is not null)
+            if (ModelState.IsValid)
             {
-                var user = _userService.GetUserById(registerViewModel.Id);
-                var doubleUserId = _userService.GetUserByUserName(registerViewModel.UserName)?.Id;
+                var user = _userService.GetUserByUserName(User.Identity.Name);
 
-                if (user is not null && doubleUserId is not null)
+                string? doubleUser = _userService.GetUserByUserName(registerViewModel.UserName)?.Id;
+                bool newUserNameExists = User.Identity.Name != registerViewModel.UserName 
+                    && doubleUser is not null;
+
+                if (user is not null && !newUserNameExists)
                 {
-                    if (user.Id == doubleUserId)
+                    _mapper.Map(registerViewModel, user);
+                    await _userService.CompleteUserSetup(user, registerViewModel.Password);
+
+                    if (Request.Cookies[isSetUserCookieName] != null)
                     {
-                        _mapper.Map(registerViewModel, user);
-                        _userService.CompleteUserSetup(user, registerViewModel.Password);
-
-                        if (Request.Cookies[isSetUserCookieName] != null)
-                        {
-                            Response.Cookies.Delete(isSetUserCookieName);
-                        }
-
-                        Response.Cookies.AddAuthHelperCookie(isSetUserCookieName, true);
-
-                        return RedirectToAction("Index", "Home", new { area = "" });
+                        Response.Cookies.Delete(isSetUserCookieName);
                     }
-                    else
-                    {
-                        ModelState.AddModelError(string.Empty, $"Username {registerViewModel.UserName} is already taken.");
-                    }
+
+                    Response.Cookies.AddAuthHelperCookie(isSetUserCookieName, true);
+
+                    return RedirectToAction("Index", "Home", new { area = "" });
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, $"Username {registerViewModel.UserName} is already taken.");
                 }
             }
 

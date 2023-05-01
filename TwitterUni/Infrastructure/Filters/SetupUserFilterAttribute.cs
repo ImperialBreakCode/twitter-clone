@@ -15,8 +15,7 @@ namespace TwitterUni.Infrastructure.Filters
                 context.Result = new RedirectToActionResult("Setup", "Auth",
                     new
                     {
-                        area = "Account",
-                        Id = context.HttpContext.User.Identity.Name
+                        area = "Account"
                     });
             }
         }

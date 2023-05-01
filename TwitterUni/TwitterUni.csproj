@@ -38,7 +38,6 @@
     <Folder Include="Migrations\" />
     <Folder Include="wwwroot\content\images\backgroundImages\" />
     <Folder Include="wwwroot\content\images\profileImages\" />
-    <Folder Include="wwwroot\content\images\tweets\" />
     <Folder Include="wwwroot\css\tweet\" />
     <Folder Include="wwwroot\css\user\" />
   </ItemGroup>

@@ -129,7 +129,7 @@ namespace TwitterUni.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(EditUserViewModel editVM)
+        public async Task<IActionResult> Edit(EditUserViewModel editVM)
         {
             UserData? userData = _userService.GetUserByUserName(User.Identity.Name);
 
@@ -175,7 +175,7 @@ namespace TwitterUni.Controllers
                 }
 
                 _mapper.Map(editVM, userData);
-                _userService.UpdateUser(userData);
+                await _userService.UpdateUser(userData);
                 return RedirectToAction(nameof(Profile), new { Id = User.Identity.Name });
             }
 
