@@ -76,7 +76,7 @@ namespace TwitterUni.Services
             if (Directory.Exists(path))
             {
                 Directory.Delete(path, true);
-            }         
+            }
         }
 
         public void UpdateTweetImagePath(string userName, string oldUserName)

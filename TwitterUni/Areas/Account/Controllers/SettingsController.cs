@@ -155,7 +155,7 @@ namespace TwitterUni.Areas.Account.Controllers
                 {
                     if (User.Identity.Name != userInfoVM.UserName)
                     {
-                        _imageService.UpdateTweetImagePath(User.Identity.Name, userInfoVM.UserName);
+                        _imageService.UpdateTweetImagePath(userInfoVM.UserName, User.Identity.Name);
                     }
 
                     _mapper.Map(userInfoVM, user);

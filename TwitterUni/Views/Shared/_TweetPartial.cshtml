@@ -50,7 +50,7 @@
                 @if (Model.Image is not null)
                 {
                     <div class="image-content">
-                        <img src="~/content/images/tweets/@Model.Image">
+                        <img src="~/content/images/tweets/@Model.Author.UserName/@Model.Image">
                     </div>
                 }
             </div>

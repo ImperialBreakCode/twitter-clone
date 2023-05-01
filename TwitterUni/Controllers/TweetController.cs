@@ -90,7 +90,7 @@ namespace TwitterUni.Controllers
                         using (Image image = Image.Load(createVM.Image.OpenReadStream()))
                         {
                             _imageService.SaveTweetImage(image, imageName, username);
-                            tweetData.Image = $"{username}/{imageName}";
+                            tweetData.Image = imageName;
                         }
                     }
 
@@ -186,7 +186,7 @@ namespace TwitterUni.Controllers
 
             if (tweet.Image is not null)
             {
-                _imageService.DeleteTweetImage(tweet.Image);
+                _imageService.DeleteTweetImage($"{tweet.Author.UserName}\\{tweet.Image}");
             }
 
             return new JsonResult(Ok());
