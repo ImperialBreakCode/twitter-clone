@@ -1,0 +1,102 @@
+﻿
+@{
+    Layout = null;
+}
+
+@model SettingsViewModel
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <title>User Settings</title>
+</head>
+<body class="bg-dark text-light">
+
+    <header class="bg-primary d-flex align-items-center">
+        <a asp-action="Index" asp-controller="Home" asp-area="" class="btn btn-light ms-5 fs-5 rounded-3">Home</a>
+        <h1 class="px-4 py-4 fw-bold">User Settings</h1>
+    </header>
+
+    <main>
+        <section class="py-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <h2 class="mb-4">Credentials</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <p class="fs-5 mb-0">Username: <span class="fs-4 ms-2">@Model.User.UserName</span></p>
+                        <p class="fs-5 mb-0">Email: <span class="fs-4 ms-2">@Model.User.Email</span></p>
+                        <p class="fs-5 mb-2">Password: <span class="fs-4 ms-2">****</span></p>
+                        <a href="#" class="btn btn-primary">
+                            Change password
+                        </a>
+                        <a href="#" class="btn btn-primary">
+                            Change username or email
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <h2 class="mb-4 text-danger">Danger Zone</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <button class="btn btn-outline-danger fs-5" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#delete-user-collapse" aria-expanded="@(Model.DeleteFormHasErrors ? "true" : "false")">
+                            Delete user
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="collapse multi-collapse @(Model.DeleteFormHasErrors ? "show" : "") my-4" id="delete-user-collapse">
+                            <div class="card card-body bg-dark border-danger">
+
+                                <form asp-action="Index" asp-controller="Settings" method="post">
+
+                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                                    <div class="row mb-3">
+                                        <label asp-for="UserName" class="col-sm-2 col-form-label"></label>
+                                        <div class="col-sm-10">
+                                            <input asp-for="UserName" class="form-control">
+                                            <span asp-validation-for="UserName" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label asp-for="Password" class="col-sm-2 col-form-label"></label>
+                                        <div class="col-sm-10">
+                                            <input asp-for="Password" class="form-control">
+                                            <span asp-validation-for="Password" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-danger">Delete user</button>
+
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <partial name="_ValidationScriptsPartial" />
+</body>
+</html>

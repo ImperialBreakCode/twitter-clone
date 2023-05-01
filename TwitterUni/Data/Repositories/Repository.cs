@@ -33,6 +33,11 @@ namespace TwitterUni.Data.Repositories
             }
         }
 
+        public void DeleteRange(params TEntity[] entities)
+        {
+            _dbSet.RemoveRange(entities);
+        }
+
         public IQueryable<TEntity> GetAll()
         {
             return DbSetData;

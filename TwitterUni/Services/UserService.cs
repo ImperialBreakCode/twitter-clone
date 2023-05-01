@@ -43,12 +43,6 @@ namespace TwitterUni.Services
             return result;
         }
 
-        public async Task DeleteUser(string id)
-        {
-            User user = await _userManager.FindByIdAsync(id);
-            await _userManager.DeleteAsync(user);
-        }
-
         public IEnumerable<UserData> GetAllUsers()
         {
             var users = _unitOfWork.UserRepository.GetAll();
@@ -163,6 +157,63 @@ namespace TwitterUni.Services
             _unitOfWork.Commit();
 
             return isFound;
+        }
+
+        public async Task<bool> CheckPassword(string userName, string password)
+        {
+            User? user = _unitOfWork.UserRepository.GetByUsername(userName);
+
+            if (user is not null)
+            {
+                return await _userManager.CheckPasswordAsync(user, password);
+            }
+
+            return false;
+        }
+
+        public async Task<IdentityResult> DeleteUser(string id)
+        {
+            User user = await _userManager.FindByIdAsync(id);
+            
+            _unitOfWork.UserRepository.DeleteAllFollows(id);
+            _unitOfWork.UserRepository.DeleteAllRetweets(id);
+            
+            DeleteUserTweets(id);
+            DeleteUserComments(id);
+
+            IdentityResult result = await _userManager.DeleteAsync(user);
+
+            if (result.Succeeded)
+            {
+                _unitOfWork.Commit();
+            }
+
+            return result;
+        }
+
+        private void DeleteUserTweets(string userId)
+        {
+            IQueryable<Tweet> userTweets = _unitOfWork.TweetRepository.GetAll()
+                .Include(t => t.Author)
+                .Include(t => t.Retweets)
+                .Include(t => t.Comments)
+                .Where(t => t.Author.Id == userId);
+
+            foreach (Tweet tweet in userTweets)
+            {
+                _unitOfWork.CommentRepository.DeleteRange(tweet.Comments.ToArray());
+                _unitOfWork.TweetRepository.DeleteAllRetweets(tweet.Id);
+            }
+            _unitOfWork.TweetRepository.DeleteRange(userTweets.ToArray());
+        }
+
+        private void DeleteUserComments(string userId)
+        {
+            IQueryable<Comment> userComments = _unitOfWork.CommentRepository.GetAll()
+                .Include(t => t.Author)
+                .Where(t => t.Author.Id == userId);
+
+            _unitOfWork.CommentRepository.DeleteRange(userComments.ToArray());
         }
     }
 }

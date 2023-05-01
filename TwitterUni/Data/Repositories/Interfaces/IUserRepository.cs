@@ -9,5 +9,7 @@ namespace TwitterUni.Data.Repositories.Interfaces
         bool RemoveUserRetweet(string userId, string tweetId);
         bool AddUserFollowing(string userId, string followingUserId);
         bool RemoveUserFollowing(string followerUserName, string followingUserName);
+        void DeleteAllFollows(string userId);
+        void DeleteAllRetweets(string userId);
     }
 }

@@ -7,5 +7,6 @@
         void UpdateOne(TEntity entity);
         void DeleteOne(string id);
         void CreateOne(TEntity entity);
+        void DeleteRange(params TEntity[] entities);
     }
 }

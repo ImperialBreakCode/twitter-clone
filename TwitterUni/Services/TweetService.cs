@@ -42,11 +42,7 @@ namespace TwitterUni.Services
 
             if (tweet != null)
             {
-                foreach (Comment comment in tweet.Comments)
-                {
-                    _unitOfWork.CommentRepository.DeleteOne(comment.Id);
-                }
-
+                _unitOfWork.CommentRepository.DeleteRange(tweet.Comments.ToArray());
                 _unitOfWork.TweetRepository.DeleteAllRetweets(tweetId);
                 _unitOfWork.TweetRepository.DeleteOne(tweetId);
                 _unitOfWork.Commit();

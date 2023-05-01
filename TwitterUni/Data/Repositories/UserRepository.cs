@@ -75,6 +75,22 @@ namespace TwitterUni.Data.Repositories
             return retweet is not null;
         }
 
+        public void DeleteAllFollows(string userId)
+        {
+            IQueryable<Follow> follows = Context.Follows
+                .Where(f => f.IsFollowingId == userId || f.TheFollowerId == userId);
+
+            Context.Follows.RemoveRange(follows);
+        }
+
+        public void DeleteAllRetweets(string userId)
+        {
+            IQueryable<Retweet> retweets = Context.UserRetweets
+                .Where(r => r.RetweetedById == userId);
+
+            Context.UserRetweets.RemoveRange(retweets);
+        }
+
         public User? GetByUsername(string username)
         {
             var user = GetAllWithIncluded()

@@ -150,7 +150,7 @@ namespace TwitterUni.Controllers
                             _imageService.SaveProfileImage(image, userImageName);
                         }
 
-                        if (userData.ProfilePic is not null)
+                        if (userData.ProfilePic != "default_prf_pic.png")
                         {
                             _imageService.DeleteUserImage(userData.ProfilePic);
                         }
@@ -166,7 +166,7 @@ namespace TwitterUni.Controllers
                         _imageService.SaveBackgroundImage(image, userImageName);
                     }
 
-                    if (userData.BackgroundPhoto is not null)
+                    if (userData.BackgroundPhoto != "default_background.jpg")
                     {
                         _imageService.DeleteUserImage(userData.BackgroundPhoto);
                     }
