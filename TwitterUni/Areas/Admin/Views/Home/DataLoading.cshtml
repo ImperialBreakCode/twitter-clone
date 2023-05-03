@@ -2,6 +2,8 @@
     ViewData["Title"] = "Data loading";
 }
 
+@model DataLoadingViewModel
+
 <div class="container-fluid p-0">
 
 	<h1 class="h3 mb-3"><strong>Data</strong> Loading</h1>
@@ -11,10 +13,21 @@
 			<div class="card flex-fill">
 				<div class="card-body">
 					<h5 class="card-title">Fetch data from API</h5>
-					<div class="alert alert-success mt-3" role="alert">
-						Data is fetched.
-					</div>
-					<a href="#" class="btn btn-primary">Fetch</a>
+
+					@if (Model.DataIsLoaded)
+					{
+						<div class="alert alert-success mt-3" role="alert">
+							Data is fetched.
+						</div>
+						<button href="#" class="btn btn-primary" disabled>Fetch</button>
+					}
+					else
+					{
+						<form asp-action="FetchApiData" asp-controller="Home" method="post">
+							<input type="submit" class="btn btn-primary" value="Fetch">
+						</form>
+					}
+					
 				</div>
 			</div>
 		</div>

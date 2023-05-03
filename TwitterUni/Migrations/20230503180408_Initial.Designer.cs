@@ -12,7 +12,7 @@ using TwitterUni.Data;
 namespace TwitterUni.Migrations
 {
     [DbContext(typeof(TwitterDbContext))]
-    [Migration("20230430122320_Initial")]
+    [Migration("20230503180408_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -205,6 +205,23 @@ namespace TwitterUni.Migrations
                     b.HasIndex("UserLikesId");
 
                     b.ToTable("TweetUser");
+                });
+
+            modelBuilder.Entity("TwitterUni.Data.Entities.AppSettings", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("DataIsLoaded")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AppSettings");
                 });
 
             modelBuilder.Entity("TwitterUni.Data.Entities.Comment", b =>

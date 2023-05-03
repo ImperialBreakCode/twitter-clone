@@ -18,6 +18,11 @@ namespace TwitterUni.Data.Repositories
         protected TwitterDbContext Context { get => _context; }
         protected DbSet<TEntity> DbSetData { get => _dbSet; }
 
+        public async Task CreateMany(params TEntity[] entities)
+        {
+            await DbSetData.AddRangeAsync(entities);
+        }
+
         public void CreateOne(TEntity entity)
         {
             DbSetData.Add(entity);

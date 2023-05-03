@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using TwitterUni.Data.Entities;
 using TwitterUni.Infrastructure.Constants;
+using TwitterUni.Services;
+using TwitterUni.Services.Interfaces;
 
 namespace TwitterUni.Extensions
 {
@@ -12,6 +14,12 @@ namespace TwitterUni.Extensions
             {
                 var roleManager = scope.ServiceProvider.GetService<RoleManager<IdentityRole>>();
                 var userManager = scope.ServiceProvider.GetService<UserManager<User>>();
+                var appSettings = scope.ServiceProvider.GetService<IAppSettingsService>();
+
+                if (appSettings is not null)
+                {
+                    appSettings.EnsureAppSettings();
+                }
 
                 if (roleManager is not null)
                 {

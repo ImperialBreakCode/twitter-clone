@@ -12,6 +12,8 @@ public class TwitterDbContext : IdentityDbContext<User>
     {
     }
 
+    public DbSet<AppSettings> AppSettings { get; set; }
+
     public override DbSet<User> Users { get; set; }
     public DbSet<Tweet> Tweets { get; set; }
     public DbSet<Comment> Comments { get; set; }

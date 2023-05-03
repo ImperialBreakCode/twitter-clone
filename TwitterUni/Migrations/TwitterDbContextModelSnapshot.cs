@@ -204,6 +204,23 @@ namespace TwitterUni.Migrations
                     b.ToTable("TweetUser");
                 });
 
+            modelBuilder.Entity("TwitterUni.Data.Entities.AppSettings", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("DataIsLoaded")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AppSettings");
+                });
+
             modelBuilder.Entity("TwitterUni.Data.Entities.Comment", b =>
                 {
                     b.Property<string>("Id")

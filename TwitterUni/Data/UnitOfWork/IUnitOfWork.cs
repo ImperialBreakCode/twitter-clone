@@ -9,6 +9,7 @@ namespace TwitterUni.Data.UnitOfWork
         ITweetRepository TweetRepository { get; }
         ITagRepository TagRepository { get; }
         IRepository<Comment> CommentRepository { get; }
+        IRepository<AppSettings> AppSettingsRepository { get; }
 
         void Commit();
         Task CommitAsync();

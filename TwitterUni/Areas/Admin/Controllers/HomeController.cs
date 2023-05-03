@@ -16,15 +16,23 @@ namespace TwitterUni.Areas.Admin.Controllers
         private readonly IUserService _userService;
         private readonly ITweetService _tweetService;
         private readonly ICommentService _commentService;
+        private readonly IAppSettingsService _appSettingsService;
 
-        public HomeController(ITagService tagService, IUserService userService, ITweetService tweetService, ICommentService commentService)
+        public HomeController(
+            ITagService tagService, 
+            IUserService userService, 
+            ITweetService tweetService, 
+            ICommentService commentService, 
+            IAppSettingsService appSettingsService)
         {
             _tagService = tagService;
             _userService = userService;
             _tweetService = tweetService;
             _commentService = commentService;
+            _appSettingsService = appSettingsService;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             HomeViewModel homeVM = new HomeViewModel();
@@ -37,9 +45,19 @@ namespace TwitterUni.Areas.Admin.Controllers
             return View(homeVM);
         }
 
+        [HttpGet]
         public IActionResult DataLoading()
         {
-            return View();
+            DataLoadingViewModel dataLoadingVM = new DataLoadingViewModel();
+            dataLoadingVM.DataIsLoaded = _appSettingsService.IsDataLoaded();
+
+            return View(dataLoadingVM);
+        }
+
+        [HttpPost]
+        public IActionResult FetchApiData()
+        {
+            return RedirectToAction(nameof(DataLoading));
         }
     }
 }

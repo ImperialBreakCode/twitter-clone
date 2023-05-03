@@ -36,6 +36,7 @@ builder.Services.AddTransient<IImageService, ImageService>();
 builder.Services.AddTransient<ITweetService, TweetService>();
 builder.Services.AddTransient<ITagService, TagService>();
 builder.Services.AddTransient<ICommentService, CommentService>();
+builder.Services.AddTransient<IAppSettingsService, AppSettingsService>();
 
 // Adding mapper
 var config = new MapperConfiguration(cfg => 

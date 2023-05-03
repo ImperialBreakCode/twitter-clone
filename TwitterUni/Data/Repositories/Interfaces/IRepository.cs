@@ -7,6 +7,7 @@
         void UpdateOne(TEntity entity);
         void DeleteOne(string id);
         void CreateOne(TEntity entity);
+        Task CreateMany(params TEntity[] entities);
         void DeleteRange(params TEntity[] entities);
     }
 }

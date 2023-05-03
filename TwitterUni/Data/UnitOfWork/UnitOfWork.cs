@@ -11,6 +11,7 @@ namespace TwitterUni.Data.UnitOfWork
         private ITweetRepository _tweetRepository;
         private ITagRepository _tagRepository;
         private IRepository<Comment> _commentRepository;
+        private IRepository<AppSettings> _appSettingsRepository;
 
         public UnitOfWork(TwitterDbContext context)
         {
@@ -43,6 +44,11 @@ namespace TwitterUni.Data.UnitOfWork
         public IRepository<Comment> CommentRepository
         {
             get => _commentRepository = _commentRepository ?? new Repository<Comment>(_context);
+        }
+
+        public IRepository<AppSettings> AppSettingsRepository
+        {
+            get => _appSettingsRepository = _appSettingsRepository ?? new Repository<AppSettings>(_context);
         }
 
         public void Commit()
