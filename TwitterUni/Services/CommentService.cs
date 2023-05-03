@@ -57,6 +57,13 @@ namespace TwitterUni.Services
             return null;
         }
 
+        public ICollection<CommentData> GetAllComments()
+        {
+            IQueryable<Comment> comments = _unitOfWork.CommentRepository.GetAll();
+
+            return comments.Select(x => _mapper.Map<CommentData>(x)).ToList();
+        }
+
         public ICollection<CommentData> GetTweetComments(string tweetId)
         {
             IQueryable<Comment> comments = _unitOfWork.CommentRepository.GetAll()

@@ -1,0 +1,144 @@
+﻿@inject UserManager<User> userManager;
+
+@{
+	User currentUser = await userManager.GetUserAsync(User);
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="Responsive Admin &amp; Dashboard Template based on Bootstrap 5">
+	<meta name="author" content="AdminKit">
+
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link rel="canonical" href="https://demo-basic.adminkit.io/" />
+
+	<title>@ViewData["Title"] - admin pannel</title>
+
+	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+	<link href="~/css/admin/app.css" rel="stylesheet">
+	@await RenderSectionAsync("Styles", required: false)
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+	<div class="wrapper">
+		<nav id="sidebar" class="sidebar js-sidebar">
+			<div class="sidebar-content js-simplebar">
+				<a asp-action="Index" asp-controller="Home" class="sidebar-brand">
+					<span class="align-middle">AdminKit</span>
+				</a>
+
+				<ul class="sidebar-nav">
+					<li class="sidebar-header">
+						Pages
+					</li>
+
+					<li class="sidebar-item @Html.IsActive("Home", "Index", "active")">
+						<a asp-action="Index" asp-controller="Home" class="sidebar-link">
+							<i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Dashboard</span>
+						</a>
+					</li>
+
+					<li class="sidebar-item @Html.IsActive("Home", "DataLoading", "active")">
+						<a asp-action="DataLoading" asp-controller="Home" class="sidebar-link">
+							<i class="align-middle" data-feather="database"></i> <span class="align-middle">Data Loading</span>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+
+		<div class="main">
+			<nav class="navbar navbar-expand navbar-light navbar-bg">
+				<a class="sidebar-toggle js-sidebar-toggle">
+					<i class="hamburger align-self-center"></i>
+				</a>
+
+				<div class="navbar-collapse collapse">
+					<ul class="navbar-nav navbar-align">
+						<li class="nav-item dropdown">
+							<a asp-action="Index" asp-controller="Settings" asp-area="Account" 
+							   class="nav-icon dropdown-toggle d-inline-block d-sm-none"
+							   data-bs-toggle="dropdown">
+								<i class="align-middle" data-feather="settings"></i>
+							</a>
+
+							<a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#"
+							   data-bs-toggle="dropdown">
+								<img src="~/content/images/@currentUser.ProfilePic" class="avatar img-fluid rounded me-1"
+									 alt="@currentUser.FirstName @currentUser.LastName" /> 
+								<span class="text-dark">
+									@currentUser.FirstName @currentUser.LastName
+								</span>
+							</a>
+							<div class="dropdown-menu dropdown-menu-end">
+								<a class="dropdown-item" href="#">
+									<i class="align-middle me-1"
+									   data-feather="user"></i> Profile
+								</a>
+								<a asp-action="Index" asp-controller="Settings" asp-area="Account" class="dropdown-item">
+									<i class="align-middle me-1"
+									   data-feather="settings"></i> Settings
+								</a>
+								<div class="dropdown-divider"></div>
+								<form asp-area="Account" asp-controller="Auth" asp-action="Logout" method="post">
+									<input type="submit" class="dropdown-item" value="Log out">
+								</form>
+								
+							</div>
+						</li>
+					</ul>
+				</div>
+			</nav>
+
+			<main class="content">
+				@RenderBody()
+			</main>
+
+			<footer class="footer">
+				<div class="container-fluid">
+					<div class="row text-muted">
+						<div class="col-6 text-start">
+							<p class="mb-0">
+								<a class="text-muted" href="https://adminkit.io/"
+								   target="_blank"><strong>AdminKit</strong></a> - <a class="text-muted"
+																			  href="https://adminkit.io/" target="_blank">
+									<strong>
+										Bootstrap Admin
+										Template
+									</strong>
+								</a> &copy;
+							</p>
+						</div>
+						<div class="col-6 text-end">
+							<ul class="list-inline">
+								<li class="list-inline-item">
+									<a class="text-muted" href="https://adminkit.io/" target="_blank">Support</a>
+								</li>
+								<li class="list-inline-item">
+									<a class="text-muted" href="https://adminkit.io/" target="_blank">Help Center</a>
+								</li>
+								<li class="list-inline-item">
+									<a class="text-muted" href="https://adminkit.io/" target="_blank">Privacy</a>
+								</li>
+								<li class="list-inline-item">
+									<a class="text-muted" href="https://adminkit.io/" target="_blank">Terms</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</footer>
+		</div>
+	</div>
+
+	<script src="~/js/admin/app.js"></script>
+	@await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>

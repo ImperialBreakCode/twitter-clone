@@ -1,0 +1,45 @@
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using TwitterUni.Areas.Admin.Models.Home;
+using TwitterUni.Infrastructure.Constants;
+using TwitterUni.Infrastructure.Filters;
+using TwitterUni.Services.Interfaces;
+
+namespace TwitterUni.Areas.Admin.Controllers
+{
+    [Area("Admin")]
+    [Authorize(Roles = RoleNames.Admin)]
+    [SetupUserFilter]
+    public class HomeController : Controller
+    {
+        private readonly ITagService _tagService;
+        private readonly IUserService _userService;
+        private readonly ITweetService _tweetService;
+        private readonly ICommentService _commentService;
+
+        public HomeController(ITagService tagService, IUserService userService, ITweetService tweetService, ICommentService commentService)
+        {
+            _tagService = tagService;
+            _userService = userService;
+            _tweetService = tweetService;
+            _commentService = commentService;
+        }
+
+        public IActionResult Index()
+        {
+            HomeViewModel homeVM = new HomeViewModel();
+            homeVM.UserCount = _userService.GetAllUsers().Count();
+            homeVM.TweetCount = _tweetService.GetAllTweets().Count;
+            homeVM.TagCount = _tagService.GetAllTags().Count;
+            homeVM.CommentCount = _commentService.GetAllComments().Count;
+            homeVM.Users = _userService.GetAllUsers().ToList();
+
+            return View(homeVM);
+        }
+
+        public IActionResult DataLoading()
+        {
+            return View();
+        }
+    }
+}

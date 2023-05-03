@@ -1,0 +1,122 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+}
+
+@model HomeViewModel
+
+<div class="container-fluid p-0">
+
+	<h1 class="h3 mb-3"><strong>Analytics</strong> Dashboard</h1>
+	
+	<div class="row">
+		<div class="col-12 d-flex">
+			<div class="w-100">
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="card">
+							<div class="card-body">
+								<div class="row">
+									<div class="col mt-0">
+										<h5 class="card-title">Users</h5>
+									</div>
+	
+									<div class="col-auto">
+										<div class="stat text-primary">
+											<i class="align-middle" data-feather="users"></i>
+										</div>
+									</div>
+								</div>
+								<h1 class="mt-1 mb-3">@Model.UserCount</h1>
+							</div>
+						</div>
+						<div class="card">
+							<div class="card-body">
+								<div class="row">
+									<div class="col mt-0">
+										<h5 class="card-title">Tags</h5>
+									</div>
+	
+									<div class="col-auto">
+										<div class="stat text-primary">
+											<i class="align-middle" data-feather="hash"></i>
+										</div>
+									</div>
+								</div>
+								<h1 class="mt-1 mb-3">@Model.TagCount</h1>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="card">
+							<div class="card-body">
+								<div class="row">
+									<div class="col mt-0">
+										<h5 class="card-title">Tweets</h5>
+									</div>
+	
+									<div class="col-auto">
+										<div class="stat text-primary">
+											<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-postcard" viewBox="0 0 16 16">
+												<path fill-rule="evenodd" d="M2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H2ZM1 4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V4Zm7.5.5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7ZM2 5.5a.5.5 0 0 1 .5-.5H6a.5.5 0 0 1 0 1H2.5a.5.5 0 0 1-.5-.5Zm0 2a.5.5 0 0 1 .5-.5H6a.5.5 0 0 1 0 1H2.5a.5.5 0 0 1-.5-.5Zm0 2a.5.5 0 0 1 .5-.5H6a.5.5 0 0 1 0 1H2.5a.5.5 0 0 1-.5-.5ZM10.5 5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3ZM13 8h-2V6h2v2Z"/>
+											</svg>
+										</div>
+									</div>
+								</div>
+								<h1 class="mt-1 mb-3">@Model.TweetCount</h1>
+							</div>
+						</div>
+						<div class="card">
+							<div class="card-body">
+								<div class="row">
+									<div class="col mt-0">
+										<h5 class="card-title">Comments</h5>
+									</div>
+	
+									<div class="col-auto">
+										<div class="stat text-primary">
+											<i class="align-middle" data-feather="message-circle"></i>
+										</div>
+									</div>
+								</div>
+								<h1 class="mt-1 mb-3">@Model.CommentCount</h1>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="col-12 d-flex">
+			<div class="card flex-fill">
+				<div class="card-header">
+					<h5 class="card-title mb-0">Users overview</h5>
+				</div>
+				<table class="table table-hover my-0">
+					<thead>
+						<tr>
+							<th class="d-none d-xl-table-cell">Name</th>
+							<th>Username</th>
+							<th class="d-none d-xl-table-cell">Joined at</th>
+							<th class="d-none d-xl-table-cell">Status</th>
+						</tr>
+					</thead>
+					<tbody>
+
+						@foreach (var user in Model.Users)
+						{
+							<tr>
+								<td>@user.FirstName @user.LastName</td>
+								<td class="d-none d-xl-table-cell">@user.UserName</td>
+								<td class="d-none d-xl-table-cell">@user.CreatedAt.ToString("dd/MM/yyyy hh:mm:ss")</td>
+								<td><span class="badge @(user.IsSet ? "bg-success" : "bg-warning")">@(user.IsSet ? "set" : "not set")</span></td>
+							</tr>
+						}
+						
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

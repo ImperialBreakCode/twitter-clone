@@ -38,6 +38,7 @@
     <Folder Include="Migrations\" />
     <Folder Include="wwwroot\content\images\backgroundImages\" />
     <Folder Include="wwwroot\content\images\profileImages\" />
+    <Folder Include="wwwroot\css\admin\" />
     <Folder Include="wwwroot\css\tweet\" />
     <Folder Include="wwwroot\css\user\" />
   </ItemGroup>

@@ -9,6 +9,7 @@ namespace TwitterUni.Services.Interfaces
         void DeleteComment(string commentId);
         CommentData? GetComment(string commentId);
         ICollection<CommentData> GetTweetComments(string tweetId);
+        ICollection<CommentData> GetAllComments();
         bool LikeComment(string commentId, string username);
         bool UnlikeComment(string commentId, string username);
     }
