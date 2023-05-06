@@ -12,7 +12,16 @@
         {
             <div>
                 <a href="@Url.Action("Profile", "User", new { Id = user.UserName })">
-                    <img src="~/content/images/@(user.ProfilePic ?? "default_prf_pic.png")">
+
+                    @if (user.ProfilePic.StartsWith("https://"))
+                    {
+                        <img src="@user.ProfilePic">
+                    }
+                    else
+                    {
+                        <img src="~/content/images/@user.ProfilePic">
+                    }
+
                     <span>
                         <p>@user.FirstName @user.LastName</p>
                         @@@user.UserName

@@ -3,7 +3,7 @@
 	public interface IAppSettingsService
 	{
 		void EnsureAppSettings();
-		void LoadDataFromApi();
+		Task LoadDataFromApi();
 		bool IsDataLoaded();
 	}
 }

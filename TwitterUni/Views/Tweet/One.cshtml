@@ -33,7 +33,15 @@
                 <a class="@(Model.Tweet.Author.UserName != User.Identity.Name ? "w-100" : "")" 
                     href="@Url.Action("Profile", "User", new {Id = Model.Tweet.Author.UserName })">
 
-                    <img src="~/content/images/@Model.Tweet.Author.ProfilePic">
+                    @if (Model.Tweet.Author.ProfilePic.StartsWith("https://"))
+                    {
+                        <img src="@Model.Tweet.Author.ProfilePic">
+                    }
+                    else
+                    {
+                        <img src="~/content/images/@Model.Tweet.Author.ProfilePic">
+                    }
+
                     <div>
                         <p class="user-name">@Model.Tweet.Author.FirstName @Model.Tweet.Author.LastName</p>
                         <p>@@@Model.Tweet.Author.UserName</p>
@@ -60,7 +68,16 @@
                 @if (Model.Tweet.Image is not null)
                 {
                     <div class="img-cont">
-                        <img src="~/content/images/tweets/@Model.Tweet.Author.UserName/@Model.Tweet.Image">
+
+                        @if (Model.Tweet.Image.StartsWith("https://"))
+                        {
+                            <img src="@Model.Tweet.Image">
+                        }
+                        else
+                        {
+                            <img src="~/content/images/tweets/@Model.Tweet.Author.UserName/@Model.Tweet.Image">
+                        }
+                        
                     </div>
                 }
             </div>
@@ -96,7 +113,16 @@
             <div class="main-tweet">
                 <div class="left-profile">
                     <a href="@Url.Action("Profile", "User", new { Id = User.Identity.Name })">
-                        <img class="prf-pic" src="~/content/images/@Model.CurrentUser.ProfilePic">
+
+                        @if (Model.CurrentUser.ProfilePic.StartsWith("https://"))
+                        {
+                            <img class="prf-pic" src="@Model.CurrentUser.ProfilePic">
+                        }
+                        else
+                        {
+                            <img class="prf-pic" src="~/content/images/@Model.CurrentUser.ProfilePic">
+                        }
+
                     </a>
                 </div>
 
@@ -135,7 +161,16 @@
                 <div class="main-tweet">
                     <div class="left-profile">
                         <a href="@Url.Action("Profile", "User", new { Id = comment.Author.UserName })">
-                            <img class="prf-pic" src="~/content/images/@comment.Author.ProfilePic">
+
+                            @if (comment.Author.ProfilePic.StartsWith("https://"))
+                            {
+                                <img class="prf-pic" src="@comment.Author.ProfilePic">
+                            }
+                            else
+                            {
+                                <img class="prf-pic" src="~/content/images/@comment.Author.ProfilePic">
+                            }
+                            
                         </a>
                     </div>
 

@@ -13,7 +13,16 @@
     <div id="tweet,@Model.Id" class="main-tweet">
         <div class="left-profile">
             <a href="@Url.Action("Profile", "User", new {Id = Model.Author.UserName })">
-                <img class="prf-pic" src="~/content/images/@Model.Author.ProfilePic">
+
+                @if (Model.Author.ProfilePic.StartsWith("https://"))
+                {
+                    <img class="prf-pic" src="@Model.Author.ProfilePic">
+                }
+                else
+                {
+                    <img class="prf-pic" src="~/content/images/@Model.Author.ProfilePic">
+                }
+
             </a>
         </div>
 
@@ -50,7 +59,16 @@
                 @if (Model.Image is not null)
                 {
                     <div class="image-content">
-                        <img src="~/content/images/tweets/@Model.Author.UserName/@Model.Image">
+
+                        @if (Model.Image.StartsWith("https://"))
+                        {
+                            <img src="@Model.Image">
+                        }
+                        else
+                        {
+                            <img src="~/content/images/tweets/@Model.Author.UserName/@Model.Image">
+                        }
+                        
                     </div>
                 }
             </div>

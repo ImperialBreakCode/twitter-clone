@@ -15,11 +15,28 @@
 <section class="tweets-sec">
     <div class="profile-area">
         <div class="profile-back-photo">
+
+            @if (Model.User.BackgroundPhoto.StartsWith("https://"))
+            {
+                <img src="@Model.User.BackgroundPhoto">
+            }
+            else
+            {
                 <img src="~/content/images/@Model.User.BackgroundPhoto">
+            }
+
         </div>
         <div class="profile-info">
             <div class="prf-1">
+
+                @if (Model.User.ProfilePic.StartsWith("https://"))
+                {
+                    <img src="@Model.User.ProfilePic">
+                }
+                else
+                {
                     <img src="~/content/images/@Model.User.ProfilePic">
+                }
 
                 @if (User.Identity.Name == Model.User.UserName)
                 {

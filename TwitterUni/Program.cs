@@ -6,6 +6,7 @@ using TwitterUni.Data.Entities;
 using TwitterUni.Data.UnitOfWork;
 using TwitterUni.Extensions;
 using TwitterUni.Services;
+using TwitterUni.Services.ApiFetching;
 using TwitterUni.Services.Interfaces;
 using TwitterUni.Services.Mapping;
 
@@ -37,12 +38,14 @@ builder.Services.AddTransient<ITweetService, TweetService>();
 builder.Services.AddTransient<ITagService, TagService>();
 builder.Services.AddTransient<ICommentService, CommentService>();
 builder.Services.AddTransient<IAppSettingsService, AppSettingsService>();
+builder.Services.AddTransient<IFetchApi, FetchApi>();
 
 // Adding mapper
 var config = new MapperConfiguration(cfg => 
 {
     cfg.AddProfile<MappingServiceDataProfile>();
     cfg.AddProfile<MappingViewModelProfile>();
+    cfg.AddProfile<MappingDTOsProfile>();
 });
 builder.Services.AddSingleton(new Mapper(config));
 

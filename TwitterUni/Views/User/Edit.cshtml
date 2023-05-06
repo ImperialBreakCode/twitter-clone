@@ -44,11 +44,29 @@
             <div class="col">
                 <div class="position-relative user-images">
                     <div class="back-img-cont">
+
+                        @if (Model.BackgroundPhoto.StartsWith("https://"))
+                        {
+                            <img id="bg-pic-display" src="@Model.BackgroundPhoto">
+                        }
+                        else
+                        {
                             <img id="bg-pic-display" src="~/content/images/@Model.BackgroundPhoto">
+                        }
+
                     </div>
 
                     <div class="prf-img-cont">
+
+                        @if (Model.ProfilePic.StartsWith("https://"))
+                        {
+                            <img id="profile-pic-display" src="@Model.ProfilePic">
+                        }
+                        else
+                        {
                             <img id="profile-pic-display" src="~/content/images/@Model.ProfilePic">
+                        }
+
                     </div>
                 </div>
             </div>

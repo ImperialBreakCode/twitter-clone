@@ -55,8 +55,10 @@ namespace TwitterUni.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public IActionResult FetchApiData()
+        public async Task<IActionResult> FetchApiData()
         {
+            await _appSettingsService.LoadDataFromApi();
+
             return RedirectToAction(nameof(DataLoading));
         }
     }
