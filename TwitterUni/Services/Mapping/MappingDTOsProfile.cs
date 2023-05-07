@@ -15,6 +15,7 @@ namespace TwitterUni.Services.Mapping
                             opt => opt.MapFrom(src => src.Name.Split(' ', StringSplitOptions.None)[1]));
 
             CreateMap<UserPostDTO, Tweet>();
+            CreateMap<UserPostDTO, Comment>();
         }
     }
 }

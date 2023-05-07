@@ -30,11 +30,11 @@ namespace TwitterUni.Services.ApiFetching
             return userDTOs;
         }
 
-        public async Task<ICollection<UserPostDTO>> FetchUserPostData(int count)
+        public async Task<ICollection<UserPostDTO>> FetchUserPostData(int count, int textLength)
         {
             List<UserPostDTO> tweetDTOs = new List<UserPostDTO>();
 
-            string url = _apiUrl + $"/tweets/{count}";
+            string url = _apiUrl + $"/tweets/{count}/{textLength}";
             HttpResponseMessage response = await _httpClient.GetAsync(url);
 
             if (response.IsSuccessStatusCode)
