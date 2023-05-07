@@ -70,7 +70,6 @@ namespace TwitterUni.Services
             int commentIndex = 0;
             foreach (Tweet tweet in tweets)
 			{
-
                 for (int i = 0; i < 3; i++)
 				{
                     int randomUserIndex = random.Next(0, 10);
@@ -82,6 +81,8 @@ namespace TwitterUni.Services
 					commentIndex++;
                 }
 			}
+
+			_unitOfWork.Commit();
 		}
 
 		private async Task LoadUsersAndTweets(List<User> users)

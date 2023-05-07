@@ -1,14 +1,8 @@
-using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TwitterUni.Data;
 using TwitterUni.Data.Entities;
-using TwitterUni.Data.UnitOfWork;
-using TwitterUni.Extensions;
-using TwitterUni.Services;
-using TwitterUni.Services.ApiFetching;
-using TwitterUni.Services.Interfaces;
-using TwitterUni.Services.Mapping;
+using TwitterUni.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("TwitterDbContextConnection") ?? throw new InvalidOperationException("Connection string 'TwitterDbContextConnection' not found.");
@@ -29,25 +23,8 @@ builder.Services.ConfigureApplicationCookie(options =>
 });
 
 builder.Services.AddControllersWithViews();
-
-// Adding my services
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddTransient<IUserService, UserService>();
-builder.Services.AddTransient<IImageService, ImageService>();
-builder.Services.AddTransient<ITweetService, TweetService>();
-builder.Services.AddTransient<ITagService, TagService>();
-builder.Services.AddTransient<ICommentService, CommentService>();
-builder.Services.AddTransient<IAppSettingsService, AppManagerService>();
-builder.Services.AddTransient<IFetchApi, FetchApi>();
-
-// Adding mapper
-var config = new MapperConfiguration(cfg => 
-{
-    cfg.AddProfile<MappingServiceDataProfile>();
-    cfg.AddProfile<MappingViewModelProfile>();
-    cfg.AddProfile<MappingDTOsProfile>();
-});
-builder.Services.AddSingleton(new Mapper(config));
+builder.Services.InjectAppServices();
+builder.Services.AddMapping();
 
 var app = builder.Build();
 
@@ -81,6 +58,6 @@ app.UseEndpoints(endpoints =>
 
 });
 
-app.SeedRolesAndAdminUserAsync().Wait();
+app.SeedAppData().Wait();
 
 app.Run();

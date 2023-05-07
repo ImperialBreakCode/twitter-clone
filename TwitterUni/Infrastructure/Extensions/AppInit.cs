@@ -4,11 +4,11 @@ using TwitterUni.Infrastructure.Constants;
 using TwitterUni.Services;
 using TwitterUni.Services.Interfaces;
 
-namespace TwitterUni.Extensions
+namespace TwitterUni.Infrastructure.Extensions
 {
     public static class AppInit
     {
-        public static async Task<WebApplication> SeedRolesAndAdminUserAsync(this WebApplication app)
+        public static async Task<WebApplication> SeedAppData(this WebApplication app)
         {
             using (IServiceScope scope = app.Services.CreateScope())
             {
