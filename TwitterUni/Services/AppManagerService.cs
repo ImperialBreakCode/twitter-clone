@@ -60,7 +60,7 @@ namespace TwitterUni.Services
 		{
 			Random random = new Random();
 
-			var commentDTOs = await _fetchApi.FetchUserPostData(390, 50);
+			var commentDTOs = await _fetchApi.FetchUserPostData(390, 10);
 			List<Comment> comments = _mapper.Map<List<Comment>>(commentDTOs);
 
 			List<User> users = _unitOfWork.UserRepository.GetAll().ToList();

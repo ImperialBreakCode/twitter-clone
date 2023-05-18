@@ -3,6 +3,8 @@
 
 @{
     bool userIsSigned = SignInManager.IsSignedIn(User);
+    bool isAdmin = (await SignInManager.UserManager.GetUsersInRoleAsync("admin"))
+        .Where(u => u.UserName == User.Identity?.Name).Any();
 }
 
 <!DOCTYPE html>
@@ -76,6 +78,18 @@
                                         <span>Settings</span>
                                     </a>
                                 </li>
+
+                                @if (isAdmin)
+                                {
+                                    <li>
+                                        <a asp-action="Index" asp-controller="Home" asp-area="Admin">
+                                            <div class="nav-icon">
+                                                <i class="fa-solid fa-lock"></i>
+                                            </div>
+                                            <span>Admin Panel</span>
+                                        </a>
+                                    </li>
+                                }
                             }
                             
                         </ul>

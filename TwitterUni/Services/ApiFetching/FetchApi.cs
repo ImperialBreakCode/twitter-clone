@@ -12,6 +12,7 @@ namespace TwitterUni.Services.ApiFetching
         {
             _httpClient = new HttpClient();
             _apiUrl = "https://twitter-data.up.railway.app";
+            //_apiUrl = "http://localhost:3000";
         }
 
         public async Task<ICollection<UserDTO>> FetchUserData(int count)
