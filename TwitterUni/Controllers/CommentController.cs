@@ -47,7 +47,7 @@ namespace TwitterUni.Controllers
         {
             var comment = _commentService.GetComment(commentId);
 
-            if (comment is not null)
+            if (comment is null)
             {
                 return new JsonResult(NotFound("Could not delete comment."));
             }

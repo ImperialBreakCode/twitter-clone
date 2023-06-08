@@ -24,7 +24,6 @@ namespace TwitterUni.Infrastructure.Extensions
                 if (roleManager is not null)
                 {
                     await EnsureRole(RoleNames.User, roleManager);
-                    await EnsureRole(RoleNames.Moderator, roleManager);
                     await EnsureRole(RoleNames.Admin, roleManager);
 
                     if (userManager is not null)

@@ -18,7 +18,7 @@ namespace TwitterUni.Infrastructure.Extensions
             services.AddTransient<ITagService, TagService>();
             services.AddTransient<ICommentService, CommentService>();
             services.AddTransient<IAppSettingsService, AppManagerService>();
-            services.AddTransient<IFetchApi, FetchApi>();
+            services.AddScoped<IFetchApi, FetchApi>();
         }
 
         public static void AddMapping(this IServiceCollection services)
