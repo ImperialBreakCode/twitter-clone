@@ -20,6 +20,8 @@ builder.Services.AddDefaultIdentity<User>()
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.LoginPath = "/Account/Auth/Login";
+    options.AccessDeniedPath = "/Account/Auth/AccessDenied";
+    options.LogoutPath = "/Account/Auth/Logout";
 });
 
 builder.Services.AddControllersWithViews();
